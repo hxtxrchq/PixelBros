@@ -1,0 +1,177 @@
+/* Chillax-Semibold Font - Local Declaration (Principal) */
+@font-face {
+  font-family: 'Chillax';
+  src: url('/src/fonts/Chillax-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Synonym Regular Font - Local Declaration (Secundario) */
+@font-face {
+  font-family: 'Synonym';
+  src: url('/src/fonts/Synonym-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Performance Optimization */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration for animations */
+[class*="motion-"],
+[class*="animate-"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-primary: 'Chillax', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-secondary: 'Synonym', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-[#FFFFFF] text-[#1F1F1F];
+    font-family: var(--font-primary);
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-snap-y {
+    scroll-snap-type: y mandatory;
+    overscroll-behavior: contain;
+  }
+
+  .scroll-snap-item {
+    scroll-snap-align: start;
+  }
+
+  .slide-kenburns {
+    animation: kenburns-slow 12s ease-in-out infinite;
+    transform-origin: center;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+    font-family: var(--font-primary);
+    font-weight: 600;
+  }
+  
+  button, input, textarea, select {
+    font-family: var(--font-primary);
+    font-weight: 600;
+  }
+  
+  a, span, div {
+    font-family: var(--font-primary);
+  }
+
+  /* Secondary font for small/secondary text */
+  p.small, 
+  .text-secondary, 
+  .muted, 
+  .caption, 
+  .meta, 
+  .helper, 
+  .tag, 
+  .label, 
+  .breadcrumb, 
+  .date, 
+  .subtext {
+    font-family: var(--font-secondary);
+  }
+}
+
+@keyframes kenburns-slow {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-8 py-4 bg-[#B3262E] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#8E1E24] hover:shadow-md;
+    font-family: var(--font-primary);
+    font-weight: 600;
+  }
+  
+  .btn-secondary {
+    @apply px-8 py-4 bg-white border-2 border-[#B3262E] text-[#B3262E] font-bold rounded-lg transition-all duration-300 hover:bg-[#B3262E] hover:text-white;
+    font-family: var(--font-primary);
+  }
+  
+  .section-title {
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[#1F1F1F];
+    font-family: var(--font-primary);
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-102 hover:shadow-lg hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-[#B3262E] to-[#B3262E] bg-clip-text text-transparent;
+  }
+  
+  .glow-primary {
+    text-shadow: 0 0 18px rgba(255, 122, 60, 0.4);
+  }
+
+  .content-contrast h1,
+  .content-contrast h2,
+  .content-contrast h3,
+  .content-contrast h4,
+  .content-contrast h5,
+  .content-contrast h6,
+  .content-contrast p,
+  .content-contrast span,
+  .content-contrast li,
+  .content-contrast a {
+    text-shadow: none;
+  }
+}
+
+body[data-loading="true"] .navbar-root {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+}
+
+body[data-loading="true"] .footer-root {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
