@@ -9,8 +9,10 @@ const Apply = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const form = event.currentTarget;
     setIsSubmitting(true);
     setSubmitError('');
+    setSubmitted(false);
 
     try {
       const formData = new FormData(event.currentTarget);
@@ -22,14 +24,26 @@ const Apply = () => {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error('Error al enviar el formulario');
+      if (!response.ok && (response.status < 300 || response.status >= 400)) {
+        let backendMessage = '';
+        try {
+          const data = await response.json();
+          if (data?.errors?.length) {
+            backendMessage = data.errors.map((item) => item.message).join(' ');
+          }
+        } catch {
+          backendMessage = '';
+        }
+        throw new Error(backendMessage || 'Error al enviar el formulario');
       }
 
       setSubmitted(true);
-      event.currentTarget.reset();
+      setSubmitError('');
+      form.reset();
+      setReplyTo('');
     } catch (error) {
-      setSubmitError('No pudimos enviar tu postulacion. Intentalo nuevamente.');
+      setSubmitted(false);
+      setSubmitError(error?.message || 'No pudimos enviar tu postulacion. Intentalo nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
@@ -274,7 +288,7 @@ const Apply = () => {
               </motion.button>
             </div>
 
-            {submitError && (
+            {!submitted && submitError && (
               <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
                 {submitError}
               </div>

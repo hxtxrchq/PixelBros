@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import LogoIcon from '../images/LogoIconPixel.png';
 
 const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -62,7 +63,7 @@ const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
           className="mb-12"
         >
           <motion.img
-            src="/src/images/LogoIconPixel.png"
+            src={LogoIcon}
             alt="PixelBros"
             className="w-32 h-32 mx-auto"
             animate={{

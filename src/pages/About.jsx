@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import AnimatedCounter from '../components/AnimatedCounter';
-import LogoIconPixel from '../images/logoIconPixel.png';
+import LogoIconPixel from '../images/LogoIconPixel.png';
 
 const About = () => {
   const team = [
