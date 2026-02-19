@@ -1,0 +1,64 @@
+﻿src\assets\Portfolio\Social Media\GMS Perú\GMS_HCO.mp4
+src\assets\Portfolio\AudioVisual\GMS\1.mp4
+src\assets\Portfolio\Social Media\Design Market\DM_CASA_R2.mp4
+src\assets\Portfolio\Social Media\Barbarian Bar\BARBARIAN_HALLOWEEN.mp4
+src\assets\Portfolio\AudioVisual\Pascual Presutti\1.mp4
+src\assets\Portfolio\Social Media\GMS Perú\GMS_PROYECTOS QUE INSPIRAN.mp4
+src\assets\Portfolio\AudioVisual\Elevaria Servido Con Proposito\2.mp4
+src\assets\Portfolio\Social Media\Barbarian Bar\BARBARIAN_ALMUERZOS.mp4
+src\assets\Portfolio\Social Media\Barbarian Bar\BARBARIAN_KANAGAWA.mp4
+src\assets\Portfolio\Social Media\Design Market\DM_SHOWROOM_.mp4
+src\assets\Portfolio\Social Media\Barbarian Bar\CARTA_BARBARIAN.mp4
+src\assets\Portfolio\Social Media\GMS Perú\GMS_TERRAZA.mp4
+src\assets\Portfolio\Social Media\Design Market\CLUB_DESING_DM.mp4
+src\assets\Portfolio\Social Media\Barbarian Bar\BARBARIAN_OKTUBRE_FEST.mp4
+src\assets\Portfolio\AudioVisual\Luxia\1.mp4
+src\assets\Portfolio\Social Media\La Vieja Taberna\3 TRAGOS_LVT.mp4
+src\assets\Portfolio\AudioVisual\Elevaria Servido Con Proposito\1.mp4
+src\assets\Portfolio\Menu digital\ELEVARIA\PANTALLA_ELEVARIA_NAVIDAD.mp4
+src\assets\Portfolio\Social Media\GMS Perú\GMS_CARGAMENTO.mp4
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09759.png
+src\assets\Portfolio\Social Media\GMS Perú\LO HACEMOS POSIBLE_GMS.mp4
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01462.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01596.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01505.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01439.png
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\Pastilla del dia siguiente.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01604.png
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09763.png
+src\assets\Portfolio\Menu digital\ELEVARIA\CAFE_.mp4
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09751.png
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09733.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01608.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01459.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01581.png
+src\assets\Portfolio\Social Media\Design Market\PLATOS_DECORATIVOS_DM.mp4
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09548.png
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09542.png
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01483.png
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09546.png
+src\assets\Portfolio\Social Media\Barbarian Bar\BARBARIAN_LENTES.mp4
+src\assets\Portfolio\AudioVisual\Elevaria Servido Con Proposito\3.mp4
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC03868.jpg
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01538.jpg
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01544.png
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC06441.jpg
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01576.jpg
+src\assets\Portfolio\Social Media\GMS Perú\GMS_AVANCE.mp4
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC01391.jpg
+src\assets\Portfolio\Menu digital\ELEVARIA\BEBIDAS FRIAS_ELEVARIA.mp4
+src\assets\Portfolio\Social Media\La Vieja Taberna\LVT_COMIDA.mp4
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC01370.jpg
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01528.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC01386.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC03812.jpg
+src\assets\Portfolio\Fotografia\DOCTORES\VETERINARIO\DSC04397.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC06646.jpg
+src\assets\Portfolio\Fotografia\DULCE CUIDADO\DSC01571.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC06536.jpg
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC09539.jpg
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC04090.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC03870.jpg
+src\assets\Portfolio\Fotografia\DOCTORES\DR YURIKO\DSC04020.jpg
+src\assets\Portfolio\Fotografia\LA VIEJA TABERNA\DSC06570.jpg
+src\assets\Portfolio\Fotografia\DOCTORES\VETERINARIO\DSC04335.jpg
