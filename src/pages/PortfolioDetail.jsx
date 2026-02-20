@@ -463,7 +463,7 @@ const PortfolioDetail = () => {
                           ) : (
                             <div
                               className="absolute inset-0 bg-cover bg-center"
-                              style={{ backgroundImage: `url(${proj.coverSrc})` }}
+                              style={{ backgroundImage: `url("${proj.coverSrc}")` }}
                             />
                           )}
                         </div>

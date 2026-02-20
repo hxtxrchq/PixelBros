@@ -165,7 +165,7 @@ const PortfolioPreview = () => {
                       ) : (
                         <div
                           className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: `url(${project.coverSrc})` }}
+                          style={{ backgroundImage: `url("${project.coverSrc}")` }}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
