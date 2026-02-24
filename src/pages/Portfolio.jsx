@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const normalizeName = (value) => value
@@ -195,6 +195,20 @@ const ParallaxProjectCard = ({ project, index, categories }) => {
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [cursorVisible, setCursorVisible] = useState(false);
+
+  // Custom cursor spring tracking
+  const cursorX = useMotionValue(-200);
+  const cursorY = useMotionValue(-200);
+  const springConfig = { damping: 22, stiffness: 280, mass: 0.5 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  const handleGridMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    cursorX.set(e.clientX - rect.left);
+    cursorY.set(e.clientY - rect.top);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -286,25 +300,66 @@ const Portfolio = () => {
         </motion.div>
 
         {/* Projects Grid - Editorial Layout */}
-        <AnimatePresence mode="wait">
+        <div
+          className="relative cursor-none"
+          onMouseMove={handleGridMouseMove}
+          onMouseEnter={() => setCursorVisible(true)}
+          onMouseLeave={() => setCursorVisible(false)}
+        >
+          {/* Custom magnetic cursor */}
           <motion.div
-            key={selectedCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="absolute z-50 pointer-events-none top-0 left-0"
+            style={{
+              x: cursorXSpring,
+              y: cursorYSpring,
+              translateX: '-50%',
+              translateY: '-50%',
+            }}
           >
-            {filteredProjects.map((project, index) => (
-              <ParallaxProjectCard
-                key={project.slug}
-                project={project}
-                index={index}
-                categories={categories}
+            <motion.div
+              className="relative flex items-center justify-center"
+              animate={{
+                scale: cursorVisible ? 1 : 0,
+                opacity: cursorVisible ? 1 : 0,
+              }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              {/* Outer ring pulse */}
+              <motion.div
+                className="absolute w-20 h-20 rounded-full border border-[#e73c50]/40"
+                animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               />
-            ))}
+              {/* Main circle */}
+              <div className="w-16 h-16 rounded-full bg-[#e73c50] flex flex-col items-center justify-center gap-0.5 shadow-[0_0_24px_rgba(231,60,80,0.55)]">
+                <span className="text-white text-[10px] font-bold tracking-[0.15em] uppercase leading-none">VER</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </div>
+            </motion.div>
           </motion.div>
-        </AnimatePresence>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedCategory}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {filteredProjects.map((project, index) => (
+                <ParallaxProjectCard
+                  key={project.slug}
+                  project={project}
+                  index={index}
+                  categories={categories}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (
