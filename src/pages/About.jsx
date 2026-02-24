@@ -139,7 +139,7 @@ const TeamCard = ({ member, globalTick, index }) => {
       onMouseLeave={() => setHoverImg(null)}
     >
       {/* Card visual */}
-      <div className="relative h-72 rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.4)] border border-white/10 mb-4">
+      <div className="relative h-56 rounded-xl overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.45)] border border-white/10 mb-3">
         {/* Imagen / gradiente */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -197,19 +197,13 @@ const TeamCard = ({ member, globalTick, index }) => {
       </div>
 
       {/* Info */}
-      <motion.h3
-        className="text-base font-bold text-white leading-tight"
-        animate={{ y: [0, -2, 0] }}
-        transition={{ duration: 3.5 + index * 0.2, repeat: Infinity, ease: 'easeInOut', delay: index * 0.15 }}
-      >
-        {member.name}
-      </motion.h3>
-      <p className="text-sm text-[#e73c50] font-medium mt-0.5">{member.role}</p>
+      <h3 className="text-sm font-bold text-white leading-tight">{member.name}</h3>
+      <p className="text-xs text-[#e73c50] font-medium mt-0.5">{member.role}</p>
     </motion.div>
   );
 };
 
-const CARD_WIDTH = 240; // px de cada card + gap para el scroll por flecha
+const CARD_WIDTH = 220; // px de cada card + gap para el scroll por flecha
 
 const About = () => {
   const [globalTick, setGlobalTick] = useState(0);
@@ -393,25 +387,38 @@ const About = () => {
           </motion.div>
         </div>
 
-        {/* Scroll container – sin restricción de max-width para que llegue a los bordes */}
-        <div
-          ref={carouselRef}
-          onMouseEnter={stopAutoScroll}
-          onMouseLeave={startAutoScroll}
-          className="flex gap-5 overflow-x-auto scroll-smooth px-4 sm:px-8 lg:px-[calc((100vw-80rem)/2+2rem)] pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {TEAM.map((member, index) => (
-            <div key={member.id} className="flex-shrink-0 w-52 sm:w-56">
-              <TeamCard
-                member={member}
-                globalTick={globalTick}
-                index={index}
-              />
-            </div>
-          ))}
-          {/* padding de cierre */}
-          <div className="flex-shrink-0 w-4" />
+        {/* Scroll container con máscara de difuminado en los bordes */}
+        <div className="relative">
+          {/* Fade izquierdo */}
+          <div
+            className="absolute left-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, #1a1c52 0%, transparent 100%)' }}
+          />
+          {/* Fade derecho */}
+          <div
+            className="absolute right-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to left, #1a1c52 0%, transparent 100%)' }}
+          />
+
+          <div
+            ref={carouselRef}
+            onMouseEnter={stopAutoScroll}
+            onMouseLeave={startAutoScroll}
+            className="flex gap-4 overflow-x-auto scroll-smooth px-4 sm:px-8 lg:px-[calc((100vw-80rem)/2+2rem)] pb-4"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {TEAM.map((member, index) => (
+              <div key={member.id} className="flex-shrink-0 w-44 sm:w-48">
+                <TeamCard
+                  member={member}
+                  globalTick={globalTick}
+                  index={index}
+                />
+              </div>
+            ))}
+            {/* padding de cierre */}
+            <div className="flex-shrink-0 w-16" />
+          </div>
         </div>
       </section>
 

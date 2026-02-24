@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const normalizeName = (value) => value
@@ -99,6 +99,99 @@ const buildPortfolioIndex = (assets) => {
 
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
+
+const ParallaxProjectCard = ({ project, index, categories }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  // La imagen se mueve 12% más lento que el scroll → efecto parallax
+  const y = useTransform(scrollYProgress, [0, 1], ['10%', '-10%']);
+
+  const categoryLabel = categories.find((c) => c.id === project.categoryId)?.label || project.categoryName;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: index * 0.07 }}
+    >
+      <Link to={`/portfolio/${project.slug}`}>
+        <motion.div
+          className="group relative h-[320px] sm:h-[360px] lg:h-[400px] rounded-2xl border border-white/10 overflow-hidden hover:border-[#e73c50]/60 transition-colors duration-300"
+          whileHover={{ y: -5 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        >
+          {/* --- Imagen/video con parallax --- */}
+          {project.coverSrc ? (
+            <motion.div
+              className="absolute inset-0 scale-[1.22]"
+              style={{ y }}
+            >
+              {isVideoSrc(project.coverSrc) ? (
+                <video
+                  src={project.coverSrc}
+                  className="h-full w-full object-cover"
+                  preload="metadata"
+                  muted
+                  playsInline
+                />
+              ) : (
+                <img
+                  src={project.coverSrc}
+                  alt={project.title}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              )}
+            </motion.div>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1a1c52] to-[#2a2c72]">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center">
+                  <span className="text-2xl font-display font-bold text-[#e73c50]">
+                    {project.title?.charAt(0) || 'P'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent group-hover:from-black/80 transition-all duration-400" />
+
+          {/* Category badge */}
+          <div className="absolute top-4 left-4">
+            <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/40 text-white/80 backdrop-blur-sm border border-white/10">
+              {categoryLabel}
+            </span>
+          </div>
+
+          {/* Title enters on hover */}
+          <div className="absolute inset-0 flex items-end p-6">
+            <div className="translate-y-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+              <h3 className="text-xl font-display font-bold text-white">
+                {project.title}
+              </h3>
+              <p className="text-xs text-[#e73c50] font-semibold mt-1 flex items-center gap-1">
+                Ver proyecto
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </p>
+            </div>
+          </div>
+
+          {/* Glow border on hover */}
+          <motion.div
+            className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{ boxShadow: '0 0 0 1.5px rgba(231,60,80,0.5), 0 0 40px rgba(231,60,80,0.12)' }}
+          />
+        </motion.div>
+      </Link>
+    </motion.div>
+  );
+};
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -202,66 +295,14 @@ const Portfolio = () => {
             transition={{ duration: 0.5 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {filteredProjects.map((project, index) => {
-              const categoryLabel = categories.find((c) => c.id === project.categoryId)?.label || project.categoryName;
-
-              return (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.08 }}
-                >
-                  <Link to={`/portfolio/${project.slug}`}>
-                    <motion.div
-                      className="group relative h-[320px] sm:h-[360px] lg:h-[380px] rounded-lg border border-white/10 overflow-hidden hover:border-[#e73c50] transition-all duration-300"
-                      whileHover={{ y: -4 }}
-                    >
-                      {project.coverSrc ? (
-                        <div
-                          className="absolute inset-0"
-                        >
-                          {isVideoSrc(project.coverSrc) ? (
-                            <video
-                              src={project.coverSrc}
-                              className="h-full w-full object-cover"
-                              preload="metadata"
-                              muted
-                              playsInline
-                            />
-                          ) : (
-                            <div
-                              className="absolute inset-0 bg-cover bg-center"
-                              style={{ backgroundImage: `url("${project.coverSrc}")` }}
-                            />
-                          )}
-                        </div>
-                      ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1c52] to-[#2a2c72]">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-20 h-20 rounded-2xl border border-white/10 bg-white/5 shadow-sm flex items-center justify-center">
-                              <span className="text-2xl font-display font-bold text-[#e73c50]">
-                                {project.title?.charAt(0) || 'P'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/45 transition-all duration-300" />
-
-                      <div className="absolute inset-0 flex items-end p-6">
-                        <div className="translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                          <p className="text-xs uppercase tracking-widest text-white/80 mb-2">{categoryLabel}</p>
-                          <h3 className="text-2xl font-display font-bold text-white">
-                            {project.title}
-                          </h3>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+            {filteredProjects.map((project, index) => (
+              <ParallaxProjectCard
+                key={project.slug}
+                project={project}
+                index={index}
+                categories={categories}
+              />
+            ))}
           </motion.div>
         </AnimatePresence>
 
