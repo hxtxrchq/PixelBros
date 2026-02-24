@@ -6,7 +6,7 @@ const ServiceCard = ({ service }) => {
   return (
     <Link to={`/services/${service.slug}`}>
       <motion.div
-        className="group relative h-full bg-white rounded-xl overflow-hidden border border-[#F0E6E8] hover:border-[#B3262E] transition-all duration-300"
+        className="group relative h-full bg-white/5 rounded-xl overflow-hidden border border-white/10 hover:border-[#e73c50] transition-all duration-300"
         whileHover={{ scale: 1.02, y: -4 }}
         whileTap={{ scale: 0.98 }}
       >
@@ -30,12 +30,12 @@ const ServiceCard = ({ service }) => {
           </motion.div>
 
           {/* Title */}
-          <h3 className="text-2xl font-display font-bold mb-3 text-[#1F1F1F] group-hover:text-[#B3262E] transition-colors duration-300">
+          <h3 className="text-2xl font-display font-bold mb-3 text-white group-hover:text-[#e73c50] transition-colors duration-300">
             {service.title}
           </h3>
 
           {/* Description */}
-          <p className="text-[#4A4A4A] mb-6 flex-grow group-hover:text-[#1F1F1F] transition-colors duration-300 leading-relaxed">
+          <p className="text-white/60 mb-6 flex-grow group-hover:text-white/85 transition-colors duration-300 leading-relaxed">
             {service.description}
           </p>
 

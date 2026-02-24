@@ -37,32 +37,25 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="footer-root bg-[#FFF1F3] border-t border-[#F0E6E8]">
-      {/* Social Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="footer-root mt-16 border-t border-white/10 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="rounded-[2rem] p-8 sm:p-10 pb-gradient-main text-center mb-12 overflow-hidden relative"
         >
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-[#B3262E] text-sm font-semibold tracking-widest uppercase mb-3"
-          >
-            SÍGUENOS EN
-          </motion.p>
-          <h3 className="text-3xl md:text-5xl font-display font-bold mb-4 text-[#1F1F1F]">
-            Nuestras <span className="text-[#B3262E]">redes</span>
+          <div className="absolute inset-0 pb-pattern-rings opacity-20" />
+          <h3 className="relative text-3xl md:text-5xl mb-2 text-white">
+            Let&apos;s love
+            <br />
+            make a mark
           </h3>
-          <p className="text-[#4A4A4A] mb-10">
-            Únete a nuestra comunidad digital
+          <p className="relative text-white/85 mb-8 font-medium">
+            Síguenos y conversemos sobre tu proyecto.
           </p>
-          
-          <div className="flex justify-center gap-4 flex-wrap">
+
+          <div className="relative flex justify-center gap-4 flex-wrap">
             {socialLinks.map((social, index) => (
               <motion.a
                 key={social.name}
@@ -74,10 +67,10 @@ const Footer = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.15, y: -5 }}
-                className="group relative w-14 h-14 bg-white hover:bg-[#B3262E] rounded-xl flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 border border-[#F0E6E8] hover:border-[#B3262E]"
+                className="group relative w-14 h-14 bg-white/12 hover:bg-white rounded-xl flex items-center justify-center shadow-md transition-all duration-300 border border-white/30"
               >
                 <svg
-                  className="w-6 h-6 text-[#4A4A4A] group-hover:text-white transition-colors duration-300"
+                  className="w-6 h-6 text-white group-hover:text-[#E93556] transition-colors duration-300"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                 >
@@ -88,9 +81,7 @@ const Footer = () => {
           </div>
         </motion.div>
 
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 pt-12 border-t border-[#F0E6E8]">
-          {/* Logo & Description */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           <div>
             <Link to="/" className="inline-block mb-4">
               <img
@@ -100,29 +91,28 @@ const Footer = () => {
                 loading="lazy"
               />
             </Link>
-            <p className="text-[#4A4A4A] mb-6 leading-relaxed">
-              Agencia de marketing digital premium. Transformamos tu visión en realidad con estrategias innovadoras y creativas.
+            <p className="text-white/60 mb-5 leading-relaxed text-sm">
+              Branding, social media y producción audiovisual.
             </p>
             <Link to="/contact">
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md"
+                className="px-6 py-3 pb-gradient-main text-white font-semibold rounded-full text-sm shadow-md"
               >
                 Agenda una Llamada
               </motion.button>
             </Link>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h4 className="text-xl font-display font-bold mb-4 text-[#1F1F1F]">Enlaces Rápidos</h4>
+            <h4 className="text-xl mb-4 text-white">Enlaces</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-[#4A4A4A] hover:text-[#B3262E] transition-colors inline-flex items-center group"
+                    className="text-white/60 hover:text-[#e73c50] transition-colors inline-flex items-center group"
                   >
                     <span className="mr-2 group-hover:mr-3 transition-all">→</span>
                     {link.name}
@@ -132,28 +122,27 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div>
-            <h4 className="text-xl font-display font-bold mb-4 text-[#1F1F1F]">Contacto</h4>
-            <ul className="space-y-3 text-[#4A4A4A]">
+            <h4 className="text-xl mb-4 text-white">Contacto</h4>
+            <ul className="space-y-3 text-white/60 text-sm">
               <li className="flex items-start">
-                <svg className="w-5 h-5 mr-3 text-[#B3262E] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-3 text-[#E93556] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:pixelbrosperu@outlook.com" className="hover:text-[#B3262E] transition-colors">
+                <a href="mailto:pixelbrosperu@outlook.com" className="hover:text-[#E93556] transition-colors">
                   pixelbrosperu@outlook.com
                 </a>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 mr-3 text-[#B3262E] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-3 text-[#E93556] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <a href="tel:+51959212496" className="hover:text-[#B3262E] transition-colors">
+                <a href="tel:+51959212496" className="hover:text-[#E93556] transition-colors">
                   +51 959 212 496
                 </a>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 mr-3 text-[#B3262E] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 mr-3 text-[#E93556] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -163,9 +152,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-[#F0E6E8] pt-8 text-center">
-          <p className="text-[#4A4A4A] text-sm">
+        <div className="border-t border-white/10 pt-6 text-center">
+          <p className="text-white/40 text-xs sm:text-sm">
             © {currentYear} PixelBros. Todos los derechos reservados. 
           </p>
         </div>

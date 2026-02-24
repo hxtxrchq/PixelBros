@@ -224,10 +224,10 @@ const PortfolioDetail = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-transparent"
     >
       {/* Hero Section - 2 Columnas Editorial */}
-      <section className="py-20 lg:py-32 bg-white">
+      <section className="py-20 lg:py-32 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
           <motion.div
@@ -297,14 +297,14 @@ const PortfolioDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="bg-white rounded-2xl p-8 lg:p-10 border border-[#F0E6E8] shadow-xl lg:h-[calc(100vh-160px)] lg:overflow-auto"
+              className="bg-white/5 rounded-2xl p-8 lg:p-10 border border-white/10 shadow-xl lg:h-[calc(100vh-160px)] lg:overflow-auto"
             >
               <p className="text-sm uppercase tracking-widest text-[#B3262E] mb-3">{project.categoryName}</p>
-              <h1 className="text-3xl lg:text-4xl font-display font-bold tracking-tight mb-4 text-[#1F1F1F]">
+              <h1 className="text-3xl lg:text-4xl font-display font-bold tracking-tight mb-4 text-white">
                 {project.title}
               </h1>
               {project.description && (
-                <p className="text-[#4A4A4A] leading-relaxed mb-8">
+                <p className="text-white/65 leading-relaxed mb-8">
                   {project.description}
                 </p>
               )}
@@ -312,11 +312,11 @@ const PortfolioDetail = () => {
               <div className="divide-y divide-[#F0E6E8] text-sm">
                 <div className="py-3 flex items-center justify-between">
                   <span className="text-[#B3262E] font-semibold">Cliente</span>
-                  <span className="text-[#1F1F1F] font-medium">{project.client || project.title}</span>
+                  <span className="text-white font-medium">{project.client || project.title}</span>
                 </div>
                 <div className="py-3 flex items-center justify-between">
                   <span className="text-[#B3262E] font-semibold">Año</span>
-                  <span className="text-[#1F1F1F] font-medium">{project.year || '2025'}</span>
+                  <span className="text-white font-medium">{project.year || '2025'}</span>
                 </div>
                 {project.groups?.length > 1 && (
                   <div className="py-3">
@@ -414,7 +414,7 @@ const PortfolioDetail = () => {
       </AnimatePresence>
 
       {/* Related Projects */}
-      <section className="py-20 lg:py-32 bg-white border-t border-[#F0E6E8]">
+      <section className="py-20 lg:py-32 bg-transparent border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -426,11 +426,11 @@ const PortfolioDetail = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-display font-bold text-center mb-6 text-[#1F1F1F]"
+              className="text-4xl md:text-5xl font-display font-bold text-center mb-6 text-white"
             >
               Otros <span className="text-[#B3262E]">Proyectos</span>
             </motion.h2>
-            <p className="text-lg text-[#4A4A4A] max-w-2xl mx-auto">
+            <p className="text-lg text-white/65 max-w-2xl mx-auto">
               Explora más casos de éxito y cómo transformamos marcas en la industria
             </p>
           </motion.div>
@@ -449,7 +449,7 @@ const PortfolioDetail = () => {
                   whileHover={{ y: -5 }}
                 >
                   <Link to={`/portfolio/${proj.slug}`}>
-                    <div className="group relative h-[320px] lg:h-[360px] rounded-2xl overflow-hidden border border-[#F0E6E8] hover:border-[#B3262E] transition-all duration-300 bg-white">
+                    <div className="group relative h-[320px] lg:h-[360px] rounded-2xl overflow-hidden border border-white/10 hover:border-[#e73c50] transition-all duration-300 bg-white/5">
                       {proj.coverSrc ? (
                         <div className="absolute inset-0">
                           {isVideoSrc(proj.coverSrc) ? (
@@ -470,7 +470,7 @@ const PortfolioDetail = () => {
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-[#F4F4F6] to-[#FFFFFF]">
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-16 h-16 rounded-2xl border border-[#F0E6E8] bg-white shadow-sm flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-2xl border border-white/10 bg-white/5 shadow-sm flex items-center justify-center">
                               <span className="text-xl font-display font-bold text-[#B3262E]">
                                 {proj.title?.charAt(0) || 'P'}
                               </span>
@@ -497,7 +497,7 @@ const PortfolioDetail = () => {
       </section>
 
       {/* CTA Section - Now After Related Projects */}
-      <section className="py-20 lg:py-32 bg-[#FFF1F3]">
+      <section className="py-20 lg:py-32 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -505,10 +505,10 @@ const PortfolioDetail = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6 text-[#1F1F1F]">
-              ¿Te gustaría lograr <span className="text-[#B3262E]">resultados similares</span>?
+            <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6 text-white">
+              ¿Te gustaría lograr <span className="text-[#e73c50]">resultados similares</span>?
             </h2>
-            <p className="text-lg text-[#4A4A4A] mb-10 leading-relaxed">
+            <p className="text-lg text-white/65 mb-10 leading-relaxed">
               Nuestro equipo está listo para transformar tu negocio. Contáctanos para explorar cómo podemos ayudarte a alcanzar tus objetivos.
             </p>
             <Link to="/contact">

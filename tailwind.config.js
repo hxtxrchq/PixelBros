@@ -7,9 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#C13533',
-        bg: '#FFFFFF',
-        surface: '#F6F6F8',
+        /* Paleta oficial manual de marca Pixel Bros */
+        brand: {
+          purple:  '#474192', /* 45% – principal */
+          red:     '#e73c50', /* 30% – acento rojo */
+          blue:    '#4357a2', /* azul medio */
+          navy:    '#1d3e8c', /* azul marino */
+          coral:   '#eb5a44', /* coral/naranja */
+          sky:     '#5ab3e5', /* azul cielo */
+          teal:    '#61bfc0', /* teal */
+        },
+        primary: '#e73c50',
+        bg: '#1a1c52',
+        surface: '#1a1c52',
         text: {
           primary: '#111111',
           secondary: '#4B4B4B',
@@ -17,8 +27,8 @@ export default {
         border: '#E6E6EA',
       },
       fontFamily: {
-        display: ['Chillax', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['Chillax', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in',

@@ -30,8 +30,8 @@ const Navbar = () => {
       animate={{ y: 0 }}
       className={`navbar-root fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-lg shadow-sm border-b border-[#F0E6E8]'
-          : 'bg-white/80 backdrop-blur-lg'
+          ? 'bg-[#1a1c52]/90 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,8,0.35)] border-b border-white/10'
+          : 'bg-gradient-to-r from-[#1d3e8c]/80 via-[#474192]/75 to-[#474192]/65 backdrop-blur-sm border-b border-white/20'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,14 +57,16 @@ const Navbar = () => {
                 <span
                   className={`text-sm font-medium tracking-wide transition-colors ${
                     location.pathname === link.path
-                      ? 'text-[#B3262E]'
-                      : 'text-[#1F1F1F] hover:text-[#B3262E]'
+                      ? 'text-[#E93556]'
+                      : isScrolled
+                        ? 'text-white/85 hover:text-[#e73c50]'
+                        : 'text-white/85 hover:text-[#ffd6e0]'
                   }`}
                 >
                   {link.name}
                 </span>
                 <motion.div
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#B3262E]"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E93556]"
                   initial={{ scaleX: 0 }}
                   animate={{
                     scaleX: location.pathname === link.path ? 1 : 0,
@@ -79,7 +81,7 @@ const Navbar = () => {
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: '0 8px 20px rgba(179, 38, 46, 0.25)' }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg transition-all duration-300 shadow-md"
+                className="px-6 py-3 pb-gradient-main text-white font-semibold rounded-full transition-all duration-300 shadow-[0_12px_26px_rgba(69,70,161,0.24)]"
               >
                 Contacto
               </motion.button>
@@ -89,7 +91,9 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-[#1F1F1F] focus:outline-none"
+            className={`md:hidden focus:outline-none transition-colors ${
+              isScrolled ? 'text-white' : 'text-white'
+            }`}
           >
             <svg
               className="w-6 h-6"
@@ -117,7 +121,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 backdrop-blur-lg border-b border-[#F0E6E8]"
+            className="md:hidden bg-[#1a1c52]/95 backdrop-blur-lg border-b border-white/10"
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
@@ -127,8 +131,8 @@ const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block py-2 text-lg font-semibold transition-colors ${
                     location.pathname === link.path
-                      ? 'text-[#B3262E]'
-                      : 'text-[#1F1F1F] hover:text-[#B3262E]'
+                      ? 'text-[#E93556]'
+                      : 'text-white/80 hover:text-[#e73c50]'
                   }`}
                 >
                   {link.name}
@@ -139,7 +143,7 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block"
               >
-                <button className="w-full px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg">
+                <button className="w-full px-6 py-3 pb-gradient-main text-white font-semibold rounded-full">
                   Contacto
                 </button>
               </Link>

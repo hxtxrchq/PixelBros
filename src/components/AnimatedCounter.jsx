@@ -119,11 +119,11 @@ const AnimatedCounter = ({ number, label, delay = 0 }) => {
       transition={{ duration: 0.5, delay }}
       className="text-center"
     >
-      <div className="text-5xl md:text-6xl font-display font-bold text-[#1F1F1F] mb-3">
+      <div className="text-5xl md:text-6xl font-display font-bold text-white mb-3">
         <span>{formatDisplay(displayValue)}</span>
-        {suffix && <span className="text-[#B3262E]">{suffix}</span>}
+        {suffix && <span className="text-[#e73c50]">{suffix}</span>}
       </div>
-      <div className="text-sm md:text-base text-[#4A4A4A] font-medium">{label}</div>
+      <div className="text-sm md:text-base text-white/60 font-medium">{label}</div>
     </motion.div>
   );
 };

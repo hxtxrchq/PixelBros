@@ -54,7 +54,7 @@ const Apply = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white pt-32 pb-20"
+      className="min-h-screen bg-transparent pt-32 pb-20"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -63,13 +63,13 @@ const Apply = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#B3262E] mb-4">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-4">
             Unete a nuestro equipo
           </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-4 text-[#1F1F1F]">
-            Formulario de <span className="text-[#B3262E]">Postulacion</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-4 text-white">
+            Formulario de <span className="text-[#e73c50]">Postulacion</span>
           </h1>
-          <p className="text-lg text-[#4A4A4A] max-w-3xl mx-auto">
+          <p className="text-lg text-white/65 max-w-3xl mx-auto">
             Queremos conocerte. Completa el formulario y cuentanos sobre tu experiencia y proyectos.
           </p>
         </motion.div>
@@ -78,7 +78,7 @@ const Apply = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-[#FFF1F3] p-8 md:p-10 rounded-2xl border border-[#F0E6E8]"
+          className="bg-white/5 p-8 md:p-10 rounded-2xl border border-white/10"
         >
           <form
             onSubmit={handleSubmit}

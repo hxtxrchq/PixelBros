@@ -75,7 +75,7 @@ const Contact = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white pt-32 pb-20"
+      className="min-h-screen bg-transparent pt-32 pb-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -85,10 +85,10 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-[#1F1F1F]">
-            Hablemos de tu <span className="text-[#B3262E]">Proyecto</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-white">
+            Hablemos de tu <span className="text-[#e73c50]">Proyecto</span>
           </h1>
-          <p className="text-xl text-[#4A4A4A] max-w-3xl mx-auto">
+          <p className="text-xl text-white/65 max-w-3xl mx-auto">
             Estamos listos para ayudarte a llevar tu negocio al siguiente nivel. 
             Completa el formulario o contáctanos directamente.
           </p>
@@ -102,8 +102,8 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <div className="bg-[#FFF1F3] p-8 rounded-2xl border border-[#F0E6E8]">
-              <h2 className="text-3xl font-display font-bold mb-6 text-[#111111]">
+            <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
+              <h2 className="text-3xl font-display font-bold mb-6 text-white">
                 Formulario para clientes
               </h2>
 
@@ -115,8 +115,8 @@ const Contact = () => {
                 <input type="hidden" name="_replyto" value={replyTo} />
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-display font-bold text-[#1F1F1F]">Datos</h3>
-                    <span className="text-sm text-[#4A4A4A]">Paso {step} de 2</span>
+                    <h3 className="text-lg font-display font-bold text-white">Datos</h3>
+                    <span className="text-sm text-white/50">Paso {step} de 2</span>
                   </div>
 
                   <div className={step === 1 ? 'space-y-6' : 'hidden'}>
@@ -248,7 +248,7 @@ const Contact = () => {
                   </div>
 
                   <div className={step === 2 ? 'space-y-6' : 'hidden'}>
-                    <h3 className="text-lg font-display font-bold text-[#1F1F1F] mb-4">Seccion 2</h3>
+                    <h3 className="text-lg font-display font-bold text-white mb-4">Seccion 2</h3>
                     <div className="space-y-6">
                     <div>
                       <label htmlFor="why" className="block text-sm font-semibold text-[#111111] mb-2">
@@ -368,7 +368,7 @@ const Contact = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setStep(1)}
-                        className="px-6 py-3 border border-[#F0E6E8] rounded-lg text-sm font-semibold text-[#1F1F1F]"
+                        className="px-6 py-3 border border-white/20 rounded-lg text-sm font-semibold text-white/80"
                       >
                         Volver
                       </motion.button>
@@ -387,7 +387,7 @@ const Contact = () => {
               </form>
 
               {submitError && (
-                <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                <div className="mt-6 rounded-2xl border border-red-400/30 bg-red-950/30 p-4 text-sm text-red-400">
                   {submitError}
                 </div>
               )}
@@ -404,9 +404,9 @@ const Contact = () => {
             className="space-y-6"
           >
             {/* Contact Methods */}
-            <div className="bg-[#FFF1F3] p-8 rounded-2xl border border-[#F0E6E8]">
-              <h3 className="text-2xl font-display font-bold mb-6 text-[#111111]">
-                Contacto <span className="text-[#B3262E]">Directo</span>
+            <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-2xl font-display font-bold mb-6 text-white">
+                Contacto <span className="text-[#e73c50]">Directo</span>
               </h3>
               <div className="space-y-4">
                 {contactMethods.map((method, index) => (
@@ -416,7 +416,7 @@ const Contact = () => {
                     target={method.link.startsWith('http') ? '_blank' : undefined}
                     rel={method.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                     whileHover={{ x: 5 }}
-                    className="flex items-start p-4 bg-white rounded-lg border border-[#F0E6E8] hover:border-[#B3262E] transition-all group"
+                    className="flex items-start p-4 bg-white/5 rounded-lg border border-white/10 hover:border-[#e73c50] transition-all group"
                   >
                     <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-[#B3262E]/10 flex items-center justify-center mr-4 group-hover:bg-[#B3262E]/20 transition-all">
                       <SvgIcon 
@@ -426,8 +426,8 @@ const Contact = () => {
                       />
                     </div>
                     <div>
-                      <div className="text-sm text-[#4B4B4B] mb-1">{method.title}</div>
-                      <div className="text-[#1F1F1F] group-hover:text-[#B3262E] transition-colors">
+                      <div className="text-sm text-white/50 mb-1">{method.title}</div>
+                      <div className="text-white/90 group-hover:text-[#e73c50] transition-colors">
                         {method.value}
                       </div>
                     </div>
@@ -439,7 +439,7 @@ const Contact = () => {
           
 
             {/* Quick CTA */}
-            <div className="bg-[#FFF1F3] p-8 rounded-2xl border border-[#F0E6E8] text-center">
+              <div className="bg-white/5 p-8 rounded-2xl border border-white/10 text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-[#B3262E]/10 flex items-center justify-center">
                 <svg 
                   className="w-6 h-6 text-[#B3262E]" 
@@ -449,10 +449,10 @@ const Contact = () => {
                   <path d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-display font-bold mb-3 text-[#111111]">
+              <h3 className="text-xl font-display font-bold mb-3 text-white">
                 ¿Necesitas una respuesta rápida?
               </h3>
-              <p className="text-[#4B4B4B] mb-4 text-sm">
+              <p className="text-white/60 mb-4 text-sm">
                 Chatea con nosotros por WhatsApp y recibe atención inmediata
               </p>
               <a
@@ -475,15 +475,15 @@ const Contact = () => {
 
       {scheduleModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-          <div className="relative w-full max-w-2xl rounded-2xl bg-white overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0E6E8]">
-              <div className="text-lg font-display font-bold text-[#1F1F1F]">
+          <div className="relative w-full max-w-2xl rounded-2xl bg-[#1a1c52] border border-white/10 overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <div className="text-lg font-display font-bold text-white">
                 Agendar reunion inicial
               </div>
               <button
                 type="button"
                 onClick={() => setScheduleModalOpen(false)}
-                className="px-3 py-1.5 rounded-full border border-[#F0E6E8] text-[#1F1F1F] text-sm"
+                className="px-3 py-1.5 rounded-full border border-white/20 text-white/80 text-sm"
               >
                 Cerrar
               </button>
@@ -491,12 +491,12 @@ const Contact = () => {
             <div className="p-8">
               {schedulePhase === 'loading' ? (
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-12 h-12 rounded-full border-4 border-[#F0E6E8] border-t-[#B3262E] animate-spin" />
-                  <div className="text-[#4A4A4A]">Procesando tu informacion...</div>
+                  <div className="w-12 h-12 rounded-full border-4 border-white/10 border-t-[#e73c50] animate-spin" />
+                  <div className="text-white/70">Procesando tu informacion...</div>
                 </div>
               ) : (
                 <div className="text-center">
-                  <p className="text-[#4A4A4A] mb-6">
+                  <p className="text-white/70 mb-6">
                     Gracias por completar la informacion. El siguiente paso es agendar una reunion breve para entender tu proyecto y proponerte una estrategia clara.
                   </p>
                   <motion.button
@@ -520,9 +520,9 @@ const Contact = () => {
 
       {isCalendlyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-          <div className="relative w-full max-w-4xl rounded-2xl bg-white overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#F0E6E8]">
-              <div className="text-lg font-display font-bold text-[#1F1F1F]">
+          <div className="relative w-full max-w-4xl rounded-2xl bg-[#1a1c52] border border-white/10 overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+              <div className="text-lg font-display font-bold text-white">
                 Agendar reunion inicial
               </div>
               <button
@@ -531,7 +531,7 @@ const Contact = () => {
                   setIsCalendlyOpen(false);
                   setScheduled(true);
                 }}
-                className="px-3 py-1.5 rounded-full border border-[#F0E6E8] text-[#1F1F1F] text-sm"
+                className="px-3 py-1.5 rounded-full border border-white/20 text-white/80 text-sm"
               >
                 Cerrar
               </button>
@@ -550,11 +550,11 @@ const Contact = () => {
 
       {scheduled && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-6">
-          <div className="w-full max-w-xl rounded-2xl bg-white p-8 shadow-2xl text-center">
-            <h3 className="text-2xl font-display font-bold mb-3 text-[#1F1F1F]">
+          <div className="w-full max-w-xl rounded-2xl bg-[#1a1c52] border border-white/10 p-8 shadow-2xl text-center">
+            <h3 className="text-2xl font-display font-bold mb-3 text-white">
               Gracias por completar el formulario
             </h3>
-            <p className="text-[#4A4A4A] mb-6">
+            <p className="text-white/65 mb-6">
               Nos pondremos en contacto contigo. Nos vemos en la reunion.
             </p>
             <motion.button

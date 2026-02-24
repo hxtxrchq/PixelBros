@@ -207,9 +207,9 @@ const ServiceDetail = () => {
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-white pt-32 pb-20 flex items-center justify-center">
+      <div className="min-h-screen bg-transparent pt-32 pb-20 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-display font-bold mb-4 text-[#1F1F1F]">Servicio no encontrado</h1>
+          <h1 className="text-4xl font-display font-bold mb-4 text-white">Servicio no encontrado</h1>
           <Link to="/services" className="text-[#B3262E] hover:text-[#B3262E]/80">
             Volver a servicios
           </Link>
@@ -223,10 +223,10 @@ const ServiceDetail = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-transparent"
     >
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-white">
+      <section className="pt-32 pb-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -251,10 +251,10 @@ const ServiceDetail = () => {
                 <path d={service.iconPath} />
               </svg>
             </motion.div>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-[#1F1F1F]">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-white">
               {service.title}
             </h1>
-            <p className="text-xl md:text-2xl text-[#4A4A4A] max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-white/65 max-w-3xl mx-auto">
               {service.description}
             </p>
           </motion.div>
@@ -262,15 +262,15 @@ const ServiceDetail = () => {
       </section>
 
       {/* What's Included */}
-      <section className="py-20 bg-[#FFF1F3]">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-[#1F1F1F]"
+            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-white"
           >
-            ¿Qué <span className="text-[#B3262E]">Incluye?</span>
+            ¿Qué <span className="text-[#e73c50]">Incluye?</span>
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {service.includes.map((item, index) => (
@@ -280,13 +280,13 @@ const ServiceDetail = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white p-6 rounded-xl border border-[#F0E6E8] hover:border-[#B3262E] transition-all group"
+                className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[#e73c50] transition-all group"
               >
                 <div className="flex items-start">
                   <svg className="w-6 h-6 text-[#B3262E] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <p className="text-[#1F1F1F] group-hover:text-[#B3262E] transition-colors">{item}</p>
+                  <p className="text-white/80 group-hover:text-[#e73c50] transition-colors">{item}</p>
                 </div>
               </motion.div>
             ))}
@@ -295,15 +295,15 @@ const ServiceDetail = () => {
       </section>
 
       {/* Benefits */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-[#1F1F1F]"
+            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-white"
           >
-            <span className="text-[#B3262E]">Beneficios</span> Principales
+            <span className="text-[#e73c50]">Beneficios</span> Principales
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {service.benefits.map((benefit, index) => (
@@ -313,12 +313,12 @@ const ServiceDetail = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start bg-[#FFF1F3] p-6 rounded-xl border border-[#F0E6E8] hover:border-[#B3262E] transition-all shadow-sm"
+                className="flex items-start bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[#e73c50] transition-all shadow-sm"
               >
                 <div className="w-12 h-12 rounded-full bg-[#B3262E] flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0 text-white">
                   {index + 1}
                 </div>
-                <p className="text-lg text-[#1F1F1F]">{benefit}</p>
+                <p className="text-lg text-white/80">{benefit}</p>
               </motion.div>
             ))}
           </div>
@@ -326,15 +326,15 @@ const ServiceDetail = () => {
       </section>
 
       {/* Process */}
-      <section className="py-20 bg-[#FFF1F3]">
+      <section className="py-20 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-[#1F1F1F]"
+            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-white"
           >
-            Nuestro <span className="text-[#B3262E]">Proceso</span>
+            Nuestro <span className="text-[#e73c50]">Proceso</span>
           </motion.h2>
           <div className="relative">
             {/* Timeline Line */}
@@ -352,9 +352,9 @@ const ServiceDetail = () => {
                 }`}
               >
                 <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <div className="bg-white p-6 rounded-xl border border-[#F0E6E8] hover:border-[#B3262E] transition-all">
-                    <h3 className="text-2xl font-display font-bold mb-2 text-[#1F1F1F]">{item.title}</h3>
-                    <p className="text-[#4A4A4A]">{item.description}</p>
+                  <div className="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[#e73c50] transition-all">
+                    <h3 className="text-2xl font-display font-bold mb-2 text-white">{item.title}</h3>
+                    <p className="text-white/65">{item.description}</p>
                   </div>
                 </div>
                 
@@ -371,18 +371,18 @@ const ServiceDetail = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-[#FFF1F3] border border-[#F0E6E8] rounded-2xl p-12 shadow-lg"
+            className="bg-white/5 border border-white/10 rounded-2xl p-12 shadow-lg"
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-[#1F1F1F]">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
               ¿Listo para comenzar?
             </h2>
-            <p className="text-[#4A4A4A] mb-8">
+            <p className="text-white/65 mb-8">
               Agenda una llamada gratuita y descubre cómo este servicio puede transformar tu negocio
             </p>
             <Link to="/contact">

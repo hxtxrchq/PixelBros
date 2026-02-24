@@ -138,7 +138,7 @@ const Portfolio = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
-      className="min-h-screen bg-white pt-32 pb-20"
+      className="min-h-screen bg-transparent pt-32 pb-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -156,8 +156,8 @@ const Portfolio = () => {
           >
             MIRA NUESTROS PROYECTOS EN
           </motion.p>
-          <h1 className="text-5xl md:text-6xl lg:text-8xl font-display font-bold mb-8 tracking-tight text-[#1F1F1F]">
-            NUESTRO <span className="text-[#B3262E]">PORTFOLIO</span>
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-display font-bold mb-8 tracking-tight text-white">
+            NUESTRO <span className="text-[#e73c50]">PORTFOLIO</span>
           </h1>
         </motion.div>
 
@@ -166,7 +166,7 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-6 mb-16 border-b border-[#E6E6EA] pb-4"
+          className="flex flex-wrap justify-center gap-6 mb-16 border-b border-white/10 pb-4"
         >
           {categories.map((category) => (
             <motion.button
@@ -176,15 +176,15 @@ const Portfolio = () => {
               whileTap={{ scale: 0.98 }}
               className={`relative px-4 py-3 font-medium text-sm tracking-wider transition-all ${
                 selectedCategory === category.id
-                      ? 'text-[#B3262E]'
-                      : 'text-[#4A4A4A] hover:text-[#1F1F1F]'
+                      ? 'text-[#e73c50]'
+                      : 'text-white/50 hover:text-white'
               }`}
             >
               {category.name}
               {selectedCategory === category.id && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#B3262E]"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#e73c50]"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
@@ -214,7 +214,7 @@ const Portfolio = () => {
                 >
                   <Link to={`/portfolio/${project.slug}`}>
                     <motion.div
-                      className="group relative h-[320px] sm:h-[360px] lg:h-[380px] rounded-lg border border-[#F0E6E8] overflow-hidden hover:border-[#B3262E] transition-all duration-300"
+                      className="group relative h-[320px] sm:h-[360px] lg:h-[380px] rounded-lg border border-white/10 overflow-hidden hover:border-[#e73c50] transition-all duration-300"
                       whileHover={{ y: -4 }}
                     >
                       {project.coverSrc ? (
@@ -237,10 +237,10 @@ const Portfolio = () => {
                           )}
                         </div>
                       ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#F4F4F6] to-[#FFFFFF]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#1a1c52] to-[#2a2c72]">
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-20 h-20 rounded-2xl border border-[#F0E6E8] bg-white shadow-sm flex items-center justify-center">
-                              <span className="text-2xl font-display font-bold text-[#B3262E]">
+                              <div className="w-20 h-20 rounded-2xl border border-white/10 bg-white/5 shadow-sm flex items-center justify-center">
+                              <span className="text-2xl font-display font-bold text-[#e73c50]">
                                 {project.title?.charAt(0) || 'P'}
                               </span>
                             </div>
@@ -272,7 +272,7 @@ const Portfolio = () => {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <p className="text-[#4A4A4A] text-lg">No hay proyectos en esta categoría</p>
+            <p className="text-white/50 text-lg">No hay proyectos en esta categoría</p>
           </motion.div>
         )}
 
@@ -284,10 +284,10 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           className="mt-32 text-center"
         >
-          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-[#1F1F1F]">
-            ¿Quieres ser nuestro próximo <span className="text-[#B3262E]">caso de éxito</span>?
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-white">
+            ¿Quieres ser nuestro próximo <span className="text-[#e73c50]">caso de éxito</span>?
           </h2>
-          <p className="text-[#4A4A4A] mb-10 text-lg max-w-2xl mx-auto">
+          <p className="text-white/65 mb-10 text-lg max-w-2xl mx-auto">
             Trabajemos juntos para transformar tu negocio y alcanzar tus objetivos
           </p>
           <Link to="/contact">

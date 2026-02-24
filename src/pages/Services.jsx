@@ -67,7 +67,7 @@ const Services = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white pt-32 pb-20"
+      className="min-h-screen bg-transparent pt-32 pb-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -77,10 +77,10 @@ const Services = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-black mb-6 text-[#1F1F1F]">
-            Nuestros <span className="text-[#B3262E]">Servicios</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-black mb-6 text-white">
+            Nuestros <span className="text-[#e73c50]">Servicios</span>
           </h1>
-          <p className="text-xl text-[#4A4A4A] max-w-3xl mx-auto">
+          <p className="text-xl text-white/65 max-w-3xl mx-auto">
             Soluciones integrales de marketing digital para hacer crecer tu negocio
           </p>
         </motion.div>
@@ -104,12 +104,12 @@ const Services = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 text-center bg-[#FFF1F3] border border-[#F0E6E8] rounded-2xl p-12"
+          className="mt-20 text-center bg-white/5 border border-white/10 rounded-2xl p-12"
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-[#1F1F1F]">
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
             ¿Listo para transformar tu negocio?
           </h2>
-          <p className="text-[#4A4A4A] mb-8 max-w-2xl mx-auto">
+          <p className="text-white/65 mb-8 max-w-2xl mx-auto">
             Agenda una llamada gratuita y descubre cómo podemos ayudarte a alcanzar tus objetivos
           </p>
           <Link to="/contact">

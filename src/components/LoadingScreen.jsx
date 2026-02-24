@@ -52,7 +52,7 @@ const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed inset-0 bg-white z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-[#1a1c52] z-50 flex items-center justify-center"
     >
       <div className="max-w-2xl mx-auto px-4 text-center">
         {/* Logo Animation */}
@@ -84,7 +84,7 @@ const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1F1F1F] mb-4">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">
             {displayedText}
             <motion.span
               animate={{ opacity: [1, 0] }}
@@ -94,13 +94,13 @@ const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
               |
             </motion.span>
           </h2>
-          <p className="text-[#4A4A4A] text-lg">
+          <p className="text-white/70 text-lg">
             Estamos preparando lo mejor para ti
           </p>
         </motion.div>
 
         {/* Animated Progress Bar */}
-        <div className="w-full bg-[#F0E6E8] rounded-full h-1 overflow-hidden">
+        <div className="w-full bg-white/10 rounded-full h-1 overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-[#B3262E] to-[#F25C66]"
             initial={{ scaleX: 0 }}

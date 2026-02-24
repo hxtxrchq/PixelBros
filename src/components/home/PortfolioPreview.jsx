@@ -104,39 +104,42 @@ const PortfolioPreview = () => {
     [portfolioAssets]
   );
 
-  const featuredProjects = portfolioIndex.projects.slice(0, 6);
+  const featuredProjects = portfolioIndex.projects.slice(0, 4);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="mb-12 flex flex-col lg:flex-row gap-7 lg:items-end lg:justify-between"
         >
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-[#B3262E] text-sm font-semibold tracking-wide uppercase mb-3"
-          >
-            Casos de Éxito
-          </motion.p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6 tracking-tight">
-            <span className="text-[#1F1F1F]">Nuestro </span>
-            <span className="text-[#B3262E]">Portafolio</span>
-          </h2>
-          <p className="text-xl text-[#4A4A4A] max-w-3xl mx-auto">
-            Proyectos que transformaron negocios y generaron resultados reales
-          </p>
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[#5ab3e5] font-semibold mb-2">Portafolio</p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white font-black">
+              Trabajo visual
+              <br />
+              en movimiento
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 w-full lg:w-[340px]">
+            <motion.div
+              className="aspect-square rounded-3xl pb-gradient-main pb-pattern-rings border border-white/40"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity }}
+            />
+            <motion.div
+              className="aspect-square rounded-3xl pb-gradient-cool pb-pattern-rings-light border border-white/40"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, delay: 0.4 }}
+            />
+          </div>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.slug}
@@ -147,11 +150,10 @@ const PortfolioPreview = () => {
             >
               <Link to={`/portfolio/${project.slug}`}>
                 <motion.div
-                  className="group relative h-80 rounded-lg overflow-hidden bg-[#FFF5F6]"
+                  className="group relative h-80 sm:h-96 rounded-[1.75rem] overflow-hidden bg-[#E8EAF7] border border-white/70 shadow-[0_18px_34px_rgba(39,42,76,0.16)]"
                   whileHover={{ y: -8 }}
                   transition={{ duration: 0.4 }}
                 >
-                  {/* Background */}
                   {project.coverSrc ? (
                     <div className="absolute inset-0">
                       {isVideoSrc(project.coverSrc) ? (
@@ -168,13 +170,13 @@ const PortfolioPreview = () => {
                           style={{ backgroundImage: `url("${project.coverSrc}")` }}
                         />
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#16182f] via-[#1b204f]/65 to-transparent opacity-75 group-hover:opacity-60 transition-opacity duration-500" />
                     </div>
                   ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#F4F4F6] to-[#FFFFFF]">
+                    <div className="absolute inset-0 pb-gradient-main">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-2xl border border-[#F0E6E8] bg-white shadow-sm flex items-center justify-center">
-                          <span className="text-xl font-display font-bold text-[#B3262E]">
+                        <div className="w-16 h-16 rounded-2xl border border-white/45 bg-white/10 backdrop-blur shadow-sm flex items-center justify-center">
+                          <span className="text-xl font-display font-bold text-white">
                             {project.title?.charAt(0) || 'P'}
                           </span>
                         </div>
@@ -182,18 +184,15 @@ const PortfolioPreview = () => {
                     </div>
                   )}
 
-                  {/* Content */}
                   <div className="relative h-full flex flex-col justify-end p-6">
-                    <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs text-white font-medium mb-3 w-fit">
+                    <span className="inline-block px-3 py-1 bg-white/12 backdrop-blur-sm border border-white/35 rounded-full text-xs text-white font-semibold mb-3 w-fit tracking-wide">
                       {project.categoryName}
                     </span>
-                    <h3 className="text-2xl font-display font-bold text-white mb-2">
+                    <h3 className="text-3xl text-white mb-1 leading-tight">
                       {project.title}
                     </h3>
-                    
-                    {/* Arrow */}
                     <motion.div
-                      className="inline-flex items-center text-[#B3262E] font-semibold text-sm mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                      className="inline-flex items-center text-white/90 font-semibold text-sm mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300"
                     >
                       <span className="mr-2">Ver proyecto</span>
                       <svg
@@ -214,9 +213,8 @@ const PortfolioPreview = () => {
                     </motion.div>
                   </div>
 
-                  {/* Hover Effect */}
-                    <motion.div
-                    className="absolute inset-0 border-2 border-[#B3262E]/0 group-hover:border-[#B3262E]/40 transition-all duration-500 pointer-events-none rounded-lg"
+                  <motion.div
+                    className="absolute inset-0 border-2 border-white/0 group-hover:border-white/50 transition-all duration-500 pointer-events-none rounded-[1.75rem]"
                   />
                 </motion.div>
               </Link>
@@ -224,7 +222,6 @@ const PortfolioPreview = () => {
           ))}
         </div>
 
-        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -234,11 +231,11 @@ const PortfolioPreview = () => {
         >
           <Link to="/portfolio">
             <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(179, 38, 46, 0.25)' }}
+              whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="px-10 py-5 bg-[#B3262E] text-white font-bold rounded-full text-lg shadow-xl transition-all inline-flex items-center gap-3"
+              className="px-8 py-4 pb-gradient-main text-white font-semibold rounded-full text-base sm:text-lg shadow-[0_16px_32px_rgba(69,70,161,0.28)] transition-all inline-flex items-center gap-3"
             >
-              <span>Ver Todo el Portafolio</span>
+              <span>Ver todo el portafolio</span>
               <svg
                 width="20"
                 height="20"

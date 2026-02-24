@@ -1,20 +1,4 @@
-/* Chillax-Semibold Font - Local Declaration (Principal) */
-@font-face {
-  font-family: 'Chillax';
-  src: url('/src/fonts/Chillax-Semibold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Synonym Regular Font - Local Declaration (Secundario) */
-@font-face {
-  font-family: 'Synonym';
-  src: url('/src/fonts/Synonym-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
 /* Performance Optimization */
 * {
@@ -35,8 +19,9 @@
 @tailwind utilities;
 
 :root {
-  --font-primary: 'Chillax', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  --font-secondary: 'Synonym', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-primary: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-secondary: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 }
 
 @layer base {
@@ -49,8 +34,9 @@
   }
   
   body {
-    @apply bg-[#FFFFFF] text-[#1F1F1F];
+    @apply bg-[#1a1c52] text-[#171A2A];
     font-family: var(--font-primary);
+    overflow-x: hidden;
   }
   
   .no-scrollbar {
@@ -78,8 +64,9 @@
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
-    font-family: var(--font-primary);
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: 0.01em;
   }
   
   button, input, textarea, select {
@@ -119,6 +106,40 @@
   }
 }
 
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12px, -16px, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
 @layer components {
   .btn-primary {
     @apply px-8 py-4 bg-[#B3262E] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#8E1E24] hover:shadow-md;
@@ -132,8 +153,8 @@
   }
   
   .section-title {
-    @apply text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[#1F1F1F];
-    font-family: var(--font-primary);
+    @apply text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[#171A2A];
+    font-family: var(--font-display);
   }
   
   .card-hover {
@@ -148,6 +169,43 @@
   
   .glow-primary {
     text-shadow: 0 0 18px rgba(255, 122, 60, 0.4);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* Degradado principal de marca: violeta #474192 → rojo #e73c50 (manual 45%+30%) */
+  .pb-gradient-main {
+    background: linear-gradient(135deg, #474192 0%, #7b3680 50%, #e73c50 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 12s ease infinite;
+  }
+
+  /* Degradado azul de marca */
+  .pb-gradient-cool {
+    background: linear-gradient(135deg, #1d3e8c 0%, #4357a2 55%, #5ab3e5 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 14s ease infinite;
+  }
+
+  /* Degradado hero: azul marino → violeta → rojo (fondo completo de sección) */
+  .pb-gradient-hero {
+    background: linear-gradient(160deg, #1d3e8c 0%, #474192 45%, #e73c50 100%);
+  }
+
+  /* Patrón anillos concéntricos – colores de marca (rojo sobre fondo violeta) */
+  .pb-pattern-rings {
+    background-image: radial-gradient(circle at center, transparent 0 18px, rgba(231, 60, 80, 0.40) 18px 24px, transparent 24px 42px, rgba(231, 60, 80, 0.28) 42px 48px, transparent 48px 66px, rgba(231, 60, 80, 0.18) 66px 72px, transparent 72px 90px);
+    background-size: 200px 200px;
+    animation: float-soft 8s ease-in-out infinite;
+  }
+
+  /* Patrón anillos secundario – azul (manual pattern azul) */
+  .pb-pattern-rings-light {
+    background-image: radial-gradient(circle at 80% 80%, transparent 0 22px, rgba(90, 179, 229, 0.40) 22px 30px, transparent 30px 48px, rgba(90, 179, 229, 0.26) 48px 56px, transparent 56px 74px, rgba(90, 179, 229, 0.18) 74px 82px, transparent 82px 100px);
+    background-size: 220px 220px;
+    animation: drift 14s ease-in-out infinite;
   }
 
   .content-contrast h1,
@@ -174,4 +232,58 @@ body[data-loading="true"] .footer-root {
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
+}
+
+/* ── Dark theme form inputs (Contact, Apply pages) ─────────────── */
+input[type="text"].dark-input,
+input[type="email"].dark-input,
+input[type="tel"].dark-input,
+textarea.dark-input,
+input[type="text"][class*="bg-white"],
+input[type="email"][class*="bg-white"],
+input[type="tel"][class*="bg-white"],
+textarea[class*="bg-white"] {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+}
+
+input[type="text"][class*="bg-white"]::placeholder,
+input[type="email"][class*="bg-white"]::placeholder,
+input[type="tel"][class*="bg-white"]::placeholder,
+textarea[class*="bg-white"]::placeholder {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+input[type="text"][class*="bg-white"]:focus,
+input[type="email"][class*="bg-white"]:focus,
+input[type="tel"][class*="bg-white"]:focus,
+textarea[class*="bg-white"]:focus {
+  border-color: rgba(231, 60, 80, 0.7) !important;
+  box-shadow: 0 0 0 2px rgba(231, 60, 80, 0.15) !important;
+}
+
+label[class*="bg-white"]:has(input[type="radio"]),
+label[class*="bg-white"]:has(input[type="checkbox"]) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+label[class*="bg-white"] span[class*="text-[#1F1F1F]"] {
+  color: rgba(255, 255, 255, 0.80) !important;
+}
+
+/* Form labels on dark background */
+label[class*="text-[#111111]"],
+label[class*="text-[#1F1F1F]"] {
+  color: rgba(255, 255, 255, 0.80) !important;
+}
+
+/* Contact method icon bg override */
+div[class*="bg-[#B3262E]/10"] {
+  background: rgba(231, 60, 80, 0.12) !important;
+}
+div[class*="bg-[#B3262E]/10"]:hover,
+div[class*="bg-[#B3262E]/20"] {
+  background: rgba(231, 60, 80, 0.20) !important;
 }
