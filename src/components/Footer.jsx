@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import pixelBrosLogo from '../images/LogoPixelBros.png';
+const pixelBrosLogo = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoPixelBros.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

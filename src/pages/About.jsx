@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import AnimatedCounter from '../components/AnimatedCounter';
-import LogoIconPixel from '../images/LogoIconPixel.png';
+const LogoIconPixel = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoIconPixel.png';
 
 // Cada miembro tiene un arreglo de "imágenes" (actualmente gradientes placeholder).
 // Para agregar fotos reales: reemplaza los valores de `images` con rutas de imagen,

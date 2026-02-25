@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import LogoIcon from '../images/LogoIconPixel.png';
+const LogoIcon = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoIconPixel.png';
 
 const InitialLoading = ({ onComplete }) => {
   const [isMounted, setIsMounted] = useState(true);

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import LogoIcon from '../images/LogoIconPixel.png';
+const LogoIcon = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoIconPixel.png';
 
 const LoadingScreen = ({ isLoading, onLoadingComplete }) => {
   const [displayedText, setDisplayedText] = useState('');

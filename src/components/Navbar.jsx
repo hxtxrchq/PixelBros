@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import LogoPixelBros from '../images/LogoPixelBros.png';
+const LogoPixelBros = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoPixelBros.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
