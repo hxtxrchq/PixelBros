@@ -1,5 +1,5 @@
 {
-  "buildCommand": "git lfs install --local && git lfs fetch --all && git lfs checkout && npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
