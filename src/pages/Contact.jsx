@@ -14,6 +14,8 @@ const Contact = () => {
   const [schedulePhase, setSchedulePhase] = useState('loading');
   const [replyTo, setReplyTo] = useState('');
   const [scheduled, setScheduled] = useState(false);
+  const [rolOtro, setRolOtro] = useState(false);
+  const [objetivoOtro, setObjetivoOtro] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -102,10 +104,8 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
-              <h2 className="text-3xl font-display font-bold mb-6 text-white">
-                Formulario para clientes
-              </h2>
+            <div className="bg-[#0d0e24] p-8 rounded-2xl">
+              
 
               <form
                 onSubmit={handleSubmit}
@@ -151,44 +151,33 @@ const Contact = () => {
                   </div>
 
                     <div className="mt-6">
-                    <label className="block text-sm font-semibold text-[#111111] mb-3">
+                    <label className="block text-sm font-semibold text-[#111111] mb-2">
                       Cargo / rol dentro de la empresa *
                     </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {[
-                        'Dueño(a) / Fundador(a)',
-                        'Gerencia / Dirección',
-                        'Marketing / Comunicación',
-                        'Ventas / Comercial',
-                      ].map((role) => (
-                        <label key={role} className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                          <input
-                            type="radio"
-                            name="Rol"
-                            value={role}
-                            required
-                            className="text-[#B3262E]"
-                          />
-                          <span className="text-sm text-[#1F1F1F]">{role}</span>
-                        </label>
-                      ))}
-                      <label className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                        <input
-                          type="radio"
-                          name="Rol"
-                          value="Otro"
-                          required
-                          className="text-[#B3262E]"
-                        />
-                        <span className="text-sm text-[#1F1F1F]">Otro</span>
-                        <input
-                          type="text"
-                          name="Rol - Otro"
-                          placeholder="Especificar"
-                          className="ml-auto w-full max-w-[160px] px-2 py-1 border border-[#F0E6E8] rounded-md text-sm"
-                        />
-                      </label>
+                    <div className="relative">
+                      <select
+                        name="Rol"
+                        required
+                        onChange={(e) => setRolOtro(e.target.value === 'Otro')}
+                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                      >
+                        <option value="">Selecciona tu cargo...</option>
+                        {['Dueño(a) / Fundador(a)', 'Gerencia / Dirección', 'Marketing / Comunicación', 'Ventas / Comercial', 'Otro'].map((role) => (
+                          <option key={role} value={role}>{role}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                      </div>
                     </div>
+                    {rolOtro && (
+                      <input
+                        type="text"
+                        name="Rol - Otro"
+                        placeholder="Especifica tu cargo"
+                        className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                      />
+                    )}
                   </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -240,7 +229,7 @@ const Contact = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setStep(2)}
-                        className="px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md"
+                        className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
                       >
                         Siguiente
                       </motion.button>
@@ -248,7 +237,7 @@ const Contact = () => {
                   </div>
 
                   <div className={step === 2 ? 'space-y-6' : 'hidden'}>
-                    <h3 className="text-lg font-display font-bold text-white mb-4">Seccion 2</h3>
+                    <h3 className="text-lg font-display font-bold text-white mb-4">Tu Proyecto</h3>
                     <div className="space-y-6">
                     <div>
                       <label htmlFor="why" className="block text-sm font-semibold text-[#111111] mb-2">
@@ -265,36 +254,37 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-3">
-                        ¿Que tamano tiene tu empresa actualmente? *
+                      <label className="block text-sm font-semibold text-[#111111] mb-2">
+                        ¿Qué tamaño tiene tu empresa actualmente? *
                       </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {[
-                          'Marca personal',
-                          '1-5 personas',
-                          '6-20 personas',
-                          '21-50 personas',
-                          '+50 personas',
-                        ].map((size) => (
-                          <label key={size} className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                            <input
-                              type="radio"
-                              name="Tamano de empresa"
-                              value={size}
-                              required
-                              className="text-[#B3262E]"
-                            />
-                            <span className="text-sm text-[#1F1F1F]">{size}</span>
-                          </label>
-                        ))}
+                      <div className="relative">
+                        <select
+                          name="Tamano de empresa"
+                          required
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                        >
+                          <option value="">Selecciona el tamaño...</option>
+                          {['Marca personal', '1-5 personas', '6-20 personas', '21-50 personas', '+50 personas'].map((size) => (
+                            <option key={size} value={size}>{size}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                        </div>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-3">
-                        ¿Que servicios estas buscando? (pueden marcar varios) *
+                      <label className="block text-sm font-semibold text-[#111111] mb-2">
+                        ¿Qué servicios estás buscando? (puedes elegir varios) *
                       </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <select
+                        name="Servicios"
+                        multiple
+                        required
+                        size={5}
+                        className="w-full px-4 py-2 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] text-sm"
+                      >
                         {[
                           'Gestion de contenido / redes sociales',
                           'Fotografia profesional',
@@ -305,60 +295,48 @@ const Contact = () => {
                           'Estrategia comercial y crecimiento de marca',
                           'No estoy seguro / necesito guia',
                         ].map((service) => (
-                          <label key={service} className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                            <input
-                              type="checkbox"
-                              name="Servicios"
-                              value={service}
-                              className="text-[#B3262E]"
-                            />
-                            <span className="text-sm text-[#1F1F1F]">{service}</span>
-                          </label>
+                          <option key={service} value={service}>{service}</option>
                         ))}
-                      </div>
+                      </select>
+                      <p className="mt-1 text-[10px] text-[#4A4A4A]">Mantén Ctrl (o ⌘ en Mac) para seleccionar varios.</p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-3">
-                        ¿Que objetivo principal quieres lograr? *
+                      <label className="block text-sm font-semibold text-[#111111] mb-2">
+                        ¿Qué objetivo principal quieres lograr? *
                       </label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {[
-                          'Aumentar ventas',
-                          'Mejorar imagen de marca',
-                          'Generar mas clientes potenciales',
-                          'Lanzamiento de producto/servicio',
-                          'Ordenar estrategia comercial y comunicacion',
-                          'Escalar mi negocio',
-                        ].map((goal) => (
-                          <label key={goal} className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                            <input
-                              type="radio"
-                              name="Objetivo principal"
-                              value={goal}
-                              required
-                              className="text-[#B3262E]"
-                            />
-                            <span className="text-sm text-[#1F1F1F]">{goal}</span>
-                          </label>
-                        ))}
-                        <label className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
-                          <input
-                            type="radio"
-                            name="Objetivo principal"
-                            value="Otro"
-                            required
-                            className="text-[#B3262E]"
-                          />
-                          <span className="text-sm text-[#1F1F1F]">Otro</span>
-                          <input
-                            type="text"
-                            name="Objetivo - Otro"
-                            placeholder="Especificar"
-                            className="ml-auto w-full max-w-[160px] px-2 py-1 border border-[#F0E6E8] rounded-md text-sm"
-                          />
-                        </label>
+                      <div className="relative">
+                        <select
+                          name="Objetivo principal"
+                          required
+                          onChange={(e) => setObjetivoOtro(e.target.value === 'Otro')}
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                        >
+                          <option value="">Selecciona un objetivo...</option>
+                          {[
+                            'Aumentar ventas',
+                            'Mejorar imagen de marca',
+                            'Generar mas clientes potenciales',
+                            'Lanzamiento de producto/servicio',
+                            'Ordenar estrategia comercial y comunicacion',
+                            'Escalar mi negocio',
+                            'Otro',
+                          ].map((goal) => (
+                            <option key={goal} value={goal}>{goal}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                        </div>
                       </div>
+                      {objetivoOtro && (
+                        <input
+                          type="text"
+                          name="Objetivo - Otro"
+                          placeholder="Describe tu objetivo"
+                          className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                        />
+                      )}
                     </div>
                     </div>
 
@@ -368,16 +346,16 @@ const Contact = () => {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setStep(1)}
-                        className="px-6 py-3 border border-white/20 rounded-lg text-sm font-semibold text-white/80"
+                        className="px-6 py-3 bg-white/8 rounded-lg text-sm font-semibold text-white/70 hover:bg-white/12 transition-colors"
                       >
                         Volver
                       </motion.button>
                       <motion.button
                         type="submit"
-                        whileHover={{ scale: 1.02, boxShadow: '0 15px 40px rgba(179, 38, 46, 0.2)' }}
+                        whileHover={{ scale: 1.02, boxShadow: '0 15px 40px rgba(231, 60, 80, 0.25)' }}
                         whileTap={{ scale: 0.98 }}
                         disabled={isSubmitting}
-                        className="px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md hover:shadow-lg transition-all disabled:opacity-60"
+                        className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors disabled:opacity-60"
                       >
                         {isSubmitting ? 'Enviando...' : 'Enviar informacion'}
                       </motion.button>
@@ -404,7 +382,7 @@ const Contact = () => {
             className="space-y-6"
           >
             {/* Contact Methods */}
-            <div className="bg-white/5 p-8 rounded-2xl border border-white/10">
+            <div className="bg-[#0d0e24] p-8 rounded-2xl">
               <h3 className="text-2xl font-display font-bold mb-6 text-white">
                 Contacto <span className="text-[#e73c50]">Directo</span>
               </h3>
@@ -416,12 +394,12 @@ const Contact = () => {
                     target={method.link.startsWith('http') ? '_blank' : undefined}
                     rel={method.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                     whileHover={{ x: 5 }}
-                    className="flex items-start p-4 bg-white/5 rounded-lg border border-white/10 hover:border-[#e73c50] transition-all group"
+                    className="flex items-start p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group"
                   >
-                    <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-[#B3262E]/10 flex items-center justify-center mr-4 group-hover:bg-[#B3262E]/20 transition-all">
+                    <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-[#e73c50]/10 flex items-center justify-center mr-4 group-hover:bg-[#e73c50]/20 transition-all">
                       <SvgIcon 
                         path={method.iconPath}
-                        className="w-6 h-6 text-[#B3262E]"
+                        className="w-6 h-6 text-[#e73c50]"
                         variant={method.iconType}
                       />
                     </div>
@@ -439,10 +417,10 @@ const Contact = () => {
           
 
             {/* Quick CTA */}
-              <div className="bg-white/5 p-8 rounded-2xl border border-white/10 text-center">
-              <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-[#B3262E]/10 flex items-center justify-center">
+              <div className="bg-[#0d0e24] p-8 rounded-2xl text-center">
+              <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-[#e73c50]/10 flex items-center justify-center">
                 <svg 
-                  className="w-6 h-6 text-[#B3262E]" 
+                  className="w-6 h-6 text-[#e73c50]" 
                   viewBox="0 0 24 24" 
                   fill="currentColor"
                 >
@@ -461,9 +439,9 @@ const Contact = () => {
                 rel="noopener noreferrer"
               >
                 <motion.button
-                  whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
+                  whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(231, 60, 80, 0.25)' }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg transition-all shadow-md"
+                  className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full hover:bg-[#c82d40] transition-colors"
                 >
                   Abrir WhatsApp
                 </motion.button>
@@ -475,7 +453,7 @@ const Contact = () => {
 
       {scheduleModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-          <div className="relative w-full max-w-2xl rounded-2xl bg-[#1a1c52] border border-white/10 overflow-hidden shadow-2xl">
+          <div className="relative w-full max-w-2xl rounded-2xl bg-[#0d0e24] overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <div className="text-lg font-display font-bold text-white">
                 Agendar reunion inicial
@@ -507,7 +485,7 @@ const Contact = () => {
                       setScheduleModalOpen(false);
                       setIsCalendlyOpen(true);
                     }}
-                    className="w-full px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md"
+                    className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
                   >
                     📆 Agendar reunion inicial (20–30 min)
                   </motion.button>
@@ -520,7 +498,7 @@ const Contact = () => {
 
       {isCalendlyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-6">
-          <div className="relative w-full max-w-4xl rounded-2xl bg-[#1a1c52] border border-white/10 overflow-hidden shadow-2xl">
+          <div className="relative w-full max-w-4xl rounded-2xl bg-[#0d0e24] overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <div className="text-lg font-display font-bold text-white">
                 Agendar reunion inicial
@@ -550,7 +528,7 @@ const Contact = () => {
 
       {scheduled && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-6">
-          <div className="w-full max-w-xl rounded-2xl bg-[#1a1c52] border border-white/10 p-8 shadow-2xl text-center">
+          <div className="w-full max-w-xl rounded-2xl bg-[#0d0e24] p-8 shadow-2xl text-center">
             <h3 className="text-2xl font-display font-bold mb-3 text-white">
               Gracias por completar el formulario
             </h3>
@@ -565,7 +543,7 @@ const Contact = () => {
                 setScheduled(false);
                 navigate('/');
               }}
-              className="px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md"
+              className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
             >
               Cerrar
             </motion.button>

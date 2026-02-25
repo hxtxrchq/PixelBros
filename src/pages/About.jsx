@@ -14,9 +14,9 @@ const TEAM = [
     role: 'CEO & Estratega',
     tag: 'Dirección',
     images: [
-      'linear-gradient(135deg,#7c3aed,#db2777)',
-      'linear-gradient(135deg,#9333ea,#ec4899)',
-      'linear-gradient(135deg,#6d28d9,#f43f5e)',
+      'linear-gradient(135deg,#2a2760,#474192)',
+      'linear-gradient(135deg,#3b3882,#5550b8)',
+      'linear-gradient(135deg,#1e1c50,#3f3c92)',
     ],
   },
   {
@@ -25,9 +25,9 @@ const TEAM = [
     role: 'Director Creativo',
     tag: 'Creatividad',
     images: [
-      'linear-gradient(135deg,#2563eb,#06b6d4)',
-      'linear-gradient(135deg,#1d4ed8,#0891b2)',
-      'linear-gradient(135deg,#3b82f6,#22d3ee)',
+      'linear-gradient(135deg,#0f1b3e,#1d3e8c)',
+      'linear-gradient(135deg,#142448,#2652a8)',
+      'linear-gradient(135deg,#0a1530,#1a3880)',
     ],
   },
   {
@@ -36,9 +36,9 @@ const TEAM = [
     role: 'Head de Marketing',
     tag: 'Marketing',
     images: [
-      'linear-gradient(135deg,#dc2626,#f97316)',
-      'linear-gradient(135deg,#ef4444,#fb923c)',
-      'linear-gradient(135deg,#b91c1c,#ea580c)',
+      'linear-gradient(135deg,#5c0f18,#a82030)',
+      'linear-gradient(135deg,#6e1520,#c42840)',
+      'linear-gradient(135deg,#480c14,#8c1a28)',
     ],
   },
   {
@@ -47,9 +47,9 @@ const TEAM = [
     role: 'Director Audiovisual',
     tag: 'Audiovisual',
     images: [
-      'linear-gradient(135deg,#16a34a,#14b8a6)',
-      'linear-gradient(135deg,#15803d,#0d9488)',
-      'linear-gradient(135deg,#22c55e,#06b6d4)',
+      'linear-gradient(135deg,#1e1066,#332899)',
+      'linear-gradient(135deg,#261480,#4240c0)',
+      'linear-gradient(135deg,#160c52,#2a2488)',
     ],
   },
   {
@@ -58,9 +58,9 @@ const TEAM = [
     role: 'Diseñadora Senior',
     tag: 'Diseño',
     images: [
-      'linear-gradient(135deg,#d97706,#f59e0b)',
-      'linear-gradient(135deg,#b45309,#fbbf24)',
-      'linear-gradient(135deg,#92400e,#f59e0b)',
+      'linear-gradient(135deg,#1a1a52,#2d2d8c)',
+      'linear-gradient(135deg,#22226a,#3838a8)',
+      'linear-gradient(135deg,#12123a,#242472)',
     ],
   },
   {
@@ -69,9 +69,9 @@ const TEAM = [
     role: 'Estratega Digital',
     tag: 'Estrategia',
     images: [
-      'linear-gradient(135deg,#0ea5e9,#6366f1)',
-      'linear-gradient(135deg,#38bdf8,#818cf8)',
-      'linear-gradient(135deg,#0284c7,#4f46e5)',
+      'linear-gradient(135deg,#0a1e3d,#153a7a)',
+      'linear-gradient(135deg,#0e2850,#1c4e9e)',
+      'linear-gradient(135deg,#06142a,#102e60)',
     ],
   },
   {
@@ -80,9 +80,9 @@ const TEAM = [
     role: 'Community Manager',
     tag: 'Social',
     images: [
-      'linear-gradient(135deg,#ec4899,#f43f5e)',
-      'linear-gradient(135deg,#f472b6,#fb7185)',
-      'linear-gradient(135deg,#db2777,#e11d48)',
+      'linear-gradient(135deg,#4a0916,#7c1428)',
+      'linear-gradient(135deg,#5c0c1c,#961832)',
+      'linear-gradient(135deg,#380710,#620f20)',
     ],
   },
   {
@@ -91,9 +91,9 @@ const TEAM = [
     role: 'Fotógrafo / Editor',
     tag: 'Foto & Video',
     images: [
-      'linear-gradient(135deg,#475569,#94a3b8)',
-      'linear-gradient(135deg,#334155,#64748b)',
-      'linear-gradient(135deg,#1e293b,#475569)',
+      'linear-gradient(135deg,#1e293b,#334155)',
+      'linear-gradient(135deg,#263347,#3d4f65)',
+      'linear-gradient(135deg,#16202e,#2a3a4e)',
     ],
   },
   {
@@ -102,9 +102,9 @@ const TEAM = [
     role: 'Motion Designer',
     tag: 'Motion',
     images: [
-      'linear-gradient(135deg,#7c3aed,#06b6d4)',
-      'linear-gradient(135deg,#6d28d9,#0ea5e9)',
-      'linear-gradient(135deg,#8b5cf6,#22d3ee)',
+      'linear-gradient(135deg,#2d1a6e,#4a2faa)',
+      'linear-gradient(135deg,#381f88,#5a38c8)',
+      'linear-gradient(135deg,#221454,#3c268c)',
     ],
   },
   {
@@ -113,9 +113,9 @@ const TEAM = [
     role: 'Performance Ads',
     tag: 'Pauta',
     images: [
-      'linear-gradient(135deg,#e73c50,#474192)',
-      'linear-gradient(135deg,#f43f5e,#6366f1)',
-      'linear-gradient(135deg,#dc2626,#4f46e5)',
+      'linear-gradient(135deg,#5c0f18,#a82030)',
+      'linear-gradient(135deg,#6e1520,#be2838)',
+      'linear-gradient(135deg,#440c12,#8c1a26)',
     ],
   },
 ];
@@ -139,7 +139,7 @@ const TeamCard = ({ member, globalTick, index }) => {
       onMouseLeave={() => setHoverImg(null)}
     >
       {/* Card visual */}
-      <div className="relative h-56 rounded-xl overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.45)] border border-white/10 mb-3">
+      <div className="relative h-56 rounded-xl overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.45)] mb-3">
         {/* Imagen / gradiente */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -166,7 +166,7 @@ const TeamCard = ({ member, globalTick, index }) => {
 
         {/* Tag badge */}
         <div className="absolute top-3 left-3">
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/40 text-white/90 backdrop-blur-sm border border-white/15">
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/50 text-white/90 backdrop-blur-sm">
             {member.tag}
           </span>
         </div>
@@ -324,7 +324,7 @@ const About = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 p-6 rounded-2xl border border-white/10"
+                  className="bg-[#0d0e24] p-6 rounded-2xl"
                 >
                   <AnimatedCounter
                     number={stat.number}
@@ -339,7 +339,7 @@ const About = () => {
       </section>
 
       {/* Team – carrusel horizontal */}
-      <section className="py-20 bg-white/3 overflow-hidden">
+      <section className="py-20 bg-[#06071a] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header + flechas */}
@@ -365,7 +365,7 @@ const About = () => {
                 onClick={scrollLeft}
                 whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.94 }}
-                className="w-11 h-11 rounded-full bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Anterior"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -392,12 +392,12 @@ const About = () => {
           {/* Fade izquierdo */}
           <div
             className="absolute left-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to right, #1a1c52 0%, transparent 100%)' }}
+            style={{ background: 'linear-gradient(to right, #06071a 0%, transparent 100%)' }}
           />
           {/* Fade derecho */}
           <div
             className="absolute right-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to left, #1a1c52 0%, transparent 100%)' }}
+            style={{ background: 'linear-gradient(to left, #06071a 0%, transparent 100%)' }}
           />
 
           <div
@@ -429,12 +429,12 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 shadow-lg"
+            className="relative overflow-hidden rounded-[32px] bg-[#0d0e24] shadow-2xl"
           >
             <div className="absolute inset-0">
-              <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#FFF1F3] blur-3xl" />
-              <div className="absolute right-8 bottom-8 h-56 w-56 rounded-full bg-[#F25C66]/10 blur-3xl" />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#B3262E]/40 to-transparent" />
+              <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#474192]/15 blur-3xl" />
+              <div className="absolute right-8 bottom-8 h-56 w-56 rounded-full bg-[#e73c50]/8 blur-3xl" />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e73c50]/25 to-transparent" />
             </div>
 
             <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center px-10 py-12">
@@ -452,7 +452,7 @@ const About = () => {
                   <motion.button
                     whileHover={{ scale: 1.04, boxShadow: '0 18px 45px rgba(179, 38, 46, 0.3)' }}
                     whileTap={{ scale: 0.96 }}
-                    className="px-8 py-4 bg-[#B3262E] text-white font-bold rounded-xl text-lg shadow-lg transition-all"
+                    className="px-8 py-4 bg-[#e73c50] text-white font-bold rounded-full text-lg shadow-lg hover:bg-[#c82d40] transition-all"
                   >
                     Postula aqui
                   </motion.button>
@@ -462,34 +462,34 @@ const About = () => {
               <div className="flex justify-center lg:justify-end">
                 <div className="relative h-72 w-60">
                   <motion.div
-                    className="absolute left-1/2 top-2 h-28 w-28 -translate-x-1/2 rounded-full bg-[#111111]"
+                    className="absolute left-1/2 top-2 h-28 w-28 -translate-x-1/2 rounded-full bg-[#0d0e24]"
                     animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
                   />
                   <motion.div
-                    className="absolute left-1/2 top-24 h-40 w-44 -translate-x-1/2 rounded-[40px] bg-[#1F1F1F]"
+                    className="absolute left-1/2 top-24 h-40 w-44 -translate-x-1/2 rounded-[40px] bg-[#06071a]"
                     animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
                   />
                   <motion.div
-                    className="absolute left-1/2 top-14 h-16 w-16 -translate-x-1/2 rounded-full bg-white shadow-lg"
+                    className="absolute left-1/2 top-14 h-16 w-16 -translate-x-1/2 rounded-full bg-[#e73c50] shadow-[0_0_24px_rgba(231,60,80,0.5)]"
                     animate={{ rotate: [0, 6, -6, 0] }}
                     transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
                   >
                     <img
                       src={LogoIconPixel}
                       alt="PixelBros"
-                      className="h-full w-full rounded-full object-cover"
+                      className="h-full w-full rounded-full object-cover p-1.5"
                       loading="lazy"
                     />
                   </motion.div>
                   <motion.div
-                    className="absolute left-6 top-36 h-20 w-20 rounded-2xl border border-[#F0E6E8] bg-white shadow-md"
+                    className="absolute left-6 top-36 h-20 w-20 rounded-2xl bg-[#0d0e24] shadow-md"
                     animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
                   />
                   <motion.div
-                    className="absolute right-8 top-44 h-16 w-16 rounded-full border border-[#F0E6E8] bg-[#FFF1F3] shadow-md"
+                    className="absolute right-8 top-44 h-16 w-16 rounded-full bg-[#1a1c52] shadow-md"
                     animate={{ y: [0, 6, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                   />

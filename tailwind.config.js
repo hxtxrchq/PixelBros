@@ -18,8 +18,8 @@ export default {
           teal:    '#61bfc0', /* teal */
         },
         primary: '#e73c50',
-        bg: '#1a1c52',
-        surface: '#1a1c52',
+        bg: '#06071a',
+        surface: '#0d0e24',
         text: {
           primary: '#111111',
           secondary: '#4B4B4B',

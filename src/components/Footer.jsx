@@ -37,13 +37,13 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="footer-root mt-16 border-t border-white/10 bg-transparent">
+    <footer className="footer-root mt-16 bg-[#06071a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[2rem] p-8 sm:p-10 pb-gradient-main text-center mb-12 overflow-hidden relative"
+          className="rounded-[2rem] p-8 sm:p-10 bg-[#0d0e24] text-center mb-12 overflow-hidden relative"
         >
           <div className="absolute inset-0 pb-pattern-rings opacity-20" />
           <h3 className="relative text-3xl md:text-5xl mb-2 text-white">
@@ -67,7 +67,7 @@ const Footer = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.15, y: -5 }}
-                className="group relative w-14 h-14 bg-white/12 hover:bg-white rounded-xl flex items-center justify-center shadow-md transition-all duration-300 border border-white/30"
+                className="group relative w-14 h-14 bg-white/10 hover:bg-white rounded-xl flex items-center justify-center shadow-md transition-all duration-300"
               >
                 <svg
                   className="w-6 h-6 text-white group-hover:text-[#E93556] transition-colors duration-300"
@@ -98,7 +98,7 @@ const Footer = () => {
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 pb-gradient-main text-white font-semibold rounded-full text-sm shadow-md"
+                className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
               >
                 Agenda una Llamada
               </motion.button>

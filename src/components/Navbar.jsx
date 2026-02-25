@@ -30,8 +30,8 @@ const Navbar = () => {
       animate={{ y: 0 }}
       className={`navbar-root fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-[#1a1c52]/90 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,8,0.35)] border-b border-white/10'
-          : 'bg-gradient-to-r from-[#1d3e8c]/80 via-[#474192]/75 to-[#474192]/65 backdrop-blur-sm border-b border-white/20'
+          ? 'bg-[#06071a]/95 backdrop-blur-lg shadow-[0_8px_28px_rgba(0,0,8,0.50)]'
+          : 'bg-transparent backdrop-blur-sm'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,9 +79,9 @@ const Navbar = () => {
             
             <Link to="/contact">
               <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 8px 20px rgba(179, 38, 46, 0.25)' }}
+                whileHover={{ scale: 1.02, boxShadow: '0 8px 20px rgba(231,60,80,0.30)' }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 pb-gradient-main text-white font-semibold rounded-full transition-all duration-300 shadow-[0_12px_26px_rgba(69,70,161,0.24)]"
+                className="px-6 py-2.5 bg-[#e73c50] text-white font-bold rounded-full text-sm tracking-wide transition-all hover:bg-[#c82d40]"
               >
                 Contacto
               </motion.button>
@@ -121,7 +121,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#1a1c52]/95 backdrop-blur-lg border-b border-white/10"
+              className="md:hidden bg-[#06071a]/97 backdrop-blur-lg"
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
@@ -143,7 +143,7 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block"
               >
-                <button className="w-full px-6 py-3 pb-gradient-main text-white font-semibold rounded-full">
+                <button className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full">
                   Contacto
                 </button>
               </Link>

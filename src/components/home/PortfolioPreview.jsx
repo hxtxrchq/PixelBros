@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 const normalizeName = (value) => value
   .normalize('NFD')
@@ -93,6 +93,99 @@ const buildPortfolioIndex = (assets) => {
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
+/* ─── single project card ─────────────────────────────────────── */
+const ProjectCard = ({ project, index, className = '', tall = false }) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const num = String(index + 1).padStart(2, '0');
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`group relative overflow-hidden bg-[#0d0e28] ${className}`}
+      initial={{ opacity: 0, y: 50, scale: 0.97 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.75, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link to={`/portfolio/${project.slug}`} className="block h-full">
+        {/* Media */}
+        {project.coverSrc ? (
+          isVideoSrc(project.coverSrc) ? (
+            <video
+              src={project.coverSrc}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+              preload="metadata"
+              muted
+              playsInline
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+              style={{ backgroundImage: `url("${project.coverSrc}")` }}
+            />
+          )
+        ) : (
+          <div className="absolute inset-0 pb-gradient-main" />
+        )}
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10 transition-all duration-500 group-hover:from-black/90 group-hover:via-black/55" />
+
+        {/* Watermark number */}
+        <div
+          className="absolute top-4 right-5 text-white font-black select-none leading-none transition-opacity duration-500 opacity-[0.06]"
+          style={{ fontSize: tall ? 'clamp(5rem, 9vw, 8.5rem)' : 'clamp(3.2rem, 5.5vw, 5.5rem)' }}
+        >
+          {num}
+        </div>
+
+        {/* Accent line – slides in from bottom on hover */}
+        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#e73c50] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-out" />
+
+        {/* Text */}
+        <div className="absolute inset-0 flex flex-col justify-end p-6 lg:p-7">
+          <span
+            className="inline-block text-[#5ab3e5] text-[10px] font-bold uppercase tracking-[0.22em] mb-2
+              opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0
+              transition-all duration-400 ease-out"
+          >
+            {project.categoryName}
+          </span>
+
+          <h3
+            className="text-white font-black leading-tight transition-transform duration-500 ease-out group-hover:-translate-y-1"
+            style={{ fontSize: tall ? 'clamp(1.6rem, 2.8vw, 2.6rem)' : 'clamp(1.1rem, 1.8vw, 1.6rem)' }}
+          >
+            {project.title}
+          </h3>
+
+          <div
+            className="flex items-center gap-2 mt-3
+              text-white/0 group-hover:text-white/80
+              translate-y-3 group-hover:translate-y-0
+              transition-all duration-400 ease-out delay-[40ms]"
+          >
+            <span className="text-xs font-semibold uppercase tracking-[0.15em]">Ver proyecto</span>
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M4 10h12m0 0l-4-4m4 4l-4 4"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Border shine on hover */}
+        <div className="absolute inset-0 border border-white/0 group-hover:border-white/15 transition-all duration-500 rounded-[inherit] pointer-events-none" />
+      </Link>
+    </motion.div>
+  );
+};
+
+/* ─── main section ────────────────────────────────────────────── */
 const PortfolioPreview = () => {
   const portfolioAssets = import.meta.glob(
     '../../assets/Portfolio/**',
@@ -104,156 +197,116 @@ const PortfolioPreview = () => {
     [portfolioAssets]
   );
 
-  const featuredProjects = portfolioIndex.projects.slice(0, 4);
+  const featured = portfolioIndex.projects.slice(0, 4);
+  const [p0, p1, p2, p3] = featured;
+
+  const headerRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: '-40px' });
 
   return (
-    <section className="py-20">
+    <section
+      className="py-24 relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #0a0b1e 0%, #0d0f2a 100%)' }}
+    >
+      {/* Top separator */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <motion.div
+          ref={headerRef}
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="mb-12 flex flex-col lg:flex-row gap-7 lg:items-end lg:justify-between"
+          className="mb-12 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6"
         >
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[#5ab3e5] font-semibold mb-2">Portafolio</p>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white font-black">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-[#5ab3e5] font-bold mb-3">Portafolio</p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white font-black leading-[1.05]">
               Trabajo visual
               <br />
-              en movimiento
+              <span className="text-white/25">en movimiento</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 w-full lg:w-[340px]">
+          <Link to="/portfolio">
             <motion.div
-              className="aspect-square rounded-3xl pb-gradient-main pb-pattern-rings border border-white/40"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity }}
-            />
-            <motion.div
-              className="aspect-square rounded-3xl pb-gradient-cool pb-pattern-rings-light border border-white/40"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, delay: 0.4 }}
-            />
-          </div>
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="hidden lg:flex items-center gap-3 px-6 py-3 border border-white/15 rounded-full text-white/60 hover:text-white hover:border-white/35 text-sm font-semibold transition-colors"
+            >
+              <span>Ver todo</span>
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </motion.div>
+          </Link>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {featuredProjects.map((project, index) => (
-            <motion.div
-              key={project.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Link to={`/portfolio/${project.slug}`}>
-                <motion.div
-                  className="group relative h-80 sm:h-96 rounded-[1.75rem] overflow-hidden bg-[#E8EAF7] border border-white/70 shadow-[0_18px_34px_rgba(39,42,76,0.16)]"
-                  whileHover={{ y: -8 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {project.coverSrc ? (
-                    <div className="absolute inset-0">
-                      {isVideoSrc(project.coverSrc) ? (
-                        <video
-                          src={project.coverSrc}
-                          className="h-full w-full object-cover"
-                          preload="metadata"
-                          muted
-                          playsInline
-                        />
-                      ) : (
-                        <div
-                          className="absolute inset-0 bg-cover bg-center"
-                          style={{ backgroundImage: `url("${project.coverSrc}")` }}
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#16182f] via-[#1b204f]/65 to-transparent opacity-75 group-hover:opacity-60 transition-opacity duration-500" />
-                    </div>
-                  ) : (
-                    <div className="absolute inset-0 pb-gradient-main">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-2xl border border-white/45 bg-white/10 backdrop-blur shadow-sm flex items-center justify-center">
-                          <span className="text-xl font-display font-bold text-white">
-                            {project.title?.charAt(0) || 'P'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+        {/* Bento grid */}
+        {featured.length > 0 && (
+          <div
+            className="grid gap-3 lg:gap-4"
+            style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}
+          >
+            {/* Card 0 — large hero, left, 3-col × 2-row */}
+            {p0 && (
+              <div
+                className="col-span-5 lg:col-span-3"
+                style={{ gridRow: 'span 2', minHeight: 'clamp(340px, 55vw, 580px)' }}
+              >
+                <ProjectCard project={p0} index={0} className="h-full rounded-2xl lg:rounded-3xl" tall />
+              </div>
+            )}
 
-                  <div className="relative h-full flex flex-col justify-end p-6">
-                    <span className="inline-block px-3 py-1 bg-white/12 backdrop-blur-sm border border-white/35 rounded-full text-xs text-white font-semibold mb-3 w-fit tracking-wide">
-                      {project.categoryName}
-                    </span>
-                    <h3 className="text-3xl text-white mb-1 leading-tight">
-                      {project.title}
-                    </h3>
-                    <motion.div
-                      className="inline-flex items-center text-white/90 font-semibold text-sm mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    >
-                      <span className="mr-2">Ver proyecto</span>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        className="transform group-hover:translate-x-1 transition-transform"
-                      >
-                        <path
-                          d="M4 10h12m0 0l-4-4m4 4l-4 4"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </motion.div>
-                  </div>
+            {/* Card 1 — top-right */}
+            {p1 && (
+              <div className="col-span-5 lg:col-span-2" style={{ minHeight: 'clamp(200px, 26vw, 282px)' }}>
+                <ProjectCard project={p1} index={1} className="h-full rounded-2xl lg:rounded-3xl" />
+              </div>
+            )}
 
-                  <motion.div
-                    className="absolute inset-0 border-2 border-white/0 group-hover:border-white/50 transition-all duration-500 pointer-events-none rounded-[1.75rem]"
-                  />
-                </motion.div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+            {/* Card 2 — bottom-right */}
+            {p2 && (
+              <div className="col-span-5 lg:col-span-2" style={{ minHeight: 'clamp(200px, 26vw, 282px)' }}>
+                <ProjectCard project={p2} index={2} className="h-full rounded-2xl lg:rounded-3xl" />
+              </div>
+            )}
 
+            {/* Card 3 — full-width strip */}
+            {p3 && (
+              <div className="col-span-5" style={{ minHeight: 'clamp(140px, 18vw, 210px)' }}>
+                <ProjectCard project={p3} index={3} className="h-full rounded-2xl lg:rounded-3xl" />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Mobile CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
+          transition={{ duration: 0.7 }}
+          className="mt-10 text-center lg:hidden"
         >
           <Link to="/portfolio">
             <motion.button
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 pb-gradient-main text-white font-semibold rounded-full text-base sm:text-lg shadow-[0_16px_32px_rgba(69,70,161,0.28)] transition-all inline-flex items-center gap-3"
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="px-8 py-4 pb-gradient-main text-white font-semibold rounded-full text-sm shadow-[0_16px_32px_rgba(69,70,161,0.28)] inline-flex items-center gap-3"
             >
               <span>Ver todo el portafolio</span>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M4 10h12m0 0l-4-4m4 4l-4 4"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </motion.button>
           </Link>
         </motion.div>
       </div>
+
+      {/* Bottom separator */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     </section>
   );
 };

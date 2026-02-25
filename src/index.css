@@ -34,7 +34,7 @@
   }
   
   body {
-    @apply bg-[#1a1c52] text-[#171A2A];
+    @apply bg-[#06071a] text-[#171A2A];
     font-family: var(--font-primary);
     overflow-x: hidden;
   }
@@ -175,23 +175,28 @@
     font-family: var(--font-display);
   }
 
-  /* Degradado principal de marca: violeta #474192 → rojo #e73c50 (manual 45%+30%) */
+  /* Degradado principal de marca – monocromático: violeta oscuro → violeta claro */
   .pb-gradient-main {
-    background: linear-gradient(135deg, #474192 0%, #7b3680 50%, #e73c50 100%);
+    background: linear-gradient(135deg, #2e2b6e 0%, #474192 45%, #6560b8 100%);
     background-size: 200% 200%;
     animation: gradient-shift 12s ease infinite;
   }
 
-  /* Degradado azul de marca */
+  /* Degradado secundario – monocromático: navy oscuro → azul medio */
   .pb-gradient-cool {
-    background: linear-gradient(135deg, #1d3e8c 0%, #4357a2 55%, #5ab3e5 100%);
+    background: linear-gradient(135deg, #121e4a 0%, #1d3e8c 55%, #2e55b2 100%);
     background-size: 200% 200%;
     animation: gradient-shift 14s ease infinite;
   }
 
-  /* Degradado hero: azul marino → violeta → rojo (fondo completo de sección) */
+  /* Degradado hero: casi negro → violeta profundo */
   .pb-gradient-hero {
-    background: linear-gradient(160deg, #1d3e8c 0%, #474192 45%, #e73c50 100%);
+    background: linear-gradient(160deg, #05061a 0%, #1a1c52 50%, #2d317c 100%);
+  }
+
+  /* Degradado rojo/acento – monocromático: rojo oscuro → rojo vivo */
+  .pb-gradient-red {
+    background: linear-gradient(135deg, #8c1e2b 0%, #c42b3c 50%, #e73c50 100%);
   }
 
   /* Patrón anillos concéntricos – colores de marca (rojo sobre fondo violeta) */
