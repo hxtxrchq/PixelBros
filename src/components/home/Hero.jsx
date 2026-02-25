@@ -228,7 +228,7 @@ const Hero = () => {
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: '0 20px 48px rgba(231,60,80,0.45)' }}
                 whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-[#e73c50] text-white font-bold rounded-full text-sm tracking-wider shadow-xl"
+                className="px-8 py-4 bg-[#e73c50] text-white font-bold text-sm tracking-wider shadow-xl"
               >
                 Empieza Ahora
               </motion.button>
@@ -237,7 +237,7 @@ const Hero = () => {
               <motion.button
                 whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.12)' }}
                 whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-white/[0.07] text-white font-semibold rounded-full text-sm tracking-wider backdrop-blur-sm transition-all"
+                className="px-8 py-4 bg-white/[0.07] text-white font-semibold text-sm tracking-wider backdrop-blur-sm transition-all"
               >
                 Ver Portfolio →
               </motion.button>

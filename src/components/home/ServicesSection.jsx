@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
+const LogoIconPixel = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoIconPixel.png';
 
 const services = [
   {
@@ -146,9 +147,7 @@ const ServicesSection = () => {
     <span key={`t-${item}`} className="font-black uppercase tracking-[0.08em] text-[#0a0b1e]">
       {item}
     </span>,
-    <span key={`s-${item}`} className="text-[#0a0b1e]/50 font-black text-2xl mx-6 leading-none select-none">
-      ✦
-    </span>,
+    <img key={`s-${item}`} src={LogoIconPixel} alt="" className="h-9 w-auto mx-5 select-none flex-shrink-0" style={{ filter: 'brightness(0) opacity(0.6)' }} />,
   ]);
 
   return (
@@ -192,7 +191,7 @@ const ServicesSection = () => {
             <motion.div
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
-              className="hidden lg:flex items-center gap-3 px-7 py-3.5 bg-[#e73c50] text-white text-sm font-bold uppercase tracking-[0.12em] rounded-full transition-all hover:bg-[#c82d40]"
+              className="hidden lg:flex items-center gap-3 px-7 py-3.5 bg-[#e73c50] text-white text-sm font-bold uppercase tracking-[0.12em] transition-all hover:bg-[#c82d40]"
             >
               <span>Ver todos</span>
               <ArrowIcon />
@@ -219,7 +218,7 @@ const ServicesSection = () => {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              className="px-8 py-4 bg-[#e73c50] text-white font-bold rounded-full text-sm uppercase tracking-[0.12em] inline-flex items-center gap-3"
+              className="px-8 py-4 bg-[#e73c50] text-white font-bold text-sm uppercase tracking-[0.12em] inline-flex items-center gap-3"
             >
               <span>Ver todos los servicios</span>
               <ArrowIcon />
