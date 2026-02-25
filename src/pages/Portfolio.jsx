@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { getPortfolioAssets } from '../config/assets.js';
 
 const normalizeName = (value) => value
   .normalize('NFD')
@@ -214,10 +215,7 @@ const Portfolio = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const portfolioAssets = import.meta.glob(
-    '../assets/Portfolio/**',
-    { eager: true, import: 'default' }
-  );
+  const portfolioAssets = getPortfolioAssets();
 
   const portfolioIndex = useMemo(
     () => buildPortfolioIndex(portfolioAssets),

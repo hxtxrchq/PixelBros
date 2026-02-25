@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getAssetUrl } from '../../config/assets.js';
 
-import feat1 from '../../assets/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/1.jpg';
-import feat2 from '../../assets/Portfolio/Diseño de Identidad Visual/Entrepenauta/1.jpg';
-import feat3 from '../../assets/Portfolio/Diseño de Identidad Visual/Laboralis/1.jpg';
+const feat1 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/1.jpg');
+const feat2 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Entrepenauta/1.jpg');
+const feat3 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Laboralis/1.jpg');
 
 const FEATURED = [
   { src: feat1, category: 'Identidad Visual', client: 'Dulce Cuidado', num: '01' },

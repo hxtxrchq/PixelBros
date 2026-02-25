@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { getPortfolioAssets } from '../config/assets.js';
 
 const normalizeName = (value) => value
   .normalize('NFD')
@@ -129,10 +130,7 @@ const PortfolioDetail = () => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [slideDir, setSlideDir] = useState(1);
 
-  const portfolioAssets = import.meta.glob(
-    '../assets/Portfolio/**',
-    { eager: true, import: 'default' }
-  );
+  const portfolioAssets = getPortfolioAssets();
 
   const portfolioIndex = useMemo(
     () => buildPortfolioIndex(portfolioAssets),

@@ -1,6 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useMemo, useRef } from 'react';
+import { getPortfolioAssets } from '../../config/assets.js';
 
 const normalizeName = (value) => value
   .normalize('NFD')
@@ -187,10 +188,7 @@ const ProjectCard = ({ project, index, className = '', tall = false }) => {
 
 /* ─── main section ────────────────────────────────────────────── */
 const PortfolioPreview = () => {
-  const portfolioAssets = import.meta.glob(
-    '../../assets/Portfolio/**',
-    { eager: true, import: 'default' }
-  );
+  const portfolioAssets = getPortfolioAssets();
 
   const portfolioIndex = useMemo(
     () => buildPortfolioIndex(portfolioAssets),
