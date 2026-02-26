@@ -16,9 +16,31 @@ const Contact = () => {
   const [scheduled, setScheduled] = useState(false);
   const [rolOtro, setRolOtro] = useState(false);
   const [objetivoOtro, setObjetivoOtro] = useState(false);
+  const [selectedServices, setSelectedServices] = useState([]);
+
+  const SERVICES = [
+    'Gestion de contenido / redes sociales',
+    'Fotografia profesional',
+    'Produccion audiovisual',
+    'Branding / identidad de marca',
+    'Campanas publicitarias',
+    'Activaciones BTL',
+    'Estrategia comercial y crecimiento de marca',
+    'No estoy seguro / necesito guia',
+  ];
+
+  const toggleService = (service) => {
+    setSelectedServices((prev) =>
+      prev.includes(service) ? prev.filter((s) => s !== service) : [...prev, service]
+    );
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (selectedServices.length === 0) {
+      setSubmitError('Por favor selecciona al menos un servicio.');
+      return;
+    }
     setIsSubmitting(true);
     setSubmitError('');
 
@@ -37,6 +59,7 @@ const Contact = () => {
       }
 
       setSubmitted(true);
+      setSelectedServices([]);
       setScheduled(false);
       setSchedulePhase('loading');
       setScheduleModalOpen(true);
@@ -278,27 +301,29 @@ const Contact = () => {
                       <label className="block text-sm font-semibold text-[#111111] mb-2">
                         ¿Qué servicios estás buscando? (puedes elegir varios) *
                       </label>
-                      <select
-                        name="Servicios"
-                        multiple
-                        required
-                        size={5}
-                        className="w-full px-4 py-2 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] text-sm"
-                      >
-                        {[
-                          'Gestion de contenido / redes sociales',
-                          'Fotografia profesional',
-                          'Produccion audiovisual',
-                          'Branding / identidad de marca',
-                          'Campanas publicitarias',
-                          'Activaciones BTL',
-                          'Estrategia comercial y crecimiento de marca',
-                          'No estoy seguro / necesito guia',
-                        ].map((service) => (
-                          <option key={service} value={service}>{service}</option>
-                        ))}
-                      </select>
-                      <p className="mt-1 text-[10px] text-[#4A4A4A]">Mantén Ctrl (o ⌘ en Mac) para seleccionar varios.</p>
+                      <input type="hidden" name="Servicios" value={selectedServices.join(', ')} />
+                      <div className="flex flex-wrap gap-2">
+                        {SERVICES.map((service) => {
+                          const active = selectedServices.includes(service);
+                          return (
+                            <button
+                              type="button"
+                              key={service}
+                              onClick={() => toggleService(service)}
+                              className={`px-3 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer select-none ${
+                                active
+                                  ? 'bg-[#e73c50] border-[#e73c50] text-white'
+                                  : 'bg-white border-[#F0E6E8] text-[#1F1F1F] hover:border-[#e73c50] hover:text-[#e73c50]'
+                              }`}
+                            >
+                              {active && <span className="mr-1">✓</span>}{service}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {selectedServices.length === 0 && (
+                        <p className="mt-2 text-[10px] text-[#4A4A4A]">Toca los servicios que necesitas para seleccionarlos.</p>
+                      )}
                     </div>
 
                     <div>
