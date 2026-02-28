@@ -1,20 +1,23 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
-import Home from './pages/Home';
-import About from './pages/About';
-import Portfolio from './pages/Portfolio';
-import PortfolioDetail from './pages/PortfolioDetail';
-import Services from './pages/Services';
-import ServiceDetail from './pages/ServiceDetail';
-import Contact from './pages/Contact';
-import Apply from './pages/Apply';
+
+const Home           = lazy(() => import('./pages/Home'));
+const About          = lazy(() => import('./pages/About'));
+const Portfolio      = lazy(() => import('./pages/Portfolio'));
+const PortfolioDetail = lazy(() => import('./pages/PortfolioDetail'));
+const Services       = lazy(() => import('./pages/Services'));
+const ServiceDetail  = lazy(() => import('./pages/ServiceDetail'));
+const Contact        = lazy(() => import('./pages/Contact'));
+const Apply          = lazy(() => import('./pages/Apply'));
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
+      <Suspense fallback={null}>
       <AnimatePresence mode="wait">
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -29,6 +32,7 @@ function App() {
           </Route>
         </Routes>
       </AnimatePresence>
+      </Suspense>
     </Router>
   );
 }
