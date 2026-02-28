@@ -5,16 +5,20 @@
 import manifest from './cloudinaryManifest.json';
 
 // Vite glob — picks up every image/video under src/assets/Portfolio/
-// eager:true returns { default: resolvedUrl } directly (no dynamic import)
 const localGlob = import.meta.glob(
   '../assets/Portfolio/**/*.{jpg,jpeg,png,gif,webp,svg,mp4,webm}',
   { eager: true }
 );
 
+// Extra glob: photography shots for Doctora Yuriko — used as filler in her SM project
+const yurikoFotoGlob = import.meta.glob(
+  '../assets/Portfolio/Fotografia/DOCTORES/DR YURIKO/*.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
 /**
  * Strip leading numeric prefix from a folder name so slugs stay clean.
- * "9_Ginecofeme" → "Ginecofeme"   "7_Frissagio_" → "Frissagio_"
- * "DOCTORA YURIKO" → "DOCTORA YURIKO"  (no change when no prefix)
+ * "9_Ginecofeme" → "Ginecofeme"   "11_Ellos" → "Ellos"
  */
 const cleanFolder = (seg) => seg.replace(/^\d+[_.\s]+/, '').trim();
 
@@ -30,17 +34,23 @@ export const getPortfolioAssets = () => {
     if (key.startsWith('/Portfolio/')) result[key] = url;
   }
 
-  // 2. Local assets — only added when not already covered by CDN
+  // 2. Local assets — flatten to category/project/filename (no subtabs)
   for (const [vitePath, mod] of Object.entries(localGlob)) {
-    // vitePath: ../assets/Portfolio/Social Media/9_Ginecofeme/2_Social Media/img.jpg
     const match = vitePath.match(/\/assets\/Portfolio\/(.+)$/);
     if (!match) continue;
     const parts = match[1].split('/');
     if (parts.length < 3) continue; // need at least category/project/file
     const category = parts[0];
     const project  = cleanFolder(parts[1]);
-    const rest     = parts.slice(2).join('/');
-    const key = `/Portfolio/${category}/${project}/${rest}`;
+    const fileName = parts[parts.length - 1]; // flatten — skip all intermediate folders
+    const key = `/Portfolio/${category}/${project}/${fileName}`;
+    if (!result[key]) result[key] = mod.default;
+  }
+
+  // 3. Inject Dra. Yuriko photography shots into her Social Media project as filler
+  for (const [vitePath, mod] of Object.entries(yurikoFotoGlob)) {
+    const fileName = vitePath.split('/').pop();
+    const key = `/Portfolio/Social Media/DOCTORA YURIKO/${fileName}`;
     if (!result[key]) result[key] = mod.default;
   }
 
