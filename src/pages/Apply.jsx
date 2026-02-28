@@ -231,7 +231,7 @@ const Apply = () => {
                     type="url"
                     name="CV"
                     required
-                    placeholder="Enlace público a tu CV (Drive o PDF)"
+                    placeholder="https://drive.google.com/file/d/..."
                     className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   />
                 </div>
@@ -246,7 +246,7 @@ const Apply = () => {
                 </div>
               </div>
               <p className="text-xs text-[#4A4A4A] mt-2">
-                Solo enlaces públicos. Sube tu CV a Drive/Dropbox y pega el link.
+                Sube tu CV a Google Drive, configúralo como público y pega el enlace aquí.
               </p>
             </div>
 
