@@ -381,16 +381,19 @@ const Portfolio = () => {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {SOCIAL_MEDIA_RUBROS.map((rubro, i) => {
-                  const count = Object.values(SM_PROJECT_RUBROS).filter((r) => r === rubro.id).length;
+                  const smProjects = projects.filter(p => p.categoryId === 'social-media');
+                  const count = smProjects.filter(p => SM_PROJECT_RUBROS[p.slug] === rubro.id).length;
+                  const available = count > 0;
                   return (
                     <motion.button
                       key={rubro.id}
-                      onClick={() => setSelectedRubro(rubro.id)}
+                      onClick={available ? () => setSelectedRubro(rubro.id) : undefined}
+                      disabled={!available}
                       initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.07 }}
-                      whileHover={{ y: -5 }}
-                      className="group relative h-[180px] rounded-2xl border border-white/10 overflow-hidden text-left hover:border-[#e73c50]/50 transition-colors duration-300"
+                      whileHover={available ? { y: -5 } : {}}
+                      className={`group relative h-[180px] rounded-2xl border border-white/10 overflow-hidden text-left transition-colors duration-300 ${available ? 'hover:border-[#e73c50]/50 cursor-pointer' : 'opacity-40 cursor-not-allowed'}`}
                     >
                       {/* Background gradient */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[#0d0e2a] to-[#14163a] group-hover:from-[#1a0c12] group-hover:to-[#1a0e18] transition-all duration-500" />
@@ -400,8 +403,12 @@ const Portfolio = () => {
                       {/* Content */}
                       <div className="relative h-full flex flex-col justify-between p-6">
                         <div>
-                          <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest bg-[#e73c50]/15 text-[#e73c50] border border-[#e73c50]/20 mb-3">
-                            {count > 0 ? `${count} proyecto${count > 1 ? 's' : ''}` : 'Próximamente'}
+                          <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest mb-3 ${
+                            available
+                              ? 'bg-[#e73c50]/15 text-[#e73c50] border border-[#e73c50]/20'
+                              : 'bg-white/5 text-white/30 border border-white/10'
+                          }`}>
+                            {available ? `${count} proyecto${count > 1 ? 's' : ''}` : 'Próximamente'}
                           </span>
                           <h3 className="text-xl font-display font-bold text-white leading-tight">
                             {rubro.label}

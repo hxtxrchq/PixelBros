@@ -186,7 +186,7 @@ const PortfolioSplitHero = () => {
         <div className="flex-1 flex items-center justify-start pl-6 sm:pl-10 lg:pl-16 overflow-hidden">
           <div className="flex flex-col items-start gap-6">
             <motion.span
-              className="text-white font-black select-none leading-[0.9] whitespace-nowrap"
+              className="text-[#e73c50] font-black select-none leading-[0.9] whitespace-nowrap"
               style={textStyle}
               initial={{ x: 100, opacity: 0 }}
               animate={inView ? { x: 0, opacity: 1 } : {}}

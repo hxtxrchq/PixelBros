@@ -113,14 +113,11 @@ const ServiceCard = ({ service, index }) => {
           </div>
         </div>
 
-        {/* Title + description */}
+        {/* Title */}
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-black text-white leading-tight group-hover:text-[#e73c50] transition-colors duration-300">
             {service.title}
           </h3>
-          <p className="text-sm text-white/45 leading-relaxed transition-all duration-300 group-hover:text-white/70">
-            {service.description}
-          </p>
         </div>
 
         {/* Bottom CTA */}
