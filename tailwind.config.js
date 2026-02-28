@@ -36,8 +36,13 @@ export default {
         'slide-down': 'slideDown 0.5s ease-out',
         'zoom-in': 'zoomIn 0.5s ease-out',
         'float': 'float 3s ease-in-out infinite',
+        'scroll-up': 'scrollUp 22s linear infinite',
       },
       keyframes: {
+        scrollUp: {
+          '0%':   { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-50%)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

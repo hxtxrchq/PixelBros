@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-const pixelBrosLogo = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoPixelBros.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -34,73 +33,28 @@ const Footer = () => {
     { name: 'Servicios', path: '/services' },
     { name: 'Portafolio', path: '/portfolio' },
     { name: 'Contacto', path: '/contact' },
+    { name: 'Trabaja con nosotros', path: '/postula' },
   ];
 
   return (
     <footer className="footer-root mt-16 bg-[#06071a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="rounded-[2rem] p-8 sm:p-10 bg-[#0d0e24] text-center mb-12 overflow-hidden relative"
-        >
-          <div className="absolute inset-0 pb-pattern-rings opacity-20" />
-          <h3 className="relative text-3xl md:text-5xl mb-2 text-white">
-            Let&apos;s love
-            <br />
-            make a mark
-          </h3>
-          <p className="relative text-white/85 mb-8 font-medium">
-            Síguenos y conversemos sobre tu proyecto.
-          </p>
-
-          <div className="relative flex justify-center gap-4 flex-wrap">
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.15, y: -5 }}
-                className="group relative w-14 h-14 bg-white/10 hover:bg-white rounded-xl flex items-center justify-center shadow-md transition-all duration-300"
-              >
-                <svg
-                  className="w-6 h-6 text-white group-hover:text-[#E93556] transition-colors duration-300"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={social.iconPath} />
-                </svg>
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
-          <div>
-            <Link to="/" className="inline-block mb-4">
-              <img
-                src={pixelBrosLogo}
-                alt="PixelBros"
-                className="h-10 w-auto"
-                loading="lazy"
-              />
-            </Link>
-            <p className="text-white/60 mb-5 leading-relaxed text-sm">
-              Branding, social media y producción audiovisual.
-            </p>
+          <div className="flex flex-col gap-5">
+            <div>
+              <p className="text-[#e73c50] text-xs font-semibold uppercase tracking-widest mb-2">Trabajemos juntos</p>
+              <h3 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">
+                Let&apos;s love<br />make a mark
+              </h3>
+            </div>
             <Link to="/contact">
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
               >
-                Agenda una Llamada
+                Agenda una reunión
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </motion.button>
             </Link>
           </div>
@@ -149,6 +103,22 @@ const Footer = () => {
                 <span>Perú</span>
               </li>
             </ul>
+            <div className="flex gap-3 mt-6">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.15, y: -3 }}
+                  className="group w-9 h-9 bg-white/10 hover:bg-white rounded-lg flex items-center justify-center transition-all duration-300"
+                >
+                  <svg className="w-4 h-4 text-white group-hover:text-[#E93556] transition-colors duration-300" viewBox="0 0 24 24" fill="currentColor">
+                    <path d={social.iconPath} />
+                  </svg>
+                </motion.a>
+              ))}
+            </div>
           </div>
         </div>
 

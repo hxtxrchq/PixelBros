@@ -19,11 +19,11 @@ const Contact = () => {
   const [selectedServices, setSelectedServices] = useState([]);
 
   const SERVICES = [
-    'Gestion de contenido / redes sociales',
+    'Gestión de contenido / redes sociales',
     'Fotografia profesional',
-    'Produccion audiovisual',
+    'Producción audiovisual',
     'Branding / identidad de marca',
-    'Campanas publicitarias',
+    'Campañas publicitarias',
     'Activaciones BTL',
     'Estrategia comercial y crecimiento de marca',
     'No estoy seguro / necesito guia',
@@ -79,13 +79,7 @@ const Contact = () => {
       iconPath: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M20 6l-8 5-8-5',
       iconType: 'stroke',
     },
-    { 
-      title: 'Teléfono', 
-      value: '+51959212496', 
-      link: 'tel:+51959212496',
-      iconPath: 'M2 4.5A2.5 2.5 0 014.5 2h1.372a2 2 0 011.9 1.368l.828 2.485a2 2 0 01-.76 2.262l-1.12.84a12.04 12.04 0 005.245 5.245l.84-1.12a2 2 0 012.262-.76l2.485.828A2 2 0 0118 15.872V17.5A2.5 2.5 0 0115.5 20h-1C7.596 20 2 14.404 2 7.5v-3z',
-      iconType: 'fill',
-    },
+    
     { 
       title: 'Linkedin', 
       value: 'PixelBros', 
@@ -206,7 +200,7 @@ const Contact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                     <div>
                       <label htmlFor="whatsapp" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Numero de contacto (WhatsApp) *
+                        Número de contacto (WhatsApp) *
                       </label>
                       <input
                         type="tel"
@@ -219,7 +213,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Correo electronico *
+                        Correo electrónico *
                       </label>
                       <input
                         type="email"
@@ -264,7 +258,7 @@ const Contact = () => {
                     <div className="space-y-6">
                     <div>
                       <label htmlFor="why" className="block text-sm font-semibold text-[#111111] mb-2">
-                        ¿Por que estas recurriendo a nuestra agencia? Cuentanos para asesorarte *
+                        ¿Por qué estás recurriendo a nuestra agencia? Cuéntanos para asesorarte *
                       </label>
                       <textarea
                         id="why"
@@ -428,9 +422,9 @@ const Contact = () => {
                         variant={method.iconType}
                       />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <div className="text-sm text-white/50 mb-1">{method.title}</div>
-                      <div className="text-white/90 group-hover:text-[#e73c50] transition-colors">
+                      <div className="text-sm text-white/90 group-hover:text-[#e73c50] transition-colors break-all">
                         {method.value}
                       </div>
                     </div>
@@ -456,7 +450,7 @@ const Contact = () => {
                 ¿Necesitas una respuesta rápida?
               </h3>
               <p className="text-white/60 mb-4 text-sm">
-                Chatea con nosotros por WhatsApp y recibe atención inmediata
+Escribenos por WhatsApp y recibe una atención inmediata 
               </p>
               <a
                 href="https://wa.me/51959212496"

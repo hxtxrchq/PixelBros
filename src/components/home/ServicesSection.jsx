@@ -181,9 +181,7 @@ const ServicesSection = () => {
           <div>
             <p className="text-[10px] uppercase tracking-[0.28em] text-[#e73c50] font-bold mb-3">Servicios</p>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white font-black leading-[1.05]">
-              Diseño, contenido
-              <br />
-              <span className="text-white/25">y performance</span>
+              Así trabajamos
             </h2>
           </div>
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/home/Hero';
-import ServicesSection from '../components/home/ServicesSection';
-import PortfolioPreview from '../components/home/PortfolioPreview';
+import ServicesCarousel from '../components/home/ServicesCarousel';
+import PortfolioSplitHero from '../components/home/PortfolioSplitHero';
 import InitialLoading from '../components/InitialLoading';
 
 const Home = () => {
@@ -23,8 +23,10 @@ const Home = () => {
       transition={{ duration: 0.6 }}
     >
       <Hero />
-      <ServicesSection />
-      <PortfolioPreview />
+      <div style={{ height: '5rem', background: '#06071a' }} />
+      <ServicesCarousel />
+      <div style={{ height: '6rem', background: '#06071a' }} />
+      <PortfolioSplitHero />
     </motion.div>
   );
 };

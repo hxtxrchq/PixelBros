@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPortfolioAssets } from '../config/assets.js';
 
@@ -124,11 +124,374 @@ const buildPortfolioIndex = (assets) => {
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
+// Derive a Cloudinary poster thumbnail URL from a video src
+const derivePoster = (src) => {
+  if (!src || !isVideoSrc(src)) return undefined;
+  return src
+    .replace('/video/upload/', '/video/upload/so_0,q_auto,f_jpg/')
+    .replace(/\.(mp4|webm)$/i, '.jpg');
+};
+
+// ── Card Deck ──────────────────────────────────────────────────────────────
+// Design tokens
+const CARD_W      = 340;    // max card width (px)
+const CARD_RATIO  = 4 / 5;  // width/height portrait — change to 16/9 for landscape
+const CARD_H      = Math.round(CARD_W / CARD_RATIO); // ≈ 425
+const CARD_RADIUS = 20;
+
+// ── Card face: object-cover with subtle blurred bg padding for odd ratios ──
+const CardFace = ({ item, active }) => {
+  const isVid  = item?.type === 'video';
+  const src    = item?.src;
+  const poster = isVid ? derivePoster(src) : undefined;
+  const media  = (cls, extra = {}) =>
+    isVid
+      ? <video src={src} muted playsInline preload="metadata" poster={poster}
+          className={cls} style={extra} />
+      : <img   src={src} alt={item?.alt ?? ''} draggable={false} loading="lazy"
+          className={cls} style={extra} />;
+  return (
+    <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: CARD_RADIUS }}>
+      {/* Blurred ambient bg — fills letterbox gaps */}
+      {media('absolute inset-0 w-full h-full object-cover scale-110',
+        { filter: 'blur(22px)', opacity: 0.45 })}
+      {/* Sharp main layer — contain so full image/video is always visible */}
+      {media('relative z-10 w-full h-full object-contain')}
+      {/* Active gradient overlay — subtle vignette */}
+      {active && (
+        <div className="absolute inset-0 z-20 pointer-events-none"
+          style={{ background: 'linear-gradient(to top, rgba(6,7,26,0.32) 0%, transparent 50%)' }} />
+      )}
+    </div>
+  );
+};
+
+// ── Auto-cycle + gesture deck ────────────────────────────────────────────────
+// Timing
+const FAN_GAP  = 88;   // px between fanned cards vertically
+const CYCLE_MS = 950;  // ms per card in auto-cycle
+const FAN_MS   = 580;  // ms for fan-out animation
+
+const CardDeck = ({ items, onCardClick }) => {
+  const n = items.length;
+
+  // ── Phase machine: 'stack' → 'fan' → 'cycle' → 'gather' → repeat ──────
+  const [phase,     setPhase]     = useState('stack');
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [pulse,     setPulse]     = useState(false); // scale-up on gather
+  const [drag,      setDrag]      = useState(false); // cursor grab indicator
+
+  const timers     = useRef([]);
+  const manual     = useRef(false); // user took control → pause auto
+  const dragOrigin = useRef(null);
+  const wheelLock  = useRef(false);
+  const stageRef   = useRef(null);
+
+  const clearAll = () => { timers.current.forEach(clearTimeout); timers.current = []; };
+  const sched    = (fn, ms) => { const id = setTimeout(fn, ms); timers.current.push(id); };
+
+  // ── Auto sequence ────────────────────────────────────────────────────────
+  const runSequence = useCallback(() => {
+    if (manual.current) return;
+    setPhase('stack');
+    setActiveIdx(0);
+    sched(() => {
+      if (manual.current) return;
+      setPhase('fan');
+      sched(() => { if (!manual.current) setPhase('cycle'); }, FAN_MS + 260);
+    }, 540);
+  }, []); // eslint-disable-line
+
+  // Restart when items change (new project group)
+  useEffect(() => {
+    clearAll();
+    manual.current = false;
+    runSequence();
+    return clearAll;
+  }, [items]); // eslint-disable-line
+
+  // Auto-cycle interval — runs only during 'cycle' phase
+  useEffect(() => {
+    if (phase !== 'cycle' || manual.current || n < 2) return;
+    const id = setInterval(() => {
+      if (manual.current) { clearInterval(id); return; }
+      setActiveIdx(prev => {
+        const next = (prev + 1) % n;
+        if (next === 0) {
+          // Completed full loop → gather → zoom → restart
+          clearAll();
+          sched(() => {
+            setPhase('gather');
+            setPulse(true);
+            sched(() => setPulse(false), 380);
+            sched(() => { if (!manual.current) runSequence(); }, 860);
+          }, Math.round(CYCLE_MS * 0.35));
+        }
+        return next;
+      });
+    }, CYCLE_MS);
+    return () => clearInterval(id);
+  }, [phase, n]); // eslint-disable-line
+
+  // ── Manual navigation (pauses auto-cycle) ──────────────────────────────
+  const go = useCallback((d) => {
+    manual.current = true;
+    clearAll();
+    setPhase('fan');
+    setActiveIdx(prev => ((prev + d) % n + n) % n);
+  }, [n]); // eslint-disable-line
+
+  // ── Keyboard ────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(1);  }
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); go(-1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [go]);
+
+  // ── Scroll wheel (debounced) ─────────────────────────────────────────────
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || n < 2) return;
+    const onWheel = (e) => {
+      e.preventDefault();
+      if (wheelLock.current) return;
+      wheelLock.current = true;
+      go(e.deltaY > 0 ? 1 : -1);
+      setTimeout(() => { wheelLock.current = false; }, 440);
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [go, n]);
+
+  // ── Mouse drag ──────────────────────────────────────────────────────────
+  const onMouseDown = (e) => {
+    if (n < 2) return;
+    dragOrigin.current = { x: e.clientX, time: Date.now() };
+    setDrag(true);
+  };
+  const onMouseUp = (e) => {
+    setDrag(false);
+    if (!dragOrigin.current) return;
+    const dx   = e.clientX - dragOrigin.current.x;
+    const dt   = Date.now() - dragOrigin.current.time;
+    const flick = dt < 320 && Math.abs(dx) > 18;
+    if (flick || Math.abs(dx) > 48) go(dx < 0 ? 1 : -1);
+    dragOrigin.current = null;
+  };
+  const onMouseLeave = () => { setDrag(false); dragOrigin.current = null; };
+
+  // ── Touch swipe ─────────────────────────────────────────────────────────
+  const onTouchStart = (e) => {
+    dragOrigin.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e) => {
+    if (!dragOrigin.current) return;
+    const dx = e.changedTouches[0].clientX - dragOrigin.current.x;
+    const dy = e.changedTouches[0].clientY - dragOrigin.current.y;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 34) go(dx < 0 ? 1 : -1);
+    dragOrigin.current = null;
+  };
+
+  // ── Derived state ────────────────────────────────────────────────────────
+  const stacked = phase === 'stack' || phase === 'gather';
+
+  return (
+    <div className="relative flex flex-col items-center w-full select-none">
+
+      {/* ── Stage ────────────────────────────────────────────────────────── */}
+      <div
+        ref={stageRef}
+        className="relative flex items-center justify-center w-full"
+        style={{
+          height:      CARD_H + FAN_GAP * 4 + 32,
+          touchAction: 'pan-y',
+          cursor:      n > 1 ? (drag ? 'grabbing' : 'grab') : 'default',
+        }}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {items.map((item, i) => {
+          // Compute signed offset relative to active card (wraps around)
+          let off = i - activeIdx;
+          const half = Math.floor(n / 2);
+          if (off >  half) off -= n;
+          if (off < -half) off += n;
+          const abs       = Math.abs(off);
+          if (abs > 3) return null;
+          const isActive  = off === 0;
+
+          // ── Per-phase animation targets ──────────────────────────────── 
+          let targetY, targetScale, targetOpacity, targetRotate, targetBlur;
+          if (stacked) {
+            // Stack: all cards piled in center, slight depth
+            targetY       = 0;
+            targetScale   = pulse && isActive ? 1.065 : (1 - abs * 0.022);
+            targetOpacity = 1 - abs * 0.10;
+            targetRotate  = 0;
+            targetBlur    = 0;
+          } else {
+            // Fanned: escalator steps, active card on top
+            targetY       = off * FAN_GAP;
+            targetScale   = isActive ? 1 : (1 - abs * 0.082);
+            targetOpacity = isActive ? 1 : Math.max(0.18, 1 - abs * 0.30);
+            targetRotate  = off * 1.8;  // micro-parallax tilt
+            targetBlur    = isActive ? 0 : abs * 1.4;
+          }
+
+          return (
+            <motion.div
+              key={item.id ?? i}
+              animate={{
+                y:       targetY,
+                scale:   targetScale,
+                opacity: targetOpacity,
+                rotate:  targetRotate,
+                filter:  `blur(${targetBlur}px)`,
+              }}
+              transition={{
+                type:      'spring',
+                stiffness: 230,
+                damping:   26,
+                mass:      0.88,
+                delay:     stacked ? 0 : abs * 0.045, // stagger on fan-out
+              }}
+              onClick={() => {
+                if (dragOrigin.current) return;      // was drag, not tap
+                if (isActive) onCardClick?.(item);
+                else go(off > 0 ? 1 : -1);
+              }}
+              style={{
+                position:     'absolute',
+                zIndex:       20 - abs,
+                width:        '100%',
+                maxWidth:     CARD_W,
+                height:       CARD_H,
+                borderRadius: CARD_RADIUS,
+                overflow:     'hidden',
+                background:   '#0b0c1e',
+                boxShadow:    isActive && !stacked
+                  ? '0 26px 56px rgba(0,0,0,0.72), 0 0 0 1px rgba(255,255,255,0.06)'
+                  : '0 8px 22px rgba(0,0,0,0.38)',
+                willChange:   'transform, opacity, filter',
+                cursor:       isActive && !drag ? 'zoom-in' : (n > 1 ? (drag ? 'grabbing' : 'grab') : 'default'),
+              }}
+            >
+              <CardFace item={item} active={isActive} />
+
+              {/* Depth tint — inactive cards only */}
+              {!isActive && (
+                <div className="absolute inset-0 z-30 pointer-events-none"
+                  style={{
+                    background: `rgba(6,7,26,${stacked ? 0.10 : Math.min(0.52, abs * 0.20)})`,
+                    borderRadius: CARD_RADIUS,
+                  }} />
+              )}
+
+              {/* Video badge — active card */}
+              {item.type === 'video' && isActive && (
+                <div className="absolute inset-0 z-40 flex items-end justify-start p-4 pointer-events-none">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                    style={{ background: 'rgba(10,10,22,0.58)', backdropFilter: 'blur(10px)',
+                             border: '1px solid rgba(255,255,255,0.12)' }}>
+                    <svg width="9" height="10" fill="#e73c50" viewBox="0 0 9 10">
+                      <path d="M0 .5v9l9-4.5L0 .5z"/>
+                    </svg>
+                    <span className="text-[9px] font-medium tracking-widest uppercase"
+                      style={{ color: 'rgba(255,255,255,0.7)' }}>Video</span>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          );
+        })}
+
+        {/* Hot zones — invisible click areas, hover-hint only */}
+        {n > 1 && <>
+          <HotZone dir="prev" onClick={() => go(-1)} />
+          <HotZone dir="next" onClick={() => go(1)}  />
+        </>}
+      </div>
+
+      {/* ── Indicators ───────────────────────────────────────────────────── */}
+      {n > 1 && (
+        <div className="flex items-center gap-3 mt-4 w-full justify-center" style={{ maxWidth: CARD_W }}>
+
+          {/* Micro-dots — pill for active, tiny dot for rest; clickable */}
+          <div className="flex items-center gap-[6px]">
+            {items.map((_, i) => (
+              <motion.div key={i}
+                animate={{ width: i === activeIdx ? 16 : 4, opacity: i === activeIdx ? 1 : 0.22 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                onClick={() => { manual.current = true; clearAll(); setPhase('fan'); setActiveIdx(i); }}
+                style={{
+                  height: 4, borderRadius: 99, flexShrink: 0, cursor: 'pointer',
+                  background: i === activeIdx ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.38)',
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Counter */}
+          <span className="shrink-0 tabular-nums font-mono"
+            style={{ fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.28)' }}>
+            {String(activeIdx + 1).padStart(2, '0')}&thinsp;/&thinsp;{String(n).padStart(2, '0')}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── Hot zone — invisible nav area with hover hint ────────────────────────────
+const HotZone = ({ dir, onClick }) => {
+  const [hovered, setHovered] = useState(false);
+  const isPrev = dir === 'prev';
+  return (
+    <div
+      className="absolute inset-y-0 z-50 flex items-center"
+      style={{
+        [isPrev ? 'left' : 'right']: 0,
+        width: '12%',
+        cursor: 'pointer',
+        [isPrev ? 'paddingLeft' : 'paddingRight']: 4,
+        justifyContent: isPrev ? 'flex-start' : 'flex-end',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={(e) => { e.stopPropagation(); onClick(); }}
+    >
+      <motion.div
+        animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : (isPrev ? -4 : 4) }}
+        transition={{ duration: 0.18 }}
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}
+      >
+        {/* Thin chevron */}
+        <svg width="10" height="18" viewBox="0 0 10 18" fill="none"
+          stroke="rgba(255,255,255,0.55)" strokeWidth="1.4"
+          strokeLinecap="round" strokeLinejoin="round">
+          {isPrev
+            ? <polyline points="8,1 1,9 8,17" />
+            : <polyline points="2,1 9,9 2,17" />}
+        </svg>
+        {/* Tiny label */}
+        <span style={{ fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
+          {isPrev ? 'Prev' : 'Next'}
+        </span>
+      </motion.div>
+    </div>
+  );
+};
+
 const PortfolioDetail = () => {
   const { slug } = useParams();
   const [activeImage, setActiveImage] = useState(null);
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [slideDir, setSlideDir] = useState(1);
 
   const portfolioAssets = getPortfolioAssets();
 
@@ -142,41 +505,15 @@ const PortfolioDetail = () => {
 
   useEffect(() => {
     setActiveGroupIndex(0);
-    setActiveSlideIndex(0);
   }, [project?.slug]);
 
-  useEffect(() => {
-    setActiveSlideIndex(0);
-  }, [activeGroupIndex]);
 
-  const activeItems = project?.groups?.length
-    ? project.groups[activeGroupIndex]?.items || []
-    : project?.items || [];
-
-  const goTo = (index) => {
-    setSlideDir(index > activeSlideIndex ? 1 : -1);
-    setActiveSlideIndex(index);
-  };
-  const prev = () => goTo((activeSlideIndex - 1 + activeItems.length) % activeItems.length);
-  const next = () => goTo((activeSlideIndex + 1) % activeItems.length);
-
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'ArrowRight') {
-        setSlideDir(1);
-        setActiveSlideIndex((i) => (i + 1) % activeItems.length);
-      } else if (e.key === 'ArrowLeft') {
-        setSlideDir(-1);
-        setActiveSlideIndex((i) => (i - 1 + activeItems.length) % activeItems.length);
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [activeItems.length]);
-
-  const dragMovedRef = useRef(false);
-  const [cursor, setCursor] = useState({ x: 0, y: 0, side: null, visible: false });
-  const slideAreaRef = useRef(null);
+  const activeItems = useMemo(
+    () => project?.groups?.length
+      ? project.groups[activeGroupIndex]?.items || []
+      : project?.items || [],
+    [project, activeGroupIndex]
+  );
 
   return (
     <motion.div
@@ -216,232 +553,44 @@ const PortfolioDetail = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-start"
+            className="flex flex-col items-center"
           >
-            {/* Left Column — Full-bleed drag slider */}
-            <div className="relative" style={{ minHeight: 520 }}>
-              <div
-                ref={slideAreaRef}
-                className="relative rounded-2xl overflow-hidden bg-[#0d0e24] lg:sticky lg:top-24"
-                style={{
-                  height: 'clamp(420px, 65vh, 720px)',
-                  boxShadow: '0 40px 80px rgba(5,6,26,0.7)',
-                  cursor: activeItems.length > 1 ? 'none' : 'zoom-in',
-                }}
-                onMouseMove={(e) => {
-                  const rect = slideAreaRef.current?.getBoundingClientRect();
-                  if (!rect) return;
-                  const x = e.clientX - rect.left;
-                  const y = e.clientY - rect.top;
-                  setCursor({ x, y, side: x < rect.width / 2 ? 'left' : 'right', visible: true });
-                }}
-                onMouseLeave={() => setCursor((c) => ({ ...c, visible: false }))}
-              >
-                {/* Custom cursor circle */}
-                <AnimatePresence>
-                  {cursor.visible && activeItems.length > 1 && (
-                    <motion.div
-                      className="absolute z-30 pointer-events-none"
-                      style={{ left: cursor.x, top: cursor.y, translateX: '-50%', translateY: '-50%' }}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0, opacity: 0 }}
-                      transition={{ duration: 0.12 }}
-                    >
-                      <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center" style={{ background: 'rgba(231,60,80,0.18)', backdropFilter: 'blur(4px)' }}>
-                        <span className="text-white font-bold text-sm leading-none select-none">
-                          {cursor.side === 'left' ? '←' : '→'}
-                        </span>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+            {/* Category + title */}
+            <p className="text-sm uppercase tracking-widest text-[#e73c50] mb-2 text-center">
+              {project.categoryName}
+            </p>
+            <h1 className="text-3xl lg:text-5xl font-display font-bold tracking-tight mb-10 text-white text-center">
+              {project.title}
+            </h1>
 
-                {/* Slides */}
-                <AnimatePresence mode="wait" custom={slideDir}>
-                  {activeItems[activeSlideIndex] && (
-                    <motion.div
-                      key={activeSlideIndex}
-                      custom={slideDir}
-                      variants={{
-                        enter: (d) => ({ x: d * 60, opacity: 0, filter: 'blur(6px)' }),
-                        center: { x: 0, opacity: 1, filter: 'blur(0px)' },
-                        exit: (d) => ({ x: d * -60, opacity: 0, filter: 'blur(6px)' }),
-                      }}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      drag={activeItems.length > 1 ? 'x' : false}
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={0.15}
-                      onDragStart={() => { dragMovedRef.current = false; }}
-                      onDrag={(_, info) => { if (Math.abs(info.offset.x) > 8) dragMovedRef.current = true; }}
-                      onDragEnd={(_, info) => {
-                        if (info.offset.x < -50) next();
-                        else if (info.offset.x > 50) prev();
-                      }}
-                      onClick={() => { if (!dragMovedRef.current) setActiveImage(activeItems[activeSlideIndex]); }}
-                      className="absolute inset-0 flex items-center justify-center select-none"
-                      style={{ cursor: activeItems.length > 1 ? 'grab' : 'zoom-in' }}
-                      whileDrag={{ cursor: 'grabbing', scale: 0.98 }}
-                    >
-                      {activeItems[activeSlideIndex].type === 'video' ? (
-                        <video
-                          src={activeItems[activeSlideIndex].src}
-                          className="max-h-full max-w-full object-contain"
-                          preload="metadata"
-                          controls
-                          playsInline
-                          onClick={(e) => e.stopPropagation()}
-                          style={{ maxHeight: '100%', maxWidth: '100%', padding: '2rem' }}
-                        />
-                      ) : (
-                        <img
-                          src={activeItems[activeSlideIndex].src}
-                          alt={activeItems[activeSlideIndex].alt}
-                          draggable={false}
-                          className="max-h-full max-w-full object-contain"
-                          style={{ padding: '2rem', userSelect: 'none' }}
-                          loading="lazy"
-                        />
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Click zones — use custom cursor for direction hint */}
-                {activeItems.length > 1 && (
-                  <>
-                    <button type="button" aria-label="Anterior"
-                      onClick={(e) => { e.stopPropagation(); prev(); }}
-                      className="absolute left-0 top-0 bottom-10 w-1/2 z-20"
-                      style={{ cursor: 'none', background: 'none', border: 'none' }}
-                    />
-                    <button type="button" aria-label="Siguiente"
-                      onClick={(e) => { e.stopPropagation(); next(); }}
-                      className="absolute right-0 top-0 bottom-10 w-1/2 z-20"
-                      style={{ cursor: 'none', background: 'none', border: 'none' }}
-                    />
-                  </>
-                )}
-
-                {/* Ghost slide number — big watermark bottom-left */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeSlideIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute bottom-2 left-5 z-10 pointer-events-none select-none leading-none font-black text-white"
-                    style={{ fontSize: 'clamp(4rem, 10vw, 7rem)', opacity: 0.08, letterSpacing: '-0.04em' }}
-                  >
-                    {String(activeSlideIndex + 1).padStart(2, '0')}
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Bottom bar — dots/progress only */}
-                {activeItems.length > 1 && (
-                  <div className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-4 flex items-center justify-end">
-                    {activeItems.length <= 8 ? (
-                      <div className="flex items-center gap-1.5">
-                        {activeItems.map((_, i) => (
-                          <motion.button
-                            key={i}
-                            type="button"
-                            onClick={() => goTo(i)}
-                            animate={{
-                              width: i === activeSlideIndex ? 20 : 4,
-                              opacity: i === activeSlideIndex ? 1 : 0.25,
-                              backgroundColor: i === activeSlideIndex ? '#e73c50' : '#ffffff',
-                            }}
-                            transition={{ duration: 0.3 }}
-                            className="h-[3px] rounded-full"
-                            style={{ minWidth: 4 }}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="w-32 h-[2px] rounded-full bg-white/15 overflow-hidden">
-                        <motion.div
-                          className="h-full bg-[#e73c50] rounded-full"
-                          animate={{ width: `${((activeSlideIndex + 1) / activeItems.length) * 100}%` }}
-                          transition={{ duration: 0.3 }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+            {/* Interactive card deck */}
+            <div className="w-full" style={{ maxWidth: 440 }}>
+              <CardDeck
+                items={activeItems}
+                onCardClick={(item) => setActiveImage(item)}
+              />
             </div>
 
-            {/* Right Column - Info Ficha */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="bg-[#0d0e24] rounded-2xl p-8 lg:p-10 shadow-xl lg:sticky lg:top-24"
-            >
-              <p className="text-sm uppercase tracking-widest text-[#e73c50] mb-3">{project.categoryName}</p>
-              <h1 className="text-3xl lg:text-4xl font-display font-bold tracking-tight mb-4 text-white">
-                {project.title}
-              </h1>
-              {project.description && (
-                <p className="text-white/65 leading-relaxed mb-8">
-                  {project.description}
-                </p>
-              )}
-
-              <div className="divide-y divide-white/10 text-sm">
-                <div className="py-3 flex items-center justify-between">
-                  <span className="text-[#e73c50] font-semibold">Cliente</span>
-                  <span className="text-white font-medium">{project.client || project.title}</span>
-                </div>
-                <div className="py-3 flex items-center justify-between">
-                  <span className="text-[#e73c50] font-semibold">Año</span>
-                  <span className="text-white font-medium">{project.year || '2025'}</span>
-                </div>
-                {project.groups?.length > 1 && (
-                  <div className="py-3">
-                    <span className="text-[#e73c50] font-semibold block mb-2">Colecciones</span>
-                    <div className="flex flex-wrap gap-2">
-                      {project.groups.map((group, index) => (
-                        <button
-                          key={group.id}
-                          type="button"
-                          onClick={() => setActiveGroupIndex(index)}
-                          className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
-                            index === activeGroupIndex
-                              ? 'bg-[#e73c50] text-white'
-                              : 'bg-white/10 text-white/70 hover:bg-white/15'
-                          }`}
-                        >
-                          {group.name}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-8">
-                <a
-                  href={project.externalLink || '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block"
-                >
-                  <motion.button
-                    whileHover={{ scale: 1.03, boxShadow: '0 20px 40px rgba(179, 38, 46, 0.25)' }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-8 py-4 bg-[#e73c50] text-white font-bold rounded-full text-sm tracking-wide uppercase shadow-lg transition-all"
+            {/* Group tabs (only when project has multiple collections) */}
+            {project.groups?.length > 1 && (
+              <div className="flex flex-wrap gap-2 justify-center mt-10">
+                {project.groups.map((group, index) => (
+                  <button
+                    key={group.id}
+                    type="button"
+                    onClick={() => setActiveGroupIndex(index)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                      index === activeGroupIndex
+                        ? 'bg-[#e73c50] text-white'
+                        : 'bg-white/10 text-white/70 hover:bg-white/15'
+                    }`}
                   >
-                    Ver Proyecto
-                  </motion.button>
-                </a>
+                    {group.name}
+                  </button>
+                ))}
               </div>
-            </motion.div>
+            )}
+
           </motion.div>
         </div>
       </section>

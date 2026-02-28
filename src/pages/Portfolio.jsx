@@ -3,6 +3,43 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSp
 import { Link } from 'react-router-dom';
 import { getPortfolioAssets } from '../config/assets.js';
 
+// ── Category ordering & display overrides ──────────────────────────────────
+const CATEGORY_ORDER = [
+  'diseno-de-identidad-visual',
+  'social-media',
+  'audiovisual',
+  'fotografia',
+  'menu-digital',
+];
+const CATEGORY_DISPLAY = {
+  'diseno-de-identidad-visual': 'Branding',
+};
+
+// ── Social Media rubros ────────────────────────────────────────────────────
+const SOCIAL_MEDIA_RUBROS = [
+  { id: 'horeca',       label: 'HORECA',                      desc: 'Hoteles, restaurantes & bares' },
+  { id: 'salud',        label: 'Salud',                       desc: 'Clínicas & consultorios' },
+  { id: 'construccion', label: 'Construcción e Inmobiliaria',  desc: 'Constructoras & proyectos' },
+  { id: 'educacion',    label: 'Educación',                   desc: 'Colegios & academias' },
+  { id: 'comercio',     label: 'Comercio y Retail',           desc: 'Tiendas & marketplaces' },
+];
+const SM_PROJECT_RUBROS = {
+  // HORECA
+  'social-media-barbarian-bar':      'horeca',
+  'social-media-la-vieja-taberna':   'horeca',
+  // Construcción e Inmobiliaria
+  'social-media-gms-peru':           'construccion',
+  'social-media-design-market':      'construccion',
+  'social-media-r-c-arquitectos':    'construccion',
+  // Salud
+  'social-media-ginecofeme':         'salud',
+  'social-media-doctora-yuriko':     'salud',
+  // Educación
+  'social-media-frissagio':          'educacion',
+  // Comercio y Retail
+  'social-media-ellos':              'comercio',
+};
+
 const normalizeName = (value) => value
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '');
@@ -101,6 +138,18 @@ const buildPortfolioIndex = (assets) => {
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
+// Generate a still thumbnail from a Cloudinary video URL at a given second offset
+const getVideoPoster = (videoUrl, offsetSec = 3) =>
+  videoUrl
+    .replace('/video/upload/', `/video/upload/so_${offsetSec},w_800/`)
+    .replace(/\.(mp4|webm)$/i, '.jpg');
+
+// Per-project poster offsets (seconds)
+const VIDEO_POSTER_OFFSETS = {
+  'audiovisual-fof-trujillo': 3,
+  'audiovisual-luxia': 7,
+};
+
 const ParallaxProjectCard = ({ project, index, categories }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -134,8 +183,9 @@ const ParallaxProjectCard = ({ project, index, categories }) => {
               {isVideoSrc(project.coverSrc) ? (
                 <video
                   src={project.coverSrc}
+                  poster={getVideoPoster(project.coverSrc, VIDEO_POSTER_OFFSETS[project.slug] ?? 3)}
                   className="h-full w-full object-cover"
-                  preload="metadata"
+                  preload="none"
                   muted
                   playsInline
                 />
@@ -196,7 +246,13 @@ const ParallaxProjectCard = ({ project, index, categories }) => {
 
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedRubro, setSelectedRubro] = useState(null);
   const [cursorVisible, setCursorVisible] = useState(false);
+
+  const handleCategoryChange = (id) => {
+    setSelectedCategory(id);
+    setSelectedRubro(null);
+  };
 
   // Custom cursor spring tracking
   const cursorX = useMotionValue(-200);
@@ -222,20 +278,33 @@ const Portfolio = () => {
     [portfolioAssets]
   );
 
-  const categories = useMemo(() => ([
-    { id: 'all', name: 'ALL', label: 'Todos' },
-    ...portfolioIndex.categories.map((category) => ({
-      id: category.id,
-      name: category.name.toUpperCase(),
-      label: category.name,
-    })),
-  ]), [portfolioIndex.categories]);
+  const categories = useMemo(() => {
+    const sorted = [...portfolioIndex.categories].sort((a, b) => {
+      const ai = CATEGORY_ORDER.indexOf(a.id);
+      const bi = CATEGORY_ORDER.indexOf(b.id);
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    });
+    return [
+      { id: 'all', name: 'ALL', label: 'Todos' },
+      ...sorted.map((c) => ({
+        id: c.id,
+        name: (CATEGORY_DISPLAY[c.id] || c.name).toUpperCase(),
+        label: CATEGORY_DISPLAY[c.id] || c.name,
+      })),
+    ];
+  }, [portfolioIndex.categories]);
 
   const projects = portfolioIndex.projects;
 
-  const filteredProjects = selectedCategory === 'all'
-    ? projects
-    : projects.filter((project) => project.categoryId === selectedCategory);
+  const filteredProjects = useMemo(() => {
+    let base = selectedCategory === 'all'
+      ? projects
+      : projects.filter((p) => p.categoryId === selectedCategory);
+    if (selectedCategory === 'social-media' && selectedRubro) {
+      base = base.filter((p) => SM_PROJECT_RUBROS[p.slug] === selectedRubro);
+    }
+    return base;
+  }, [selectedCategory, selectedRubro, projects]);
 
   return (
     <motion.div
@@ -276,7 +345,7 @@ const Portfolio = () => {
           {categories.map((category) => (
             <motion.button
               key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.98 }}
               className={`relative px-4 py-3 font-medium text-sm tracking-wider transition-all ${
@@ -297,78 +366,158 @@ const Portfolio = () => {
           ))}
         </motion.div>
 
-        {/* Projects Grid - Editorial Layout */}
-        <div
-          className="relative cursor-none"
-          onMouseMove={handleGridMouseMove}
-          onMouseEnter={() => setCursorVisible(true)}
-          onMouseLeave={() => setCursorVisible(false)}
-        >
-          {/* Custom magnetic cursor */}
-          <motion.div
-            className="absolute z-50 pointer-events-none top-0 left-0"
-            style={{
-              x: cursorXSpring,
-              y: cursorYSpring,
-              translateX: '-50%',
-              translateY: '-50%',
-            }}
-          >
+        {/* ── Social Media rubros view ────────────────────────────────── */}
+        <AnimatePresence mode="wait">
+          {selectedCategory === 'social-media' && !selectedRubro ? (
             <motion.div
-              className="relative flex items-center justify-center"
-              animate={{
-                scale: cursorVisible ? 1 : 0,
-                opacity: cursorVisible ? 1 : 0,
-              }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-            >
-              {/* Outer ring pulse */}
-              <motion.div
-                className="absolute w-20 h-20 rounded-full border border-[#e73c50]/40"
-                animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              {/* Main circle */}
-              <div className="w-16 h-16 rounded-full bg-[#e73c50] flex flex-col items-center justify-center gap-0.5 shadow-[0_0_24px_rgba(231,60,80,0.55)]">
-                <span className="text-white text-[10px] font-bold tracking-[0.15em] uppercase leading-none">VER</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </div>
-            </motion.div>
-          </motion.div>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCategory}
+              key="rubros"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              transition={{ duration: 0.45 }}
             >
-              {filteredProjects.map((project, index) => (
-                <ParallaxProjectCard
-                  key={project.slug}
-                  project={project}
-                  index={index}
-                  categories={categories}
-                />
-              ))}
+              <p className="text-white/30 text-xs uppercase tracking-widest text-center mb-10 font-medium">
+                Selecciona un rubro
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {SOCIAL_MEDIA_RUBROS.map((rubro, i) => {
+                  const count = Object.values(SM_PROJECT_RUBROS).filter((r) => r === rubro.id).length;
+                  return (
+                    <motion.button
+                      key={rubro.id}
+                      onClick={() => setSelectedRubro(rubro.id)}
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.07 }}
+                      whileHover={{ y: -5 }}
+                      className="group relative h-[180px] rounded-2xl border border-white/10 overflow-hidden text-left hover:border-[#e73c50]/50 transition-colors duration-300"
+                    >
+                      {/* Background gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#0d0e2a] to-[#14163a] group-hover:from-[#1a0c12] group-hover:to-[#1a0e18] transition-all duration-500" />
+                      {/* Glow on hover */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+                        style={{ boxShadow: 'inset 0 0 40px rgba(231,60,80,0.08)' }} />
+                      {/* Content */}
+                      <div className="relative h-full flex flex-col justify-between p-6">
+                        <div>
+                          <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-widest bg-[#e73c50]/15 text-[#e73c50] border border-[#e73c50]/20 mb-3">
+                            {count > 0 ? `${count} proyecto${count > 1 ? 's' : ''}` : 'Próximamente'}
+                          </span>
+                          <h3 className="text-xl font-display font-bold text-white leading-tight">
+                            {rubro.label}
+                          </h3>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-white/35 text-xs">{rubro.desc}</p>
+                          <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#e73c50]/50 group-hover:bg-[#e73c50]/10 transition-all duration-300">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-white/40 group-hover:text-[#e73c50] transition-colors">
+                              <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
             </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* Empty State */}
-        {filteredProjects.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
-            <p className="text-white/50 text-lg">No hay proyectos en esta categoría</p>
-          </motion.div>
-        )}
+          ) : (
+            <motion.div
+              key={selectedCategory === 'social-media' ? `sm-${selectedRubro}` : selectedCategory}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.45 }}
+            >
+              {/* Back to rubros breadcrumb */}
+              {selectedCategory === 'social-media' && selectedRubro && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center gap-3 mb-10"
+                >
+                  <button
+                    onClick={() => setSelectedRubro(null)}
+                    className="flex items-center gap-2 text-white/40 hover:text-white text-sm transition-colors group"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:-translate-x-1 transition-transform">
+                      <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Social Media
+                  </button>
+                  <span className="text-white/20">/</span>
+                  <span className="text-[#e73c50] text-sm font-semibold">
+                    {SOCIAL_MEDIA_RUBROS.find((r) => r.id === selectedRubro)?.label}
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Projects Grid - Editorial Layout */}
+              <div
+                className="relative cursor-none"
+                onMouseMove={handleGridMouseMove}
+                onMouseEnter={() => setCursorVisible(true)}
+                onMouseLeave={() => setCursorVisible(false)}
+              >
+                {/* Custom magnetic cursor */}
+                <motion.div
+                  className="absolute z-50 pointer-events-none top-0 left-0"
+                  style={{
+                    x: cursorXSpring,
+                    y: cursorYSpring,
+                    translateX: '-50%',
+                    translateY: '-50%',
+                  }}
+                >
+                  <motion.div
+                    className="relative flex items-center justify-center"
+                    animate={{
+                      scale: cursorVisible ? 1 : 0,
+                      opacity: cursorVisible ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                  >
+                    <motion.div
+                      className="absolute w-20 h-20 rounded-full border border-[#e73c50]/40"
+                      animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                    <div className="w-16 h-16 rounded-full bg-[#e73c50] flex flex-col items-center justify-center gap-0.5 shadow-[0_0_24px_rgba(231,60,80,0.55)]">
+                      <span className="text-white text-[10px] font-bold tracking-[0.15em] uppercase leading-none">VER</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredProjects.map((project, index) => (
+                    <ParallaxProjectCard
+                      key={project.slug}
+                      project={project}
+                      index={index}
+                      categories={categories}
+                    />
+                  ))}
+                </div>
+
+                {/* Empty State */}
+                {filteredProjects.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-20"
+                  >
+                    <p className="text-white/35 text-base">Proyectos de este rubro próximamente</p>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
 
         {/* CTA Section */}
         <motion.div

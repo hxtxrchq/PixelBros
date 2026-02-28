@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
+/* Portfolio split-hero scroll animation */
+@keyframes pbScrollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
 /* Performance Optimization */
 * {
   -webkit-font-smoothing: antialiased;

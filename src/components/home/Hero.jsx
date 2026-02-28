@@ -1,51 +1,196 @@
-import { AnimatePresence, motion } from 'framer-motion';
+﻿import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAssetUrl } from '../../config/assets.js';
 
-const feat1 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/1.jpg');
-const feat2 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Entrepenauta/1.jpg');
-const feat3 = getAssetUrl('/Portfolio/Diseño de Identidad Visual/Laboralis/1.jpg');
+const CDN = 'https://res.cloudinary.com/dhhd92sgr';
+// g_center for design/branding (centered compositions), g_face for portraits, g_auto for scenes
+const img = (v, path, g = 'center') =>
+  `${CDN}/image/upload/w_400,h_400,c_fill,g_${g},q_auto,f_auto/${v}/${path}`;
+// so_ = seek offset in seconds to pick a good video frame
+const vid = (v, path, so = 1, g = 'auto') =>
+  `${CDN}/video/upload/so_${so},w_400,h_400,c_fill,g_${g},q_auto,f_jpg/${v}/${path}`;
 
-const FEATURED = [
-  { src: feat1, category: 'Identidad Visual', client: 'Dulce Cuidado', num: '01' },
-  { src: feat2, category: 'Branding', client: 'Entrepenauta', num: '02' },
-  { src: feat3, category: 'Diseño', client: 'Laboralis', num: '03' },
+const MONTAGE = [
+  // Identidad Visual — Dulce Cuidado (primera imagen)
+  img('v1772046500', 'pixelbros/Portfolio/Diseno_de_Identidad_Visual/Dulce_Cuidado/1.jpg', 'center'),
+  // Audiovisual — FOF Trujillo concierto (3s in, auto subject)
+  vid('v1772046474', 'pixelbros/Portfolio/AudioVisual/FOF_Trujillo/1', 3, 'auto'),
+  // Social Media — Barbarian Bar Kanagawa (2s in)
+  vid('v1772046681', 'pixelbros/Portfolio/Social_Media/Barbarian_Bar/BARBARIAN_KANAGAWA', 2, 'auto'),
+  // Identidad Visual — Entrepenauta (primera imagen)
+  img('v1772046533', 'pixelbros/Portfolio/Diseno_de_Identidad_Visual/Entrepenauta/1.jpg', 'center'),
+  // Audiovisual — Luxia (2s in, auto)
+  vid('v1772046523', 'pixelbros/Portfolio/AudioVisual/Luxia/1', 2, 'auto'),
+  // Fotografía — La Vieja Taberna ambiente nocturno
+  img('v1772046630', 'pixelbros/Portfolio/Fotografia/LA_VIEJA_TABERNA/DSC03992.jpg', 'auto'),
+  // Social Media — GMS Perú Cargamento (2s in)
+  vid('v1772046756', 'pixelbros/Portfolio/Social_Media/GMS_Peru/GMS_CARGAMENTO', 2, 'auto'),
+  // Identidad Visual — Laboralis (primera imagen)
+  img('v1772046534', 'pixelbros/Portfolio/Diseno_de_Identidad_Visual/Laboralis/1.jpg', 'center'),
+  // Fotografía — La Vieja Taberna bar shot
+  img('v1772046622', 'pixelbros/Portfolio/Fotografia/LA_VIEJA_TABERNA/DSC01410.jpg', 'auto'),
+  // Social Media — Barbarian Bar Halloween (4s in)
+  vid('v1772046705', 'pixelbros/Portfolio/Social_Media/Barbarian_Bar/BARBARIAN_HALLOWEEN', 4, 'auto'),
 ];
 
-const Hero = () => {
-  const [featIndex, setFeatIndex] = useState(0);
+
+
+const SERVICES = ['Identidad Visual', 'Social Media', 'Fotografía', 'Audiovisual', 'Menú Digital'];
+
+const OPEN_EASE  = [0.16, 1, 0.3, 1];
+const CLOSE_EASE = [0.55, 0, 0.45, 1];
+const PHASE_DUR  = { closed: 2000, opening: 720, open: 2600, closing: 620 };
+const PHASE_NEXT = { closed: 'opening', opening: 'open', open: 'closing', closing: 'closed' };
+
+/*  Strobe image  */
+const StrobeImg = ({ imgSrc }) => (
+  <AnimatePresence mode="wait">
+    <motion.img
+      key={imgSrc}
+      src={imgSrc}
+      alt=""
+      draggable={false}
+      className="absolute inset-0 w-full h-full object-cover object-center"
+      initial={{ opacity: 0, filter: 'brightness(2)' }}
+      animate={{ opacity: 1,  filter: 'brightness(1)' }}
+      exit={{   opacity: 0,  filter: 'brightness(0.15)' }}
+      transition={{ duration: 0.07, ease: 'linear' }}
+    />
+  </AnimatePresence>
+);
+
+/*
+ * SplitReveal
+ *
+ * In-flow animated gap approach:
+ * - Top word is normal flow
+ * - A motion.div gap expands its HEIGHT → pushes bottom word down naturally
+ * - Image lives INSIDE that gap div (no z-index fights, always visible)
+ * - Bottom word + belowContent follow naturally — no absolute math
+ */
+const STRIP_H = 220;
+
+const SplitReveal = ({ topNode, bottomNode, belowContent, startDelay = 1.8 }) => {
+  const [imgIdx, setImgIdx] = useState(0);
+  const [phase, setPhase]   = useState('closed');
 
   useEffect(() => {
-    const t = setInterval(() => setFeatIndex((i) => (i + 1) % FEATURED.length), 3500);
+    if (!MONTAGE.length) return;
+    const t = setInterval(() => setImgIdx(i => (i + 1) % MONTAGE.length), 900);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    let timer;
+    const tick = (p) => {
+      timer = setTimeout(() => {
+        const next = PHASE_NEXT[p];
+        setPhase(next);
+        tick(next);
+      }, PHASE_DUR[p]);
+    };
+    const init = setTimeout(() => tick('closed'), startDelay * 1000);
+    return () => { clearTimeout(init); clearTimeout(timer); };
+  }, [startDelay]);
+
+  const isOpen   = phase === 'opening' || phase === 'open';
+  const inMotion = phase === 'opening' || phase === 'closing';
+  const dur      = inMotion ? (phase === 'opening' ? 0.72 : 0.6) : 0;
+  const ease     = phase === 'opening' ? OPEN_EASE : CLOSE_EASE;
+
+  return (
+    <div className="w-full flex flex-col items-center">
+      {/* TOP WORD — normal flow */}
+      <div
+        className="font-black uppercase text-white text-center leading-none w-full"
+        style={{ fontSize: 'clamp(2rem, 5.5vw, 5.5rem)' }}
+      >
+        {topNode}
+      </div>
+
+      {/* ANIMATED GAP — expands in flow, pushing bottom word down */}
+      <motion.div
+        className="w-full flex justify-center overflow-hidden"
+        animate={{ height: isOpen ? STRIP_H : 0 }}
+        transition={{ duration: dur, ease }}
+        style={{ height: 0 }}
+      >
+        {/* Image square centred inside the gap */}
+        <div
+          style={{
+            width: STRIP_H,
+            height: STRIP_H,
+            borderRadius: 16,
+            overflow: 'hidden',
+            boxShadow: '0 20px 64px rgba(0,0,0,0.8)',
+            flexShrink: 0,
+            position: 'relative',
+          }}
+        >
+          {MONTAGE.length > 0 && <StrobeImg imgSrc={MONTAGE[imgIdx]} />}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/25 pointer-events-none" />
+        </div>
+      </motion.div>
+
+      {/* BOTTOM WORD — pushed down naturally by the gap */}
+      <div
+        className="font-black uppercase text-white text-center leading-none w-full"
+        style={{ fontSize: 'clamp(2rem, 5.5vw, 5.5rem)' }}
+      >
+        {bottomNode}
+      </div>
+
+      {/* BELOW CONTENT — follows naturally, no gap ever */}
+      {belowContent}
+    </div>
+  );
+};
+
+/* One-shot letter-spacing reveal */
+const LSReveal = ({ children, delay = 0, className = '', style = {} }) => (
+  <motion.span
+    initial={{ opacity: 0, letterSpacing: '0.55em', filter: 'blur(10px)' }}
+    animate={{ opacity: 1, letterSpacing: '0.03em', filter: 'blur(0px)' }}
+    transition={{ delay, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+    className={className}
+    style={style}
+  >
+    {children}
+  </motion.span>
+);
+
+const Hero = () => {
+  const [svcIdx, setSvcIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setSvcIdx(i => (i + 1) % SERVICES.length), 1700);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#05061a] flex items-center">
-      {/* Monochromatic indigo radial spotlights */}
-      <div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 75% 85% at 85% 10%, #2d317c 0%, #1a1c52 38%, transparent 65%)' }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 55% 65% at 8% 92%, #22265a 0%, transparent 60%)' }}
-      />
+    <section className="relative min-h-screen overflow-hidden bg-[#05061a] flex flex-col items-center justify-center">
 
-      {/* PIXELBROS watermark rows */}
+      {/* Spotlights */}
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 80% 70% at 50% -5%, #2d317c 0%, #1a1c52 40%, transparent 70%)' }} />
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 10% 100%, #22265a 0%, transparent 55%)' }} />
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 50% 40% at 92% 95%, #1e2050 0%, transparent 55%)' }} />
+
+      {/* PIXELBROS watermark */}
       <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         style={{
-          maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)',
         }}
       >
         {[0, 1, 2, 3, 4].map((i) => (
           <motion.div
             key={i}
-            className="absolute left-0 right-0 text-white/[0.04] font-black select-none whitespace-nowrap leading-none uppercase"
-            style={{ top: `${i * 22}%`, fontSize: 'clamp(4.5rem, 13vw, 11rem)', letterSpacing: '0.06em' }}
+            className="absolute left-0 right-0 text-white/[0.038] font-black select-none whitespace-nowrap leading-none uppercase"
+            style={{ top: `${i * 22}%`, fontSize: 'clamp(4rem, 11vw, 9rem)', letterSpacing: '0.06em' }}
             animate={{ x: i % 2 === 0 ? ['0%', '-5%', '0%'] : ['-5%', '0%', '-5%'] }}
             transition={{ duration: 13 + i * 2, repeat: Infinity, ease: 'easeInOut' }}
           >
@@ -54,208 +199,134 @@ const Hero = () => {
         ))}
       </div>
 
-      {/* Floating micro-dots */}
-      <motion.div
-        className="absolute top-1/4 left-[5%] w-2 h-2 rounded-full bg-[#e73c50]"
-        animate={{ y: [-8, 8, -8], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 3.5, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-1/3 right-[7%] w-1.5 h-1.5 rounded-full bg-[#474192]/80"
-        animate={{ y: [8, -8, 8] }}
-        transition={{ duration: 4.2, repeat: Infinity }}
-      />
+      {/* Micro-dots */}
+      <motion.div className="absolute top-1/4 left-[5%] w-1.5 h-1.5 rounded-full bg-[#e73c50]"
+        animate={{ y: [-6, 6, -6], opacity: [0.6, 1, 0.6] }} transition={{ duration: 3.5, repeat: Infinity }} />
+      <motion.div className="absolute bottom-1/3 right-[7%] w-1 h-1 rounded-full bg-[#474192]/80"
+        animate={{ y: [6, -6, 6] }} transition={{ duration: 4.2, repeat: Infinity }} />
 
-      {/* ── MAIN CONTENT ── */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 pt-28 lg:pt-24 pb-16">
+      {/* MAIN CONTENT */}
+      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 sm:px-8 text-center pt-24 pb-16">
 
-        {/* Floating image card — desktop only, absolutely positioned */}
+        {/* MEJORAMOS */}
         <motion.div
-          initial={{ opacity: 0, y: 30, rotate: 0 }}
-          animate={{ opacity: 1, y: 0, rotate: -3.5 }}
-          transition={{ delay: 0.6, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden lg:block absolute right-2 top-10 z-20"
-          style={{ width: 'clamp(220px, 26vw, 360px)' }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+          className="mb-4"
+          style={{ fontSize: 'clamp(0.6rem, 1.4vw, 1rem)' }}
         >
-          {/* Accent line above card */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[2px] bg-[#e73c50] mb-3 rounded-full"
-            style={{ originX: 0 }}
-          />
-          <div
-            className="relative rounded-2xl overflow-hidden"
-            style={{
-              aspectRatio: '4/5',
-              boxShadow: '0 40px 100px rgba(5,6,26,0.9), 0 0 0 1px rgba(255,255,255,0.07)',
-            }}
+          <LSReveal
+            delay={0.15}
+            className="text-white/30 font-light uppercase block"
+            style={{ letterSpacing: '0.22em' }}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={featIndex}
-                initial={{ clipPath: 'inset(0 100% 0 0)' }}
-                animate={{ clipPath: 'inset(0 0% 0 0)' }}
-                exit={{ clipPath: 'inset(0 0% 0 100%)' }}
-                transition={{ duration: 0.7, ease: [0.77, 0, 0.18, 1] }}
-                className="absolute inset-0"
-              >
-                <img
-                  src={FEATURED[featIndex].src}
-                  alt={FEATURED[featIndex].client}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Project label */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`label-${featIndex}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.3, duration: 0.4 }}
-                className="absolute bottom-0 left-0 right-0 p-5 z-10"
-              >
-                <span className="text-[#e73c50] text-[9px] font-bold uppercase tracking-[0.25em] block mb-1">
-                  {FEATURED[featIndex].category}
-                </span>
-                <span className="text-white font-bold text-lg leading-tight tracking-tight">
-                  {FEATURED[featIndex].client}
-                </span>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Side indicators */}
-            <div className="absolute top-4 right-4 flex flex-col gap-1.5 z-10">
-              {FEATURED.map((_, i) => (
-                <motion.button
-                  key={i}
-                  type="button"
-                  onClick={() => setFeatIndex(i)}
-                  animate={{ height: i === featIndex ? 24 : 8, opacity: i === featIndex ? 1 : 0.3, backgroundColor: i === featIndex ? '#e73c50' : '#ffffff' }}
-                  transition={{ duration: 0.3 }}
-                  className="w-[3px] rounded-full"
-                />
-              ))}
-            </div>
-
-            {/* Progress bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10 z-20">
-              <motion.div
-                key={`prog-${featIndex}`}
-                className="h-full bg-[#e73c50]"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 3.5, ease: 'linear' }}
-              />
-            </div>
-          </div>
+            MEJORAMOS
+          </LSReveal>
         </motion.div>
 
-        {/* HEADLINE — full editorial width */}
-        <div className="relative lg:max-w-[62%]">
-
-          <div className="font-black leading-[0.85] tracking-tight uppercase mb-10">
-            {/* MEJORAMOS — thin contrast */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              className="text-white/30 font-light tracking-[0.12em] block"
-              style={{ fontSize: 'clamp(1rem, 2.2vw, 2rem)', letterSpacing: '0.18em', marginBottom: '0.15em' }}
-            >
-              MEJORAMOS
-            </motion.div>
-
-            {/* TU MARCA — massive */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center flex-wrap gap-x-4"
-              style={{ fontSize: 'clamp(2.6rem, 5.5vw, 6rem)' }}
-            >
-              <span className="text-white">TU</span>
-              <span
-                className="text-white bg-[#e73c50] px-4 rounded-2xl"
-                style={{ paddingTop: '0.02em', paddingBottom: '0.06em', lineHeight: 1 }}
-              >
-                MARCA
+        {/* TU MARCA / CON IMPACTO — split reveal */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.32, duration: 0.6 }}
+        >
+          <SplitReveal
+            startDelay={2.0}
+            topNode={
+              <span className="inline-flex items-center justify-center gap-x-4 flex-wrap">
+                <motion.span
+                  initial={{ scale: 0.35, opacity: 0, filter: 'blur(20px)' }}
+                  animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                  transition={{ delay: 0.32, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-white inline-block"
+                >
+                  TU
+                </motion.span>
+                <motion.span
+                  initial={{ scale: 0.3, opacity: 0, filter: 'blur(22px)' }}
+                  animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                  transition={{ delay: 0.44, duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-white inline-block"
+                >
+                  MARCA
+                </motion.span>
               </span>
-            </motion.div>
-
-            {/* CON IMPACTO */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.42, duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-              className="text-white flex items-baseline gap-4"
-              style={{ fontSize: 'clamp(2.6rem, 5.5vw, 6rem)' }}
-            >
+            }
+            bottomNode={
               <motion.span
-                className="text-[#e73c50] inline-block"
-                animate={{ x: [0, 8, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ fontSize: '0.6em', lineHeight: 1 }}
+                initial={{ opacity: 0, y: 18, filter: 'blur(14px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ delay: 0.6, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block"
               >
-                →
+                CON{' '}
+                <span className="text-[#e73c50]">IMPACTO</span>
               </motion.span>
-              <span>CON IMPACTO</span>
-            </motion.div>
-          </div>
-
-          {/* Tagline + CTAs */}
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.7 }}
-            className="text-white/45 text-sm sm:text-base max-w-sm leading-relaxed font-light mb-8"
-          >
-            Diseño de identidad, contenido visual y estrategia de marca que convierte.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.88, duration: 0.65 }}
-            className="flex flex-wrap items-center gap-4"
-          >
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 20px 48px rgba(231,60,80,0.45)' }}
-                whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-[#e73c50] text-white font-bold text-sm tracking-wider shadow-xl"
+            }
+            belowContent={
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.6 }}
+                className="w-full"
               >
-                Empieza Ahora
-              </motion.button>
-            </Link>
-            <Link to="/portfolio">
-              <motion.button
-                whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.12)' }}
-                whileTap={{ scale: 0.97 }}
-                className="px-8 py-4 bg-white/[0.07] text-white font-semibold text-sm tracking-wider backdrop-blur-sm transition-all"
-              >
-                Ver Portfolio →
-              </motion.button>
-            </Link>
-          </motion.div>
-        </div>
+                {/* ASÍ TRABAJAMOS EN [service] */}
+                <div className="flex flex-wrap items-center justify-center gap-2 mt-8 mb-8">
+                  <span
+                    className="text-white/30 uppercase font-light"
+                    style={{ fontSize: 'clamp(0.58rem, 1.1vw, 0.8rem)', letterSpacing: '0.18em' }}
+                  >
+                    ASÍ TRABAJAMOS EN
+                  </span>
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={svcIdx}
+                      initial={{ opacity: 0, y: 6, filter: 'blur(3px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, y: -6, filter: 'blur(3px)' }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="text-[#e73c50] font-bold uppercase"
+                      style={{ fontSize: 'clamp(0.58rem, 1.1vw, 0.8rem)', letterSpacing: '0.18em' }}
+                    >
+                      {SERVICES[svcIdx]}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <Link to="/contact">
+                    <motion.button
+                      whileHover={{ scale: 1.05, boxShadow: '0 16px 40px rgba(231,60,80,0.45)' }}
+                      whileTap={{ scale: 0.97 }}
+                      className="px-8 py-3.5 bg-[#e73c50] text-white font-bold text-sm tracking-wider shadow-xl"
+                    >
+                      Empieza Ahora
+                    </motion.button>
+                  </Link>
+                  <Link to="/portfolio">
+                    <motion.button
+                      whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.12)' }}
+                      whileTap={{ scale: 0.97 }}
+                      className="px-8 py-3.5 bg-white/[0.07] text-white font-semibold text-sm tracking-wider backdrop-blur-sm transition-all"
+                    >
+                      Ver Portfolio
+                    </motion.button>
+                  </Link>
+                </div>
+              </motion.div>
+            }
+          />
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.8 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-white/30 text-[10px] uppercase tracking-[0.25em] font-semibold">Scroll</span>
+        <span className="text-white/25 text-[9px] uppercase tracking-[0.25em] font-semibold">Scroll</span>
         <motion.div
-          className="w-px h-10 bg-gradient-to-b from-white/40 to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-white/35 to-transparent"
           style={{ originY: 0 }}
           animate={{ scaleY: [0, 1, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}

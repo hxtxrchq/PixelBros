@@ -43,7 +43,7 @@ const Apply = () => {
       setReplyTo('');
     } catch (error) {
       setSubmitted(false);
-      setSubmitError(error?.message || 'No pudimos enviar tu postulacion. Intentalo nuevamente.');
+      setSubmitError(error?.message || 'No pudimos enviar tu postulación. Inténtalo nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
@@ -64,13 +64,13 @@ const Apply = () => {
           className="text-center mb-12"
         >
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-4">
-            Unete a nuestro equipo
+            Únete a nuestro equipo
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-4 text-white">
-            Formulario de <span className="text-[#e73c50]">Postulacion</span>
+            Formulario de <span className="text-[#e73c50]">Postulación</span>
           </h1>
           <p className="text-lg text-white/65 max-w-3xl mx-auto">
-            Queremos conocerte. Completa el formulario y cuentanos sobre tu experiencia y proyectos.
+            Queremos conocerte. Completa el formulario y cuéntanos sobre tu experiencia y proyectos.
           </p>
         </motion.div>
 
@@ -84,7 +84,7 @@ const Apply = () => {
             onSubmit={handleSubmit}
             className="space-y-8"
           >
-            <input type="hidden" name="_subject" value="Nueva postulacion - PixelBros" />
+            <input type="hidden" name="_subject" value="Nueva postulación - PixelBros" />
             <input type="hidden" name="_replyto" value={replyTo} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -103,7 +103,7 @@ const Apply = () => {
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-[#111111] mb-2">
-                  Correo electronico *
+                  Correo electrónico *
                 </label>
                 <input
                   type="email"
@@ -117,7 +117,7 @@ const Apply = () => {
               </div>
               <div>
                 <label htmlFor="phone" className="block text-sm font-semibold text-[#111111] mb-2">
-                  Numero de contacto *
+                  Número de contacto *
                 </label>
                 <input
                   type="tel"
@@ -138,7 +138,7 @@ const Apply = () => {
                 {[
                   'Audiovisual',
                   'Content Creator',
-                  'Disenador Grafico',
+                  'Diseñador Gráfico',
                 ].map((role) => (
                   <label key={role} className="flex items-center gap-3 rounded-lg border border-[#F0E6E8] bg-white px-4 py-3">
                     <input
@@ -170,7 +170,7 @@ const Apply = () => {
 
             <div>
               <label htmlFor="experience" className="block text-sm font-semibold text-[#111111] mb-2">
-                2. Cuentanos brevemente sobre tu experiencia relacionada al puesto que elegiste. *
+                2. Cuéntanos brevemente sobre tu experiencia relacionada al puesto que elegiste. *
               </label>
               <textarea
                 id="experience"
@@ -183,36 +183,8 @@ const Apply = () => {
             </div>
 
             <div>
-              <label htmlFor="favoriteProjects" className="block text-sm font-semibold text-[#111111] mb-2">
-                3. Que tipo de contenido o proyectos disfrutas mas crear y por que? *
-              </label>
-              <textarea
-                id="favoriteProjects"
-                name="Contenido favorito"
-                required
-                rows="4"
-                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
-                placeholder="Cuentanos que te motiva"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="proudProject" className="block text-sm font-semibold text-[#111111] mb-2">
-                4. Cuentanos sobre un proyecto del que te sientas realmente orgulloso. *
-              </label>
-              <textarea
-                id="proudProject"
-                name="Proyecto destacado"
-                required
-                rows="4"
-                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
-                placeholder="Describe el proyecto y tu rol"
-              />
-            </div>
-
-            <div>
               <label className="block text-sm font-semibold text-[#111111] mb-3">
-                5. Que modalidad estas buscando actualmente? *
+                3. ¿Qué modalidad estás buscando actualmente? *
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
@@ -237,7 +209,7 @@ const Apply = () => {
 
             <div>
               <label htmlFor="salary" className="block text-sm font-semibold text-[#111111] mb-2">
-                6. Cual es tu expectativa economica mensual (en soles)?
+                4. ¿Cuál es tu expectativa económica mensual (en soles)?
               </label>
               <input
                 type="text"
@@ -250,24 +222,31 @@ const Apply = () => {
 
             <div>
               <label className="block text-sm font-semibold text-[#111111] mb-2">
-                7. Comparte el link de tu CV y/o portafolio (Drive, Behance, web)
+                5. Comparte el enlace de tu CV y/o portafolio
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input
-                  type="url"
-                  name="CV"
-                  placeholder="Link publico a tu CV (Drive o PDF)"
-                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                />
-                <input
-                  type="url"
-                  name="Portafolio"
-                  placeholder="https://behance.net/tuusuario"
-                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                />
+                <div>
+                  <p className="text-xs text-[#4A4A4A] mb-1.5">CV <span className="text-[#B3262E]">*</span></p>
+                  <input
+                    type="url"
+                    name="CV"
+                    required
+                    placeholder="Enlace público a tu CV (Drive o PDF)"
+                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                  />
+                </div>
+                <div>
+                  <p className="text-xs text-[#4A4A4A] mb-1.5">Behance / Portafolio <span className="font-normal text-[#888]">(opcional)</span></p>
+                  <input
+                    type="url"
+                    name="Portafolio"
+                    placeholder="https://behance.net/tuusuario"
+                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                  />
+                </div>
               </div>
               <p className="text-xs text-[#4A4A4A] mt-2">
-                Solo enlaces publicos. Sube tu CV a Drive/Dropbox y pega el link.
+                Solo enlaces públicos. Sube tu CV a Drive/Dropbox y pega el link.
               </p>
             </div>
 
@@ -284,7 +263,7 @@ const Apply = () => {
                 disabled={isSubmitting}
                 className="ml-auto px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md hover:shadow-lg transition-all disabled:opacity-60"
               >
-                {isSubmitting ? 'Enviando...' : 'Enviar postulacion'}
+                {isSubmitting ? 'Enviando...' : 'Enviar postulación'}
               </motion.button>
             </div>
 

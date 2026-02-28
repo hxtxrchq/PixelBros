@@ -1,6 +1,8 @@
 /**
  * Asset manifest — maps local paths to Cloudinary CDN URLs.
  * Use getPortfolioAssets() instead of import.meta.glob for portfolio files.
+ * New projects (Ellos, Frissagio, Ginecofeme, Doctora Yuriko SM, R&C) will
+ * appear automatically once uploaded to Cloudinary and added to the manifest.
  */
 import manifest from './cloudinaryManifest.json';
 
@@ -11,9 +13,7 @@ import manifest from './cloudinaryManifest.json';
 export const getPortfolioAssets = () => {
   const result = {};
   for (const [key, url] of Object.entries(manifest)) {
-    if (key.startsWith('/Portfolio/')) {
-      result[key] = url;
-    }
+    if (key.startsWith('/Portfolio/')) result[key] = url;
   }
   return result;
 };
