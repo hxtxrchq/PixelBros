@@ -88,6 +88,7 @@ const buildPortfolioIndex = (assets) => {
               ...group,
               items: group.items
                 .sort((a, b) => a.order - b.order || a.nameKey.localeCompare(b.nameKey))
+                .slice(0, 20)
                 .map((item, index) => ({
                   id: index + 1,
                   src: item.src,

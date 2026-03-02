@@ -16,7 +16,7 @@ const Apply = () => {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await fetch('https://formspree.io/f/xojnwjpp', {
+      const response = await fetch('https://formspree.io/f/xdalzakg', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
