@@ -319,10 +319,16 @@ const Hero = () => {
         </motion.div>
       </div>
 
+      {/* Bottom fade-out overlay */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        style={{ height: '180px', background: 'linear-gradient(to bottom, transparent 0%, rgba(5,6,26,0.6) 55%, #05061a 100%)' }}
+      />
+
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.8 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
         <span className="text-white/25 text-[9px] uppercase tracking-[0.25em] font-semibold">Scroll</span>
         <motion.div
