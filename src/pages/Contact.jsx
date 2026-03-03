@@ -494,8 +494,7 @@ Escribenos por WhatsApp y recibe una atención inmediata
               ) : (
                 <div className="text-center">
                   <p className="text-white/70 mb-6">
-                    Gracias por completar la informacion. El siguiente paso es agendar una reunion breve para entender tu proyecto y proponerte una estrategia clara.
-                  </p>
+Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo, si quieres agendar una reunion haz click en este botón                  </p>
                   <motion.button
                     type="button"
                     whileHover={{ scale: 1.02, boxShadow: '0 12px 24px rgba(179, 38, 46, 0.2)' }}
@@ -506,7 +505,7 @@ Escribenos por WhatsApp y recibe una atención inmediata
                     }}
                     className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
                   >
-                    📆 Agendar reunion inicial (20–30 min)
+                    📆 Agendar reunion 
                   </motion.button>
                 </div>
               )}
@@ -535,7 +534,7 @@ Escribenos por WhatsApp y recibe una atención inmediata
             </div>
             <div className="h-[70vh]">
               <iframe
-                src="https://calendly.com/calonsoparedes1/pixel-pruebas"
+                src="https://calendly.com/pixelbrosperu/2026"
                 title="Calendly"
                 className="h-full w-full"
                 frameBorder="0"
@@ -552,7 +551,7 @@ Escribenos por WhatsApp y recibe una atención inmediata
               Gracias por completar el formulario
             </h3>
             <p className="text-white/65 mb-6">
-              Nos pondremos en contacto contigo. Nos vemos en la reunion.
+              Nos pondremos en contacto contigo. 
             </p>
             <motion.button
               type="button"

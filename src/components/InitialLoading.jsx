@@ -120,16 +120,7 @@ const InitialLoading = ({ onComplete }) => {
             </motion.svg>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="font-black uppercase text-white mt-5"
-            style={{ fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)', letterSpacing: '0.22em' }}
-          >
-            PIXEL<span style={{ color: '#e73c50' }}>BROS</span>
-          </motion.p>
-
+          
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
