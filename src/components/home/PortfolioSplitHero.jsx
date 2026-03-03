@@ -53,7 +53,7 @@ const PortfolioSplitHero = () => {
   const track = [...covers, ...covers];
 
   const textStyle = {
-    fontSize: 'clamp(3.2rem, 10.5vw, 13.5rem)',
+    fontSize: 'clamp(1.9rem, 8.5vw, 13.5rem)',
     letterSpacing: '-0.04em',
   };
 
@@ -95,7 +95,7 @@ const PortfolioSplitHero = () => {
       <div className="h-full flex items-center">
 
         {/* LEFT — PIXEL */}
-        <div className="flex-1 flex items-center justify-end pr-6 sm:pr-10 lg:pr-16 overflow-hidden">
+        <div className="flex-1 flex items-center justify-end pr-3 sm:pr-10 lg:pr-16 overflow-hidden">
           <motion.span
             className="text-white font-black select-none leading-[0.9] whitespace-nowrap"
             style={textStyle}
@@ -111,7 +111,7 @@ const PortfolioSplitHero = () => {
         <motion.div
           className="flex-shrink-0 relative"
           style={{
-            width: 'clamp(120px, 14vw, 220px)',
+            width: 'clamp(72px, 14vw, 220px)',
             height: '100%',
             overflow: 'hidden',
           }}
@@ -183,55 +183,54 @@ const PortfolioSplitHero = () => {
         </motion.div>
 
         {/* RIGHT — BROS */}
-        <div className="flex-1 flex items-center justify-start pl-6 sm:pl-10 lg:pl-16 overflow-hidden">
-          <div className="flex flex-col items-start gap-6">
-            <motion.span
-              className="text-[#e73c50] font-black select-none leading-[0.9] whitespace-nowrap"
-              style={textStyle}
-              initial={{ x: 100, opacity: 0 }}
-              animate={inView ? { x: 0, opacity: 1 } : {}}
-              transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              BROS
-            </motion.span>
-
-            {/* Subtle CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.8 }}
-            >
-              <Link
-                to="/portfolio"
-                className="group inline-flex items-center gap-3
-                  text-white/25 hover:text-white
-                  transition-colors duration-400"
-              >
-                <span
-                  className="text-[10px] font-bold uppercase tracking-[0.3em]"
-                  style={{ letterSpacing: '0.28em' }}
-                >
-                  Ver portafolio
-                </span>
-                <span
-                  className="flex items-center justify-center w-7 h-7 rounded-full
-                    border border-white/15 group-hover:border-white/50
-                    transition-all duration-400"
-                >
-                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none" aria-hidden="true"
-                    className="translate-x-0 group-hover:translate-x-[2px] transition-transform duration-300"
-                  >
-                    <path d="M4 10h12m0 0l-4-4m4 4l-4 4"
-                      stroke="currentColor" strokeWidth="2.5"
-                      strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </Link>
-            </motion.div>
-          </div>
+        <div className="flex-1 flex items-center justify-start pl-3 sm:pl-10 lg:pl-16 overflow-hidden">
+          <motion.span
+            className="text-[#e73c50] font-black select-none leading-[0.9] whitespace-nowrap"
+            style={textStyle}
+            initial={{ x: 100, opacity: 0 }}
+            animate={inView ? { x: 0, opacity: 1 } : {}}
+            transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            BROS
+          </motion.span>
         </div>
 
       </div>
+
+      {/* CTA — anchored to section bottom, never overlaps text */}
+      <motion.div
+        className="absolute bottom-8 right-6 sm:right-12 lg:right-20 z-20"
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.8 }}
+      >
+        <Link
+          to="/portfolio"
+          className="group inline-flex items-center gap-3
+            text-white/25 hover:text-white
+            transition-colors duration-400"
+        >
+          <span
+            className="text-[10px] font-bold uppercase"
+            style={{ letterSpacing: '0.28em' }}
+          >
+            Ver portafolio
+          </span>
+          <span
+            className="flex items-center justify-center w-7 h-7 rounded-full
+              border border-white/15 group-hover:border-white/50
+              transition-all duration-400"
+          >
+            <svg width="10" height="10" viewBox="0 0 20 20" fill="none" aria-hidden="true"
+              className="translate-x-0 group-hover:translate-x-[2px] transition-transform duration-300"
+            >
+              <path d="M4 10h12m0 0l-4-4m4 4l-4 4"
+                stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </Link>
+      </motion.div>
 
       {/* separator bottom */}
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />

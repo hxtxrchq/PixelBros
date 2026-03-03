@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-const LogoPixelBros = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoPixelBros.png';
+import LogoPixelBros from '../images/LogoPixelBros.png';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,7 +41,8 @@ const Navbar = () => {
             <motion.img
               src={LogoPixelBros}
               alt="PixelBros"
-              className="h-12 w-auto"
+              className="h-9 sm:h-11 w-auto"
+              style={{ filter: 'drop-shadow(0 1px 6px rgba(0,0,0,0.55))' }}
               whileHover={{ scale: 1.05 }}
             />
           </Link>
