@@ -69,6 +69,10 @@ const buildPortfolioIndex = (assets) => {
 
     const categorySlug = slugify(categoryName);
     const projectSlug = slugify(projectName);
+
+    // Keep Doctora Yuriko (social media) but remove legacy Fotografia/DOCTORES project.
+    if (categorySlug === 'fotografia' && projectSlug === 'doctores') return;
+
     const slug = `${categorySlug}-${projectSlug}`;
     const order = getFileOrder(fileName);
     const nameKey = fileName.toLowerCase();
