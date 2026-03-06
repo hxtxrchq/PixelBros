@@ -79,6 +79,20 @@
     font-family: var(--font-primary);
     font-weight: 600;
   }
+
+  /* Global button shape: rectangular with soft corners across the site. */
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  .btn-primary,
+  .btn-secondary,
+  a.rounded-full,
+  a.rounded-lg,
+  a.rounded-md,
+  a.rounded-sm {
+    border-radius: 4px !important;
+  }
   
   a, span, div {
     font-family: var(--font-primary);
