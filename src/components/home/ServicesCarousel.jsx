@@ -74,17 +74,13 @@ const SERVICES = [
 
 const INTERVAL = 4000; // ms per slide
 
+const getVideoPoster = (videoUrl) =>
+  videoUrl
+    .replace('/video/upload/', '/video/upload/so_0,q_auto,f_jpg,w_1200/')
+    .replace(/\.(mp4|webm)$/i, '.jpg');
+
 /* ─── Media panel (left) ────────────────────────────────────────── */
 const MediaPanel = ({ service }) => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    if (service.media.type === 'video' && videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play().catch(() => {});
-    }
-  }, [service.id]);
-
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -97,13 +93,13 @@ const MediaPanel = ({ service }) => {
       >
         {service.media.type === 'video' ? (
           <video
-            ref={videoRef}
             className="w-full h-full object-cover"
             autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
+            poster={getVideoPoster(service.media.src)}
           >
             <source src={service.media.src} />
           </video>
@@ -112,6 +108,8 @@ const MediaPanel = ({ service }) => {
             src={service.media.src}
             alt={service.keyword}
             className="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
             draggable={false}
           />
         )}
@@ -150,6 +148,7 @@ const ServicesCarousel = () => {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const ref = useRef(null);
+  const pauseTimeoutRef = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   /* auto-rotate */
@@ -164,9 +163,13 @@ const ServicesCarousel = () => {
   const select = useCallback((i) => {
     setActive(i);
     setPaused(true);
+    if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
     // resume auto-rotation after 8 s of inactivity
-    const t = setTimeout(() => setPaused(false), 8000);
-    return () => clearTimeout(t);
+    pauseTimeoutRef.current = setTimeout(() => setPaused(false), 8000);
+  }, []);
+
+  useEffect(() => () => {
+    if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
   }, []);
 
   const current = SERVICES[active];

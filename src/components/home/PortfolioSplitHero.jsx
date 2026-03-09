@@ -6,13 +6,32 @@ import { getPortfolioAssets } from '../../config/assets.js';
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
+const STRIP_PROJECT_PRIORITY = [
+  'Social Media/Frissagio',
+  'Social Media/Ginecofeme',
+  'Social Media/R&C Arquitectos',
+  'Diseño de Identidad Visual/Laboralis',
+  'Diseño de Identidad Visual/Entrepenauta',
+  'Fotografia/LA VIEJA TABERNA',
+  'Fotografia/DULCE CUIDADO',
+  'Social Media/DOCTORA YURIKO',
+];
+
+const optimizeStripImage = (src) => {
+  if (typeof src !== 'string') return src;
+  if (!src.includes('res.cloudinary.com/') || src.includes('/video/upload/')) return src;
+  if (src.includes('/image/upload/')) {
+    return src.replace('/image/upload/', '/image/upload/w_420,h_560,c_fill,g_auto,q_auto,f_auto/');
+  }
+  return src;
+};
+
 /**
  * Returns one image URL per project (the first non-video asset found).
  * Groups by the category/project pair so every distinct project contributes one cover.
  */
 const extractCovers = (assets) => {
-  const seen = new Set();
-  const covers = [];
+  const firstCoverByProject = new Map();
   // Sort keys so ordering is deterministic
   const keys = Object.keys(assets).sort();
   for (const path of keys) {
@@ -23,12 +42,19 @@ const extractCovers = (assets) => {
     const match = normalized.match(/\/Portfolio\/([^/]+)\/([^/]+)\//);
     if (!match) continue;
     const key = `${match[1]}/${match[2]}`;
-    if (!seen.has(key)) {
-      seen.add(key);
-      covers.push(src);
-    }
+    if (!firstCoverByProject.has(key)) firstCoverByProject.set(key, src);
   }
-  return covers;
+
+  const prioritySet = new Set(STRIP_PROJECT_PRIORITY);
+  const prioritized = STRIP_PROJECT_PRIORITY
+    .map((key) => firstCoverByProject.get(key))
+    .filter(Boolean);
+
+  const remaining = Array.from(firstCoverByProject.entries())
+    .filter(([projectKey]) => !prioritySet.has(projectKey))
+    .map(([, src]) => src);
+
+  return [...prioritized, ...remaining];
 };
 
 const BG   = '#06071a';
@@ -142,7 +168,7 @@ const PortfolioSplitHero = () => {
                   }}
                 >
                   <img
-                    src={src}
+                    src={optimizeStripImage(src)}
                     alt=""
                     style={{
                       width: '100%',
@@ -151,7 +177,9 @@ const PortfolioSplitHero = () => {
                       display: 'block',
                       filter: 'saturate(0.7) brightness(0.82)',
                     }}
-                    loading="lazy"
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    fetchPriority={i < 2 ? 'high' : 'low'}
+                    decoding="async"
                     draggable={false}
                   />
                   {/* subtle blue-brand tint overlay */}

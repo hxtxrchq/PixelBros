@@ -44,7 +44,7 @@ const Footer = () => {
             <div>
               <p className="text-[#e73c50] text-xs font-semibold uppercase tracking-widest mb-2">Trabajemos juntos</p>
               <h3 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">
-                Let&apos;s love<br />make a mark
+                Let&apos;s make<br /> a love mark
               </h3>
             </div>
             <Link to="/contact">

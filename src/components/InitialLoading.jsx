@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const T_TRACE  =  300;
-const T_FILL   = 1700;
-const T_TOTAL  = 3100;
+const T_TRACE  = 120;
+const T_FILL   = 720;
+const T_TOTAL  = 1450;
 
 const LOGO_PATH =
   'M 1570 2830 l0 -1270 1275 0 1275 0 0 200 0 200 -652 0 ' +
@@ -43,8 +43,15 @@ const InitialLoading = ({ onComplete }) => {
 
   useEffect(() => {
     document.body.dataset.loading = 'true';
-    const t1 = setTimeout(() => setShowFill(true),   T_FILL);
-    const t3 = setTimeout(() => setIsMounted(false), T_TOTAL);
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    const saveData = navigator.connection?.saveData;
+    const quickMode = Boolean(prefersReducedMotion || saveData);
+
+    const fillDelay = quickMode ? 220 : T_FILL;
+    const totalDelay = quickMode ? 520 : T_TOTAL;
+
+    const t1 = setTimeout(() => setShowFill(true), fillDelay);
+    const t3 = setTimeout(() => setIsMounted(false), totalDelay);
 
     return () => {
       clearTimeout(t1); clearTimeout(t3);

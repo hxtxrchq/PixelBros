@@ -6,9 +6,13 @@ import PortfolioSplitHero from '../components/home/PortfolioSplitHero';
 import InitialLoading from '../components/InitialLoading';
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('pb-home-loader-seen') !== '1';
+  });
 
   const handleLoadingComplete = () => {
+    sessionStorage.setItem('pb-home-loader-seen', '1');
     setIsLoading(false);
   };
 
