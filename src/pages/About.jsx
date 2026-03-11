@@ -11,8 +11,8 @@ const TEAM = [
     role: 'Gerente General',
     tag: 'Dirección',
     images: [
-      ['/team/erika1.png'],
-      ['/team/erika2.png'],
+      ['/team/erika1.jpg'],
+      ['/team/erika2.jpg'],
     ],
   },
   {
@@ -21,8 +21,8 @@ const TEAM = [
     role: 'Diseñador multimedia',
     tag: 'Diseño',
     images: [
-      ['/team/mave1.png'],
-      ['/team/mave2.png'],
+      ['/team/mave1.jpg'],
+      ['/team/mave2.jpg'],
     ],
   },
   {
@@ -31,8 +31,8 @@ const TEAM = [
     role: 'Content creator',
     tag: 'Contenido',
     images: [
-      ['/team/andrea1.png'],
-      ['/team/andrea2.png'],
+      ['/team/andrea1.jpg'],
+      ['/team/andrea2.jpg'],
     ],
   },
   {
@@ -41,8 +41,8 @@ const TEAM = [
     role: 'Programador Web',
     tag: 'Web',
     images: [
-      ['/team/alonso1.png'],
-      ['/team/alonso2.png'],
+      ['/team/alonso1.jpg'],
+      ['/team/alonso2.jpg'],
     ],
   },
 ];
