@@ -36,7 +36,6 @@ const HERO_SLIDES = [
   },
 ];
 
-const INTRO_MS = 3400;
 const SLIDE_MS = 8000;
 
 const getRelativeOffset = (cardIndex, activeIndex, total) => {
@@ -49,21 +48,15 @@ const getRelativeOffset = (cardIndex, activeIndex, total) => {
 
 const Hero = () => {
   const reduceMotion = useReducedMotion();
-  const [stage, setStage] = useState('intro');
+  const stage = 'slider';
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setStage('slider'), INTRO_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (stage !== 'slider') return undefined;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % HERO_SLIDES.length);
     }, SLIDE_MS);
     return () => clearInterval(timer);
-  }, [stage]);
+  }, []);
 
   const current = useMemo(() => HERO_SLIDES[index], [index]);
 
@@ -71,7 +64,7 @@ const Hero = () => {
     <section className="relative min-h-screen overflow-hidden bg-[#05061a]">
       <motion.div
         className="absolute inset-0"
-        animate={{ opacity: stage === 'intro' ? 1 : 0 }}
+        animate={{ opacity: 0 }}
         transition={{ duration: reduceMotion ? 0 : 0.6 }}
         style={{ background: 'radial-gradient(circle at 50% 35%, #343878 0%, #1d2050 56%, #05061a 100%)' }}
       >
@@ -90,7 +83,7 @@ const Hero = () => {
 
       <motion.div
         className="absolute inset-0"
-        animate={{ opacity: stage === 'slider' ? 1 : 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: reduceMotion ? 0 : 0.6 }}
       >
         <AnimatePresence mode="wait">
@@ -119,7 +112,7 @@ const Hero = () => {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 pt-24 pb-14">
         <motion.div
           className="relative w-full max-w-4xl h-[220px] sm:h-[270px] flex items-center justify-center"
-          animate={{ y: stage === 'intro' ? -8 : -46 }}
+          animate={{ y: -46 }}
           transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="absolute top-[13%] text-white text-[11px] sm:text-[14px] font-medium tracking-[0.24em] uppercase">
@@ -132,51 +125,28 @@ const Hero = () => {
               CON{' '}
               <AnimatePresence mode="wait">
                 <motion.span
-                  key={stage === 'intro' ? 'impacto' : current.impact}
+                  key={current.impact}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: reduceMotion ? 0 : 0.24 }}
                   className="text-[#ff455f]"
                 >
-                  {stage === 'intro' ? 'IMPACTO' : current.impact}
+                  {current.impact}
                 </motion.span>
               </AnimatePresence>
             </span>
           </h1>
         </motion.div>
 
-        <div className={`relative w-full ${stage === 'intro' ? 'max-w-md h-[96px]' : 'max-w-5xl h-[360px] sm:h-[400px]'}`}>
-          <AnimatePresence mode="wait">
-            {stage === 'intro' ? (
-              <motion.div
-                key="intro-actions"
-                className="absolute inset-x-0 top-0 flex items-center justify-center gap-3 sm:gap-4"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 18 }}
-                transition={{ duration: reduceMotion ? 0 : 0.48, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <Link to="/contact">
-                  <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="px-6 py-2.5 sm:px-8 sm:py-3 bg-white text-[#242848] font-semibold rounded-md text-sm sm:text-base">
-                    Empieza ahora
-                  </motion.button>
-                </Link>
-                <Link to="/portfolio">
-                  <motion.button whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="px-6 py-2.5 sm:px-8 sm:py-3 bg-[#ff455f] text-white font-semibold rounded-md text-sm sm:text-base">
-                    Ver portafolio
-                  </motion.button>
-                </Link>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="slider-content"
-                className="absolute inset-x-0 -top-12 sm:-top-10 flex flex-col items-center"
-                initial={{ opacity: 0, y: 34 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
-              >
+        <div className="relative w-full max-w-5xl h-[360px] sm:h-[400px]">
+          <motion.div
+            key="slider-content"
+            className="absolute inset-x-0 -top-12 sm:-top-10 flex flex-col items-center"
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.62, ease: [0.22, 1, 0.36, 1] }}
+          >
                 <div className="relative w-full max-w-[900px] h-[196px] sm:h-[250px] md:h-[270px]">
                   <div className="absolute inset-0 flex items-center justify-center">
                     {HERO_SLIDES.map((slide, cardIndex) => {
@@ -245,9 +215,7 @@ const Hero = () => {
                     </motion.button>
                   </Link>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </motion.div>
         </div>
       </div>
 

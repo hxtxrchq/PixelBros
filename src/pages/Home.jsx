@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Hero from '../components/home/Hero';
 import ServicesCarousel from '../components/home/ServicesCarousel';
 import PortfolioSplitHero from '../components/home/PortfolioSplitHero';
 
@@ -9,6 +10,15 @@ const Home = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
+      <Hero />
+      <div style={{
+        height: '10rem',
+        marginTop: '-10rem',
+        background: 'linear-gradient(to bottom, transparent 0%, #06071a 65%)',
+        pointerEvents: 'none',
+        position: 'relative',
+        zIndex: 10,
+      }} />
       <ServicesCarousel />
       <div style={{ height: '6rem', background: '#06071a' }} />
       <PortfolioSplitHero />
