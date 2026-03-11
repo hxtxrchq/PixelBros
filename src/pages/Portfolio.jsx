@@ -332,10 +332,10 @@ const Portfolio = () => {
             transition={{ delay: 0.2 }}
             className="text-[#B3262E] text-sm font-semibold tracking-widest uppercase mb-3"
           >
-            MIRA NUESTROS PROYECTOS EN
+            IDEAS EN ACCIÓN
           </motion.p>
           <h1 className="text-5xl md:text-6xl lg:text-8xl font-display font-bold mb-8 tracking-tight text-white">
-            NUESTRO <span className="text-[#e73c50]">PORTFOLIO</span>
+            PORTFOLIO<span className="text-[#e73c50]"></span>
           </h1>
         </motion.div>
 

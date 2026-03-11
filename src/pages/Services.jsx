@@ -1,295 +1,363 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getAssetUrl } from '../config/assets';
 
-const SERVICES = [
+const optimizeCloudinaryImage = (url, width = 1400) => {
+  if (!url || !url.includes('/image/upload/')) return url;
+  return url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`);
+};
+
+const videoPosterFromCloudinary = (videoUrl, width = 1400) => {
+  if (!videoUrl || !videoUrl.includes('/video/upload/')) return videoUrl;
+  return videoUrl
+    .replace('/video/upload/', `/video/upload/so_0,f_jpg,q_auto,w_${width}/`)
+    .replace(/\.(mp4|webm)$/i, '.jpg');
+};
+
+const resolveMediaToImage = (media, width = 1400) => {
+  if (!media?.src) return '';
+  if (media.type === 'video') return videoPosterFromCloudinary(media.src, width);
+  return optimizeCloudinaryImage(media.src, width);
+};
+
+const HERO_COLLAGE = [
+  { path: '/Portfolio/Fotografia/DOCTORA YURIKO/DSC04028.jpg', top: '10%', size: 'w-[72px] h-[90px] sm:w-[84px] sm:h-[106px]', duration: 42 },
+  { path: '/Portfolio/Fotografia/DULCE CUIDADO/DSC02902.jpg', top: '22%', size: 'w-[88px] h-[72px] sm:w-[102px] sm:h-[84px]', duration: 39 },
+  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/1_Feed/1_Febrero/2. Bolso Carrusel/POST-bolso-01.png', top: '36%', size: 'w-[86px] h-[86px] sm:w-[98px] sm:h-[98px]', duration: 45 },
+  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/1_Feed/1_Febrero/3. Gorra bike/gorra bike-02.png', top: '52%', size: 'w-[100px] h-[76px] sm:w-[114px] sm:h-[86px]', duration: 47 },
+  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/3. Fotos/Bolso2.png', top: '68%', size: 'w-[74px] h-[98px] sm:w-[86px] sm:h-[112px]', duration: 44 },
+  { path: '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.jpg', top: '18%', size: 'w-[108px] h-[82px] sm:w-[124px] sm:h-[94px]', duration: 48 },
+  { path: '/Portfolio/Fotografia/DOCTORA YURIKO/FOTO_PERFIL.jpg', top: '58%', size: 'w-[80px] h-[104px] sm:w-[92px] sm:h-[118px]', duration: 41 },
+  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/3. Fotos/BOX 2.png', top: '80%', size: 'w-[78px] h-[100px] sm:w-[90px] sm:h-[116px]', duration: 46 },
+];
+
+const SHOWCASE_SLIDES = [
   {
     id: 1,
-    title: 'Identidad Visual',
-    slug: 'identidad-visual',
-    description: 'Creamos la imagen de tu marca desde cero. Logo, paleta de colores, tipografía y guías de estilo que hacen que tu marca sea inconfundible.',
-    tag: 'Branding',
-    gradient: 'linear-gradient(135deg,#2a2760 0%,#474192 50%,#6560b8 100%)',
-    icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
-    keywords: ['Logo', 'Paleta', 'Tipografía', 'Brand Book'],
-    span: 'lg:col-span-3 lg:row-span-2',
-    large: true,
+    title: 'Branding',
+    description:
+      'Trabajamos la base de tu marca para que tenga una dirección clara. Definimos su identidad visual y lineamientos de comunicación para que todo lo que publiques mantenga coherencia.',
+    media: {
+      type: 'image',
+      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046500/pixelbros/Portfolio/Diseno_de_Identidad_Visual/Dulce_Cuidado/1.jpg',
+    },
   },
   {
     id: 2,
-    title: 'Contenidos',
-    slug: 'contenidos',
-    description: 'Contenido estratégico que conecta con tu audiencia y genera engagement real en cada plataforma.',
-    tag: 'Social Media',
-    gradient: 'linear-gradient(135deg,#0f1b3e 0%,#1d3e8c 55%,#2e55b2 100%)',
-    icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
-    keywords: ['Reels', 'Copywriting', 'Calendario'],
-    span: 'lg:col-span-3',
-    large: false,
+    title: 'Contenido para Redes',
+    description:
+      'Creamos contenido que muestra lo mejor de tu marca y amplía su alcance en redes. Combinamos creatividad y anuncios para atraer más público y generar oportunidades de venta.',
+    media: {
+      type: 'video',
+      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046726/pixelbros/Portfolio/Social_Media/Design_Market/CLUB_DESING_DM.mp4',
+    },
   },
   {
     id: 3,
-    title: 'Campañas Publicitarias',
-    slug: 'campanas-publicitarias',
-    description: 'Estrategias 360° que maximizan tu ROI y llevan tu marca a las personas correctas.',
-    tag: 'Performance',
-    gradient: 'linear-gradient(135deg,#5c0f18 0%,#a82030 55%,#e73c50 100%)',
-    icon: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z',
-    keywords: ['Meta Ads', 'Google Ads', 'ROI'],
-    span: 'lg:col-span-3',
-    large: false,
+    title: 'Publicidad Digital',
+    description:
+      'Creamos y gestionamos campañas en plataformas digitales para llegar a las personas correctas. Segmentamos, optimizamos y analizamos cada anuncio para que tu inversión tenga resultados claros.',
+    media: {
+      type: 'video',
+      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046683/pixelbros/Portfolio/Social_Media/Barbarian_Bar/BARBARIAN_OKTUBRE_FEST.mp4',
+    },
   },
   {
     id: 4,
-    title: 'Fotografía',
-    slug: 'fotografia-profesional',
-    description: 'Imágenes de alta calidad que capturan la esencia de tu marca y cautivan a tu audiencia.',
-    tag: 'Foto',
-    gradient: 'linear-gradient(135deg,#1a1a52 0%,#2d2d8c 55%,#4242b2 100%)',
-    icon: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z',
-    keywords: ['Producto', 'Editorial', '4K'],
-    span: 'lg:col-span-2',
-    large: false,
+    title: 'Fotografía Profesional',
+    description: 'Realizamos sesiones fotográficas que destacan lo mejor de tu marca.',
+    media: {
+      type: 'image',
+      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046610/pixelbros/Portfolio/Fotografia/DULCE_CUIDADO/DSC02914.jpg',
+    },
   },
   {
     id: 5,
     title: 'Producción Audiovisual',
-    slug: 'produccion-audiovisual',
-    description: 'Videos que impactan. Desde concept hasta postproducción cinematográfica.',
-    tag: 'Video',
-    gradient: 'linear-gradient(135deg,#1e1066 0%,#332899 55%,#4a38c8 100%)',
-    icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z',
-    keywords: ['Reels', 'Spots', 'Motion'],
-    span: 'lg:col-span-2',
-    large: false,
+    description:
+      'Desarrollamos piezas de video desde la idea hasta la edición final. Contenido audiovisual pensado para comunicar de forma clara y generar mayor impacto en plataformas digitales.',
+    media: {
+      type: 'video',
+      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046479/pixelbros/Portfolio/AudioVisual/Elevaria_Servido_Con_Proposito/1.mp4',
+    },
   },
   {
     id: 6,
-    title: 'Asesoramiento Comercial',
-    slug: 'asesoramiento-comercial',
-    description: 'Consultoría estratégica para potenciar tus ventas y optimizar procesos comerciales.',
-    tag: 'Estrategia',
-    gradient: 'linear-gradient(135deg,#032018 0%,#065438 55%,#0a7050 100%)',
-    icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
-    keywords: ['Funnel', 'CRM', 'Conversión'],
-    span: 'lg:col-span-2',
-    large: false,
+    title: 'Estrategia Comercial',
+    description:
+      'Analizamos tu negocio para encontrar oportunidades de crecimiento. Te ayudamos a ordenar tu oferta, mejorar tu comunicación y definir acciones que impulsen tus ventas.',
+    media: {
+      type: 'image',
+      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046533/pixelbros/Portfolio/Diseno_de_Identidad_Visual/Entrepenauta/1.jpg',
+    },
   },
   {
     id: 7,
     title: 'Activaciones BTL',
-    slug: 'activaciones-btl',
-    description: 'Experiencias presenciales y directas con tu público en eventos, lanzamientos y espacios públicos que generan impacto real.',
-    tag: 'BTL',
-    gradient: 'linear-gradient(135deg,#3d2200 0%,#7a4400 55%,#b06000 100%)',
-    icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z',
-    keywords: ['Eventos', 'Activaciones', 'Experiencias', 'Lanzamientos'],
-    span: 'lg:col-span-6',
-    large: false,
-    banner: true,
+    description:
+      'Diseñamos experiencias de marca fuera del entorno digital. Eventos, lanzamientos o intervenciones que generan interacción directa y recordación en tu público.',
+    media: {
+      type: 'image',
+      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046627/pixelbros/Portfolio/Fotografia/LA_VIEJA_TABERNA/DSC03827-Mejorado-NR.jpg',
+    },
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
+const HOLD_DURATION = 3600;
+const SWEEP_DURATION = 2100;
+const CARD_SWAP_POINT = 0.5;
+const BACKGROUND_SCRIM = 'linear-gradient(180deg,rgba(5,7,19,0.2)_0%,rgba(5,7,19,0.58)_100%)';
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-};
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-const ServiceBentoCard = ({ service }) => (
-  <motion.div variants={cardVariants} className={`${service.span} h-full`}>
-    <Link to={`/services/${service.slug}`} className="block h-full">
-      <motion.div
-        className={`group relative h-full overflow-hidden rounded-2xl transition-colors duration-300 ${
-          service.large ? 'min-h-[340px]' : service.banner ? 'min-h-[140px]' : 'min-h-[200px]'
-        }`}
-        style={{ background: service.gradient }}
-        whileHover={{ scale: 1.015, y: -3 }}
-        whileTap={{ scale: 0.99 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      >
-        {/* Subtle noise texture */}
-        <div className="absolute inset-0 opacity-[0.05]" style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-        }} />
+const Services = () => {
+  const [visibleSlide, setVisibleSlide] = useState(0);
+  const [incomingSlide, setIncomingSlide] = useState(1);
+  const [cardSlide, setCardSlide] = useState(0);
+  const [isSweeping, setIsSweeping] = useState(false);
+  const [sweepProgress, setSweepProgress] = useState(0);
+  const frameRef = useRef(null);
+  const holdTimerRef = useRef(null);
 
-        <div className={`relative z-10 flex flex-col h-full ${service.banner ? 'sm:flex-row sm:items-center sm:justify-between' : ''} p-6 ${service.large ? 'lg:p-8' : ''}`}>
+  const collageImages = useMemo(
+    () =>
+      HERO_COLLAGE.map((item) => ({
+        ...item,
+        url: optimizeCloudinaryImage(getAssetUrl(item.path), 560),
+      })).filter((item) => Boolean(item.url)),
+    []
+  );
 
-          {/* Tag + Icon */}
-          <div className={`flex items-start justify-between ${service.banner ? 'sm:mb-0 sm:gap-6 flex-1' : 'mb-3'}`}>
-            <div className="flex-1">
-              <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-white/20 text-white mb-3">
-                {service.tag}
-              </span>
-              <h3 className={`font-black text-white leading-tight ${
-                service.large ? 'text-3xl lg:text-4xl' : service.banner ? 'text-2xl lg:text-3xl' : 'text-xl'
-              }`}>
-                {service.title}
-              </h3>
-            </div>
-            <div className={`flex-shrink-0 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center ml-4 ${service.large ? 'w-14 h-14' : 'w-10 h-10'}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={service.large ? 'w-7 h-7' : 'w-5 h-5'}>
-                <path d={service.icon} />
-              </svg>
-            </div>
-          </div>
+  const slides = useMemo(
+    () =>
+      SHOWCASE_SLIDES.map((slide) => ({
+        ...slide,
+        backgroundImage: resolveMediaToImage(slide.media, 1440),
+      })).filter((slide) => Boolean(slide.backgroundImage)),
+    []
+  );
 
-          {/* Description */}
-          <p className={`text-white/80 leading-relaxed ${
-            service.large ? 'mt-4 text-base max-w-sm' : service.banner ? 'sm:max-w-lg mt-3 sm:mt-0 text-sm' : 'mt-2 text-sm'
-          }`}>
-            {service.description}
-          </p>
+  useEffect(() => {
+    if (!slides.length) return undefined;
 
-          {/* Keywords */}
-          <div className={`flex flex-wrap gap-1.5 ${service.banner ? 'mt-4 sm:mt-0 sm:ml-8' : 'mt-4'}`}>
-            {service.keywords.map((kw) => (
-              <span key={kw} className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-white/15 text-white/90 uppercase tracking-wide">
-                {kw}
-              </span>
+    let isCancelled = false;
+    const nextIndex = (visibleSlide + 1) % slides.length;
+
+    holdTimerRef.current = setTimeout(() => {
+      if (isCancelled) return;
+
+      let hasSwappedCard = false;
+      setIncomingSlide(nextIndex);
+      setIsSweeping(true);
+      setSweepProgress(0);
+
+      const startedAt = performance.now();
+
+      const tick = (now) => {
+        if (isCancelled) return;
+
+        const progress = Math.min((now - startedAt) / SWEEP_DURATION, 1);
+        setSweepProgress(progress);
+        const visualProgress = easeOutCubic(progress);
+
+        if (!hasSwappedCard && visualProgress >= CARD_SWAP_POINT) {
+          setCardSlide(nextIndex);
+          hasSwappedCard = true;
+        }
+
+        if (progress < 1) {
+          frameRef.current = requestAnimationFrame(tick);
+          return;
+        }
+
+        setVisibleSlide(nextIndex);
+        setCardSlide(nextIndex);
+        setSweepProgress(1);
+
+        // Let the final sweep frame settle before hiding the overlay to avoid a hard cut.
+        frameRef.current = requestAnimationFrame(() => {
+          if (isCancelled) return;
+          frameRef.current = requestAnimationFrame(() => {
+            if (isCancelled) return;
+            setIsSweeping(false);
+            setIncomingSlide((nextIndex + 1) % slides.length);
+            setSweepProgress(0);
+          });
+        });
+      };
+
+      frameRef.current = requestAnimationFrame(tick);
+    }, HOLD_DURATION);
+
+    return () => {
+      isCancelled = true;
+      if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
+  }, [visibleSlide, slides.length]);
+
+  const current = slides[visibleSlide] || null;
+  const incoming = slides[incomingSlide] || null;
+  const cardContent = slides[cardSlide] || current || null;
+  const sweep = Math.max(0, Math.min(1, sweepProgress));
+  const easedSweep = easeOutCubic(sweep);
+
+  // Diagonal front that starts at bottom-left and fully overshoots right edge.
+  // Overshoot avoids the visible hard cut at the end of the sweep.
+  const sweepTop = easedSweep * 148 - 26;
+  const sweepBottom = easedSweep * 138 - 4;
+  const diagonalMask = `polygon(0 0, ${sweepTop}% 0, ${sweepBottom}% 100%, 0 100%)`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-screen bg-transparent pt-32 pb-24"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75 }}
+          className="relative mb-16 min-h-[360px] sm:min-h-[420px] overflow-hidden rounded-[28px] border border-[#474192]/35"
+          style={{ background: 'linear-gradient(130deg, #101336 0%, #0b102a 52%, #080a19 100%)' }}
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_22%,rgba(71,65,146,0.18),transparent_44%),radial-gradient(circle_at_84%_80%,rgba(231,60,80,0.12),transparent_40%)]" />
+
+          <div className="absolute inset-0 pointer-events-none">
+            {collageImages.map((img, idx) => (
+              <motion.div
+                key={`${img.path}-${idx}`}
+                className={`absolute ${img.size} overflow-hidden rounded-[2px] border border-white/10 shadow-[0_10px_28px_rgba(0,0,0,0.32)]`}
+                style={{ top: img.top, left: `${106 + idx * 10}%` }}
+                animate={{ x: ['0vw', '-320vw'] }}
+                transition={{ duration: img.duration, repeat: Infinity, ease: 'linear', delay: idx * 0.24 }}
+              >
+                <img src={img.url} alt="Muestra de servicio" className="h-full w-full object-cover" loading="lazy" />
+              </motion.div>
             ))}
           </div>
 
-          {/* Arrow (shows on hover via group) */}
-          <div className="flex items-center gap-1.5 mt-5 text-white/80 font-semibold text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-250">
-            <span>Ver más</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+          <div className="relative z-20 flex min-h-[360px] sm:min-h-[420px] items-center justify-center px-6 text-center">
+            <h1 className="max-w-4xl text-5xl sm:text-6xl lg:text-7xl font-display font-black leading-[0.96] text-white">
+              Nuestros <span className="text-[#e73c50]">Servicios</span>
+            </h1>
           </div>
+        </motion.section>
 
-          {/* Decorative circles */}
-          <div className="absolute -bottom-10 -right-10 w-36 h-36 rounded-full bg-white/10 pointer-events-none" />
-          <div className="absolute -top-6 -left-6 w-24 h-24 rounded-full bg-white/8 pointer-events-none" />
-        </div>
-      </motion.div>
-    </Link>
-  </motion.div>
-);
+        <section className="mb-20">
+          <div className="relative h-[72vh] min-h-[500px] max-h-[760px] overflow-hidden rounded-[32px] border border-white/10 bg-[#080b1a]">
+            {current && (
+              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${current.backgroundImage})` }}>
+                <div className="absolute inset-0" style={{ background: BACKGROUND_SCRIM }} />
+              </div>
+            )}
 
-const Services = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="min-h-screen bg-transparent pt-32 pb-24"
-  >
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {incoming && isSweeping && (
+              <div className="absolute inset-0 z-[6] pointer-events-none">
+                <div
+                  className="absolute inset-0 will-change-transform"
+                  style={{
+                    opacity: easedSweep,
+                    transform: `translateX(${(1 - easedSweep) * 6}%) scale(${1.015 - easedSweep * 0.015})`,
+                    transformOrigin: 'left center',
+                    clipPath: diagonalMask,
+                  }}
+                >
+                  <div className="absolute -inset-y-[2%] -inset-x-[3%] bg-cover bg-center" style={{ backgroundImage: `url(${incoming.backgroundImage})` }} />
+                  <div className="absolute inset-0" style={{ background: BACKGROUND_SCRIM }} />
+                </div>
 
-      {/* ── Header ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="mb-16"
-      >
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#e73c50] mb-4">Lo que hacemos</p>
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-black text-white leading-none">
-            Nuestros<br />
-            <span className="text-[#e73c50]">Servicios</span>
-          </h1>
-          <p className="text-lg text-white/55 max-w-md lg:text-right leading-relaxed">
-            Soluciones integrales de marketing digital para transformar tu marca en una experiencia memorable.
-          </p>
-        </div>
-      </motion.div>
+                <div
+                  className="absolute inset-y-[-10%] w-[30%]"
+                  style={{
+                    left: `calc(${easedSweep * 100}% - 15%)`,
+                    bottom: `${(1 - easedSweep) * -12}%`,
+                    transform: 'skewX(-12deg)',
+                    opacity: Math.max(0, 0.24 - easedSweep * 0.2),
+                  }}
+                >
+                  <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),rgba(255,255,255,0.05),transparent)]" />
+                </div>
+              </div>
+            )}
 
-      {/* ── Stats strip ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
-        className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-14"
-      >
-        {[
-          { value: '7', label: 'Servicios especializados' },
-          { value: '50+', label: 'Marcas trabajadas' },
-          { value: '500+', label: 'Proyectos entregados' },
-          { value: '100%', label: 'Enfoque en resultados' },
-        ].map((s) => (
-          <div key={s.label} className="bg-[#0d0e24] rounded-2xl px-5 py-4">
-            <p className="text-2xl font-black text-white">{s.value}</p>
-            <p className="text-xs text-white/50 mt-0.5">{s.label}</p>
-          </div>
-        ))}
-      </motion.div>
+            <div className="absolute inset-0 z-10 bg-black/26" />
+            <div className="absolute inset-0 z-10 bg-[linear-gradient(90deg,rgba(3,7,19,0.48)_0%,rgba(3,7,19,0.12)_50%,rgba(3,7,19,0.44)_100%)]" />
+            <div className="absolute inset-0 z-10 backdrop-blur-[1.2px]" />
 
-      {/* ── Bento Grid ── */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 auto-rows-[minmax(200px,auto)] gap-4"
-      >
-        {SERVICES.map((service) => (
-          <ServiceBentoCard key={service.id} service={service} />
-        ))}
-      </motion.div>
-
-      {/* ── Process strip ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="mt-20 mb-14"
-      >
-        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/35 mb-8 text-center">Nuestro proceso</p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {[
-            { n: '01', title: 'Diagnóstico', desc: 'Analizamos tu marca, audiencia y competencia.' },
-            { n: '02', title: 'Estrategia', desc: 'Definimos objetivos, KPIs y plan de acción.' },
-            { n: '03', title: 'Ejecución', desc: 'Producción y lanzamiento con calidad premium.' },
-            { n: '04', title: 'Optimización', desc: 'Medimos, iteramos y mejoramos continuamente.' },
-          ].map((step) => (
-            <div key={step.n} className="relative pl-5 border-l border-white/15">
-              <p className="text-[#e73c50] text-xs font-bold mb-1">{step.n}</p>
-              <h4 className="text-white font-bold mb-1">{step.title}</h4>
-              <p className="text-white/50 text-sm leading-snug">{step.desc}</p>
+            <div className="relative z-20 flex h-full items-center justify-center px-4 sm:px-8">
+              {cardContent && (
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.article
+                    key={`card-${cardContent.id}`}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.32, ease: 'easeOut' }}
+                    className="relative z-30 w-full max-w-[520px] overflow-hidden rounded-[30px] border border-white/40 bg-[#030916]/92 backdrop-blur-md shadow-[0_28px_86px_rgba(0,0,0,0.76)]"
+                  >
+                    <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(88,101,255,0.16)_0%,rgba(10,15,35,0.06)_42%,rgba(231,60,80,0.16)_100%)]" />
+                    <div className="absolute inset-x-0 top-0 h-[1px] bg-white/50" />
+                    <div className="relative p-7 sm:p-9">
+                      <h3
+                        className="max-w-[14ch] text-[2.25rem] sm:text-[2.9rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
+                        style={{ textShadow: '0 2px 18px rgba(0,0,0,0.84)' }}
+                      >
+                        {cardContent.title}
+                      </h3>
+                      <p
+                        className="mt-4 max-w-[36ch] text-[16px] sm:text-[18px] leading-relaxed text-white"
+                        style={{ textShadow: '0 1px 13px rgba(0,0,0,0.82)' }}
+                      >
+                        {cardContent.description}
+                      </p>
+                    </div>
+                  </motion.article>
+                </AnimatePresence>
+              )}
             </div>
-          ))}
-        </div>
-      </motion.div>
+          </div>
+        </section>
 
-      {/* ── CTA ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="relative overflow-hidden rounded-3xl p-10 lg:p-14 text-center"
-        style={{ background: 'linear-gradient(135deg,#1e1c50 0%,#474192 55%,#6560b8 100%)' }}
-      >
-        <div className="absolute inset-0 opacity-[0.06]" style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-        }} />
-        <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-3">
-            ¿Listo para transformar tu negocio?
-          </h2>
-          <p className="text-white/75 mb-8 max-w-xl mx-auto">
-            Hablemos. Cuéntanos tu proyecto y diseñamos la estrategia perfecta para ti.
-          </p>
-          <Link to="/contact">
-            <motion.button
-              whileHover={{ scale: 1.04, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
-              whileTap={{ scale: 0.97 }}
-              className="px-10 py-4 bg-white text-[#06071a] font-black rounded-full text-base shadow-lg transition-all"
-            >
-              Agenda tu llamada gratis
-            </motion.button>
-          </Link>
-        </div>
-      </motion.div>
-
-    </div>
-  </motion.div>
-);
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative overflow-hidden rounded-3xl p-10 lg:p-14 text-center"
+          style={{ background: 'linear-gradient(135deg,#1e1c50 0%,#474192 55%,#6560b8 100%)' }}
+        >
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+            }}
+          />
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-3">
+              Las buenas marcas no aparecen por casualidad
+            </h2>
+            <p className="text-white/75 mb-8 max-w-xl mx-auto">
+              Cuéntanos tu idea y veamos hasta dónde puede llegar.
+            </p>
+            <Link to="/contact">
+              <motion.button
+                whileHover={{ scale: 1.04, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
+                whileTap={{ scale: 0.97 }}
+                className="px-10 py-4 bg-white text-[#06071a] font-black rounded-full text-base shadow-lg transition-all"
+              >
+                Empezar proyecto
+              </motion.button>
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default Services;
-
-

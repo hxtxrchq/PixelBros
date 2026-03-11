@@ -1,132 +1,73 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import AnimatedCounter from '../components/AnimatedCounter';
-const LogoIconPixel = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbros/logos/LogoIconPixel.png';
+import LogoPixelBros from '../images/LogoPixelBros.png';
 
-// Cada miembro tiene un arreglo de "imágenes" (actualmente gradientes placeholder).
-// Para agregar fotos reales: reemplaza los valores de `images` con rutas de imagen,
-// y en el componente TeamCard cambia el div de gradiente por un <img src={img} />.
 const TEAM = [
   {
     id: 1,
-    name: 'Ana Martínez',
-    role: 'CEO & Estratega',
+    name: 'Erika',
+    role: 'Gerente General',
     tag: 'Dirección',
     images: [
-      'linear-gradient(135deg,#2a2760,#474192)',
-      'linear-gradient(135deg,#3b3882,#5550b8)',
-      'linear-gradient(135deg,#1e1c50,#3f3c92)',
+      ['/team/erika-1.png', '/team/erika1.png', '/team/Erika-1.png', '/team/erika-1.jpg', '/team/erika1.jpg'],
+      ['/team/erika-2.png', '/team/erika2.png', '/team/Erika-2.png', '/team/erika-2.jpg', '/team/erika2.jpg'],
     ],
   },
   {
     id: 2,
-    name: 'Carlos Rivera',
-    role: 'Director Creativo',
-    tag: 'Creatividad',
+    name: 'Mave',
+    role: 'Diseñador multimedia',
+    tag: 'Diseño',
     images: [
-      'linear-gradient(135deg,#0f1b3e,#1d3e8c)',
-      'linear-gradient(135deg,#142448,#2652a8)',
-      'linear-gradient(135deg,#0a1530,#1a3880)',
+      ['/team/mave-1.png', '/team/mave1.png', '/team/Mave-1.png', '/team/mave-1.jpg', '/team/mave1.jpg'],
+      ['/team/mave-2.png', '/team/mave2.png', '/team/Mave-2.png', '/team/mave-2.jpg', '/team/mave2.jpg'],
     ],
   },
   {
     id: 3,
-    name: 'Laura González',
-    role: 'Head de Marketing',
-    tag: 'Marketing',
+    name: 'Andrea',
+    role: 'Content creator',
+    tag: 'Contenido',
     images: [
-      'linear-gradient(135deg,#5c0f18,#a82030)',
-      'linear-gradient(135deg,#6e1520,#c42840)',
-      'linear-gradient(135deg,#480c14,#8c1a28)',
+      ['/team/andrea-1.png', '/team/andrea1.png', '/team/Andrea-1.png', '/team/andrea-1.jpg', '/team/andrea1.jpg'],
+      ['/team/andrea-2.png', '/team/andrea2.png', '/team/Andrea-2.png', '/team/andrea-2.jpg', '/team/andrea2.jpg'],
     ],
   },
   {
     id: 4,
-    name: 'Miguel Torres',
-    role: 'Director Audiovisual',
-    tag: 'Audiovisual',
+    name: 'Alonso',
+    role: 'Programador Web',
+    tag: 'Web',
     images: [
-      'linear-gradient(135deg,#1e1066,#332899)',
-      'linear-gradient(135deg,#261480,#4240c0)',
-      'linear-gradient(135deg,#160c52,#2a2488)',
-    ],
-  },
-  {
-    id: 5,
-    name: 'Sofía Paredes',
-    role: 'Diseñadora Senior',
-    tag: 'Diseño',
-    images: [
-      'linear-gradient(135deg,#1a1a52,#2d2d8c)',
-      'linear-gradient(135deg,#22226a,#3838a8)',
-      'linear-gradient(135deg,#12123a,#242472)',
-    ],
-  },
-  {
-    id: 6,
-    name: 'Diego Vásquez',
-    role: 'Estratega Digital',
-    tag: 'Estrategia',
-    images: [
-      'linear-gradient(135deg,#0a1e3d,#153a7a)',
-      'linear-gradient(135deg,#0e2850,#1c4e9e)',
-      'linear-gradient(135deg,#06142a,#102e60)',
-    ],
-  },
-  {
-    id: 7,
-    name: 'Valentina Cruz',
-    role: 'Community Manager',
-    tag: 'Social',
-    images: [
-      'linear-gradient(135deg,#4a0916,#7c1428)',
-      'linear-gradient(135deg,#5c0c1c,#961832)',
-      'linear-gradient(135deg,#380710,#620f20)',
-    ],
-  },
-  {
-    id: 8,
-    name: 'Mateo Ríos',
-    role: 'Fotógrafo / Editor',
-    tag: 'Foto & Video',
-    images: [
-      'linear-gradient(135deg,#1e293b,#334155)',
-      'linear-gradient(135deg,#263347,#3d4f65)',
-      'linear-gradient(135deg,#16202e,#2a3a4e)',
-    ],
-  },
-  {
-    id: 9,
-    name: 'Isabella Morales',
-    role: 'Motion Designer',
-    tag: 'Motion',
-    images: [
-      'linear-gradient(135deg,#2d1a6e,#4a2faa)',
-      'linear-gradient(135deg,#381f88,#5a38c8)',
-      'linear-gradient(135deg,#221454,#3c268c)',
-    ],
-  },
-  {
-    id: 10,
-    name: 'Sebastián Pinto',
-    role: 'Performance Ads',
-    tag: 'Pauta',
-    images: [
-      'linear-gradient(135deg,#5c0f18,#a82030)',
-      'linear-gradient(135deg,#6e1520,#be2838)',
-      'linear-gradient(135deg,#440c12,#8c1a26)',
+      ['/team/alonso-1.png', '/team/alonso1.png', '/team/Alonso-1.png', '/team/alonso-1.jpg', '/team/alonso1.jpg'],
+      ['/team/alonso-2.png', '/team/alonso2.png', '/team/Alonso-2.png', '/team/alonso-2.jpg', '/team/alonso2.jpg'],
     ],
   },
 ];
 
-// Card individual con ciclo automático de imagen y hover manual
 const TeamCard = ({ member, globalTick, index }) => {
-  const total = member.images.length;
-  const [hoverImg, setHoverImg] = useState(null);
-
+  const total = member.images.length || 1;
   const activeIdx = globalTick % total;
-  const displayImg = hoverImg !== null ? hoverImg : member.images[activeIdx];
+  const activeCandidates = member.images[activeIdx] || [];
+  const candidateList = Array.isArray(activeCandidates) ? activeCandidates : [activeCandidates];
+  const [candidateIdx, setCandidateIdx] = useState(0);
+  const [imgError, setImgError] = useState(false);
+  const displayImg = candidateList[candidateIdx] || '';
+
+  useEffect(() => {
+    setCandidateIdx(0);
+    setImgError(false);
+  }, [activeIdx]);
+
+  const handleImageError = () => {
+    if (candidateIdx < candidateList.length - 1) {
+      setCandidateIdx((idx) => idx + 1);
+      return;
+    }
+    setImgError(true);
+  };
 
   return (
     <motion.div
@@ -135,12 +76,8 @@ const TeamCard = ({ member, globalTick, index }) => {
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: index * 0.07, duration: 0.55, ease: 'easeOut' }}
       className="group relative flex flex-col"
-      onMouseEnter={() => setHoverImg(member.images[(activeIdx + 1) % total])}
-      onMouseLeave={() => setHoverImg(null)}
     >
-      {/* Card visual */}
-      <div className="relative h-56 rounded-xl overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.45)] mb-3">
-        {/* Imagen / gradiente */}
+      <div className="relative h-72 rounded-2xl overflow-hidden border border-white/12 shadow-[0_10px_26px_rgba(0,0,0,0.5)] mb-3 bg-[#0d0e24]">
         <AnimatePresence mode="wait">
           <motion.div
             key={displayImg}
@@ -149,107 +86,46 @@ const TeamCard = ({ member, globalTick, index }) => {
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
             className="absolute inset-0"
-            style={{ background: displayImg }}
-          />
+          >
+            {!imgError ? (
+              <img
+                src={displayImg}
+                alt={member.name}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                onError={handleImageError}
+              />
+            ) : (
+              <div className="h-full w-full bg-[linear-gradient(145deg,#1e1c50,#0e122d)] flex items-center justify-center">
+                <span className="text-white/85 text-4xl font-display font-bold">{member.name.charAt(0)}</span>
+              </div>
+            )}
+          </motion.div>
         </AnimatePresence>
 
-        {/* Shimmer sweep on hover */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.18) 50%, transparent 70%)',
-            backgroundSize: '200% 100%',
-          }}
-          animate={{ backgroundPosition: ['200% 0%', '-200% 0%'] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_48%,rgba(0,0,0,0.35)_80%,rgba(0,0,0,0.55)_100%)]" />
 
-        {/* Tag badge */}
         <div className="absolute top-3 left-3">
           <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/50 text-white/90 backdrop-blur-sm">
             {member.tag}
           </span>
         </div>
-
-        {/* Image indicator dots */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-          {member.images.map((_, i) => (
-            <motion.span
-              key={i}
-              className="block rounded-full bg-white"
-              animate={{
-                width: i === (hoverImg !== null ? (activeIdx + 1) % total : activeIdx) ? 18 : 6,
-                opacity: i === (hoverImg !== null ? (activeIdx + 1) % total : activeIdx) ? 1 : 0.4,
-              }}
-              style={{ height: 6 }}
-              transition={{ duration: 0.3 }}
-            />
-          ))}
-        </div>
-
-        {/* Glow border on hover */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl pointer-events-none"
-          style={{ boxShadow: '0 0 0 0px rgba(231,60,80,0)' }}
-          whileHover={{ boxShadow: '0 0 0 2px rgba(231,60,80,0.7), 0 0 40px rgba(231,60,80,0.25)' }}
-          transition={{ duration: 0.3 }}
-        />
       </div>
 
-      {/* Info */}
-      <h3 className="text-sm font-bold text-white leading-tight">{member.name}</h3>
-      <p className="text-xs text-[#e73c50] font-medium mt-0.5">{member.role}</p>
+      <h3 className="text-lg font-bold text-white leading-tight">{member.name}</h3>
+      <p className="text-sm text-[#e73c50] font-medium mt-0.5">{member.role}</p>
     </motion.div>
   );
 };
 
-const CARD_WIDTH = 220; // px de cada card + gap para el scroll por flecha
-
 const About = () => {
   const [globalTick, setGlobalTick] = useState(0);
-  const carouselRef = useRef(null);
-  const autoScrollRef = useRef(null);
 
-  // Ciclo de imágenes cada 3s
+  // Cambio automatico de foto por card
   useEffect(() => {
-    const id = setInterval(() => setGlobalTick((t) => t + 1), 3000);
+    const id = setInterval(() => setGlobalTick((t) => t + 1), 3200);
     return () => clearInterval(id);
   }, []);
-
-  // Auto-scroll: cada 2.5s avanza una card; al llegar al final vuelve suavemente al inicio
-  const startAutoScroll = () => {
-    autoScrollRef.current = setInterval(() => {
-      const el = carouselRef.current;
-      if (!el) return;
-      const maxScroll = el.scrollWidth - el.clientWidth;
-      if (el.scrollLeft >= maxScroll - 4) {
-        el.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        el.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
-      }
-    }, 2500);
-  };
-
-  const stopAutoScroll = () => {
-    if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-  };
-
-  useEffect(() => {
-    startAutoScroll();
-    return () => stopAutoScroll();
-  }, []);
-
-  const scrollLeft = () => {
-    stopAutoScroll();
-    carouselRef.current?.scrollBy({ left: -CARD_WIDTH, behavior: 'smooth' });
-    startAutoScroll();
-  };
-
-  const scrollRight = () => {
-    stopAutoScroll();
-    carouselRef.current?.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
-    startAutoScroll();
-  };
 
   return (
     <motion.div
@@ -271,8 +147,7 @@ const About = () => {
               Somos <span className="text-[#e73c50]">PixelBros</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/65 max-w-4xl mx-auto leading-relaxed">
-              Una agencia de marketing digital premium que transforma marcas en experiencias inolvidables. 
-              Combinamos creatividad, estrategia y tecnología para llevar tu negocio al siguiente nivel.
+              Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.
             </p>
           </motion.div>
         </div>
@@ -292,16 +167,13 @@ const About = () => {
               </h2>
                 <div className="space-y-4 text-white/65 text-lg">
                 <p>
-                  Fundada en 2020, PixelBros nació de la visión de crear una agencia diferente. 
-                  Una donde el cliente no es solo un número, sino un socio en el camino hacia el éxito.
+                  PixelBros nace en 2020 como una agencia creativa de contenido, con la idea de que muchas veces las grandes ideas empiezan desde lo más pequeño. De ahí viene Pixel, la unidad mínima que, al juntarse con otras, puede construir algo mucho más grande.
                 </p>
                 <p>
-                  En estos años hemos trabajado con más de 50 marcas, desde startups disruptivas 
-                  hasta empresas consolidadas, ayudándoles a alcanzar sus objetivos de marketing digital.
+                  El Bros viene curiosamente de Mario Bros, como una referencia a ese espíritu creativo con el que nació la agencia.
                 </p>
                 <p>
-                  Hoy somos un equipo de profesionales apasionados por lo que hacemos, 
-                  comprometidos con la excelencia y obsesionados con los resultados.
+                  En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a crecer y destacar. También integramos la ingeniería empresarial, porque entendemos que el marketing no va solo, sino que forma parte de todo lo que mueve a una empresa.
                 </p>
               </div>
             </motion.div>
@@ -310,13 +182,12 @@ const About = () => {
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-2 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {[
-                { number: '500+', label: 'Proyectos Completados' },
-                { number: '50+', label: 'Clientes Satisfechos' },
-                { number: '98%', label: 'Tasa de Retención' },
-                { number: '15+', label: 'Premios Ganados' },
+                { number: '450+', label: 'Proyectos Completados' },
+                { number: '200+', label: 'Clientes Satisfechos' },
+                { number: '85%', label: 'Tasa de Retención' },
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -324,7 +195,7 @@ const About = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-[#0d0e24] p-6 rounded-2xl"
+                  className="bg-[#0d0e24] p-6 rounded-2xl min-h-[145px] flex items-center"
                 >
                   <AnimatedCounter
                     number={stat.number}
@@ -338,16 +209,14 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team – carrusel horizontal */}
+      {/* Team */}
       <section className="py-20 bg-[#06071a] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* Header + flechas */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10"
+            className="mb-10"
           >
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-3">El equipo</p>
@@ -355,145 +224,120 @@ const About = () => {
                 Nuestro <span className="text-[#e73c50]">Equipo</span>
               </h2>
               <p className="text-base text-white/55">
-                Profesionales apasionados por crear experiencias digitales excepcionales
+                Nos tomamos en serio el trabajo detrás de una buena idea.
               </p>
             </div>
-
-            {/* Flechas */}
-            <div className="flex gap-3 flex-shrink-0">
-              <motion.button
-                onClick={scrollLeft}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.94 }}
-                className="w-11 h-11 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
-                aria-label="Anterior"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </motion.button>
-              <motion.button
-                onClick={scrollRight}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.94 }}
-                className="w-11 h-11 rounded-full bg-[#e73c50] border border-[#e73c50] text-white flex items-center justify-center hover:bg-[#c9303f] transition-colors shadow-[0_4px_20px_rgba(231,60,80,0.4)]"
-                aria-label="Siguiente"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </motion.button>
-            </div>
           </motion.div>
-        </div>
-
-        {/* Scroll container con máscara de difuminado en los bordes */}
-        <div className="relative">
-          {/* Fade izquierdo */}
-          <div
-            className="absolute left-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to right, #06071a 0%, transparent 100%)' }}
-          />
-          {/* Fade derecho */}
-          <div
-            className="absolute right-0 top-0 bottom-4 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to left, #06071a 0%, transparent 100%)' }}
-          />
-
-          <div
-            ref={carouselRef}
-            onMouseEnter={stopAutoScroll}
-            onMouseLeave={startAutoScroll}
-            className="flex gap-4 overflow-x-auto scroll-smooth px-4 sm:px-8 lg:px-[calc((100vw-80rem)/2+2rem)] pb-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {TEAM.map((member, index) => (
-              <div key={member.id} className="flex-shrink-0 w-44 sm:w-48">
-                <TeamCard
-                  member={member}
-                  globalTick={globalTick}
-                  index={index}
-                />
-              </div>
+              <TeamCard
+                key={member.id}
+                member={member}
+                globalTick={globalTick}
+                index={index}
+              />
             ))}
-            {/* padding de cierre */}
-            <div className="flex-shrink-0 w-16" />
           </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-20 bg-transparent">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[32px] bg-[#0d0e24] shadow-2xl"
+            className="relative overflow-hidden rounded-[30px] border border-[#474192]/35 bg-[#0b0d22] shadow-[0_24px_70px_rgba(0,0,0,0.5)]"
           >
             <div className="absolute inset-0">
-              <div className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#474192]/15 blur-3xl" />
-              <div className="absolute right-8 bottom-8 h-56 w-56 rounded-full bg-[#e73c50]/8 blur-3xl" />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e73c50]/25 to-transparent" />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(120deg, #111434 0%, #0a0d22 46%, #090b1b 100%)',
+                }}
+              />
+              <div
+                className="absolute inset-0 opacity-[0.07]"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+                  backgroundSize: '24px 24px',
+                }}
+              />
+              <div
+                className="absolute -left-20 top-8 h-36 w-[55%] -skew-x-12 opacity-25"
+                style={{ background: 'linear-gradient(90deg, #474192 0%, rgba(71,65,146,0) 100%)' }}
+              />
+              <div
+                className="absolute right-0 bottom-0 h-40 w-[45%] skew-x-[-16deg] opacity-25"
+                style={{ background: 'linear-gradient(270deg, #e73c50 0%, rgba(231,60,80,0) 85%)' }}
+              />
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e73c50]/55 to-transparent" />
+              <div className="absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-[#e73c50]/0 via-[#e73c50]/60 to-[#e73c50]/0" />
             </div>
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center px-10 py-12">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#e73c50] mb-4">
-                  Convocatoria creativa
-                </p>
-                <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
-                  El proximo <span className="text-[#e73c50]">PixelBros</span> podrias ser tu
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-8 px-7 py-9 sm:px-10 sm:py-12">
+              <div className="relative z-10">
+                <h2 className="max-w-2xl text-3xl font-display font-bold leading-[1.05] text-white sm:text-4xl md:text-5xl">
+                  Si te dicen que piensas demasiado, <span className="text-[#e73c50]">postula.</span>
                 </h2>
-                <p className="text-white/65 mb-8">
-                  Queremos mentes inquietas, curiosas y con hambre de crear. Postula y cuentanos que te mueve.
-                </p>
-                <Link to="/postula">
+
+                <Link to="/postula" className="inline-block mt-8">
                   <motion.button
-                    whileHover={{ scale: 1.04, boxShadow: '0 18px 45px rgba(179, 38, 46, 0.3)' }}
-                    whileTap={{ scale: 0.96 }}
-                    className="px-8 py-4 bg-[#e73c50] text-white font-bold rounded-full text-lg shadow-lg hover:bg-[#c82d40] transition-all"
+                    whileHover={{ y: -2, boxShadow: '0 18px 42px rgba(231,60,80,0.32)' }}
+                    whileTap={{ scale: 0.97 }}
+                    className="rounded-[10px] border border-[#e73c50] bg-[#e73c50] px-10 py-3.5 text-base font-bold text-white transition-colors duration-300 hover:bg-[#c9303f]"
                   >
-                    Postula aqui
+                    Vamos
                   </motion.button>
                 </Link>
               </div>
 
-              <div className="flex justify-center lg:justify-end">
-                <div className="relative h-72 w-60">
-                  <motion.div
-                    className="absolute left-1/2 top-2 h-28 w-28 -translate-x-1/2 rounded-full bg-[#0d0e24]"
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+              <div className="relative flex min-h-[220px] items-center justify-center lg:min-h-[260px]">
+                <motion.div
+                  className="relative w-full max-w-[320px]"
+                  animate={{ y: [0, -4, 0] }}
+                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <img
+                    src={LogoPixelBros}
+                    alt="Logo PixelBros"
+                    className="relative z-20 w-full object-contain drop-shadow-[0_14px_34px_rgba(0,0,0,0.45)]"
+                    loading="lazy"
                   />
-                  <motion.div
-                    className="absolute left-1/2 top-24 h-40 w-44 -translate-x-1/2 rounded-[40px] bg-[#06071a]"
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
+
+                  {/* Capas de color para efecto glitch/pixel sutil */}
+                  <motion.img
+                    src={LogoPixelBros}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 z-10 w-full object-contain opacity-0 mix-blend-screen"
+                    animate={{ x: [0, 2, -1, 0], opacity: [0, 0.16, 0, 0.12, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', repeatDelay: 1.2 }}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(231,60,80,0.8))' }}
                   />
-                  <motion.div
-                    className="absolute left-1/2 top-14 h-16 w-16 -translate-x-1/2 rounded-full bg-[#e73c50] shadow-[0_0_24px_rgba(231,60,80,0.5)]"
-                    animate={{ rotate: [0, 6, -6, 0] }}
-                    transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    <img
-                      src={LogoIconPixel}
-                      alt="PixelBros"
-                      className="h-full w-full rounded-full object-cover p-1.5"
-                      loading="lazy"
-                    />
-                  </motion.div>
-                  <motion.div
-                    className="absolute left-6 top-36 h-20 w-20 rounded-2xl bg-[#0d0e24] shadow-md"
-                    animate={{ y: [0, -6, 0] }}
-                    transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+                  <motion.img
+                    src={LogoPixelBros}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 z-10 w-full object-contain opacity-0 mix-blend-screen"
+                    animate={{ x: [0, -2, 1, 0], opacity: [0, 0.14, 0, 0.1, 0] }}
+                    transition={{ duration: 2.1, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 }}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(71,65,146,0.85))' }}
                   />
+
                   <motion.div
-                    className="absolute right-8 top-44 h-16 w-16 rounded-full bg-[#1a1c52] shadow-md"
-                    animate={{ y: [0, 6, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="pointer-events-none absolute inset-0 z-30 opacity-0"
+                    animate={{ opacity: [0, 0.22, 0, 0.14, 0], y: [0, -2, 2, -1, 0] }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', repeatDelay: 1.3 }}
+                    style={{
+                      background:
+                        'repeating-linear-gradient(to bottom, rgba(255,255,255,0.28) 0px, rgba(255,255,255,0.28) 1px, transparent 1px, transparent 4px)',
+                    }}
                   />
-                </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>

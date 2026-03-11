@@ -108,8 +108,7 @@ const Contact = () => {
             Hablemos de tu <span className="text-[#e73c50]">Proyecto</span>
           </h1>
           <p className="text-xl text-white/65 max-w-3xl mx-auto">
-            Estamos listos para ayudarte a llevar tu negocio al siguiente nivel. 
-            Completa el formulario o contáctanos directamente.
+            Cuéntanos qué tienes en mente. Veamos qué podemos construir juntos.
           </p>
         </motion.div>
 
