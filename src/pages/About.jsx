@@ -11,8 +11,8 @@ const TEAM = [
     role: 'Gerente General',
     tag: 'Dirección',
     images: [
-      ['/team/erika-1.png', '/team/erika1.png', '/team/Erika-1.png', '/team/erika-1.jpg', '/team/erika1.jpg'],
-      ['/team/erika-2.png', '/team/erika2.png', '/team/Erika-2.png', '/team/erika-2.jpg', '/team/erika2.jpg'],
+      ['/team/erika1.png'],
+      ['/team/erika2.png'],
     ],
   },
   {
@@ -21,8 +21,8 @@ const TEAM = [
     role: 'Diseñador multimedia',
     tag: 'Diseño',
     images: [
-      ['/team/mave-1.png', '/team/mave1.png', '/team/Mave-1.png', '/team/mave-1.jpg', '/team/mave1.jpg'],
-      ['/team/mave-2.png', '/team/mave2.png', '/team/Mave-2.png', '/team/mave-2.jpg', '/team/mave2.jpg'],
+      ['/team/mave1.png'],
+      ['/team/mave2.png'],
     ],
   },
   {
@@ -31,8 +31,8 @@ const TEAM = [
     role: 'Content creator',
     tag: 'Contenido',
     images: [
-      ['/team/andrea-1.png', '/team/andrea1.png', '/team/Andrea-1.png', '/team/andrea-1.jpg', '/team/andrea1.jpg'],
-      ['/team/andrea-2.png', '/team/andrea2.png', '/team/Andrea-2.png', '/team/andrea-2.jpg', '/team/andrea2.jpg'],
+      ['/team/andrea1.png'],
+      ['/team/andrea2.png'],
     ],
   },
   {
@@ -41,32 +41,59 @@ const TEAM = [
     role: 'Programador Web',
     tag: 'Web',
     images: [
-      ['/team/alonso-1.png', '/team/alonso1.png', '/team/Alonso-1.png', '/team/alonso-1.jpg', '/team/alonso1.jpg'],
-      ['/team/alonso-2.png', '/team/alonso2.png', '/team/Alonso-2.png', '/team/alonso-2.jpg', '/team/alonso2.jpg'],
+      ['/team/alonso1.png'],
+      ['/team/alonso2.png'],
     ],
   },
 ];
 
 const TeamCard = ({ member, globalTick, index }) => {
   const total = member.images.length || 1;
-  const activeIdx = globalTick % total;
-  const activeCandidates = member.images[activeIdx] || [];
-  const candidateList = Array.isArray(activeCandidates) ? activeCandidates : [activeCandidates];
+  const [displayIdx, setDisplayIdx] = useState(0);
   const [candidateIdx, setCandidateIdx] = useState(0);
-  const [imgError, setImgError] = useState(false);
+  const [loadedMap, setLoadedMap] = useState({});
+  const activeCandidates = member.images[displayIdx] || [];
+  const candidateList = Array.isArray(activeCandidates) ? activeCandidates : [activeCandidates];
   const displayImg = candidateList[candidateIdx] || '';
 
   useEffect(() => {
     setCandidateIdx(0);
-    setImgError(false);
-  }, [activeIdx]);
+  }, [displayIdx]);
+
+  useEffect(() => {
+    const preload = (src) => {
+      if (!src || loadedMap[src]) return;
+      const img = new Image();
+      img.onload = () => setLoadedMap((prev) => ({ ...prev, [src]: true }));
+      img.onerror = () => setLoadedMap((prev) => ({ ...prev, [src]: false }));
+      img.src = src;
+    };
+
+    member.images.forEach((slot) => {
+      const variants = Array.isArray(slot) ? slot : [slot];
+      variants.forEach(preload);
+    });
+  }, [member.images, loadedMap]);
+
+  useEffect(() => {
+    const targetIdx = globalTick % total;
+    if (targetIdx === displayIdx) return;
+
+    const targetCandidates = member.images[targetIdx] || [];
+    const targetList = Array.isArray(targetCandidates) ? targetCandidates : [targetCandidates];
+    const readyCandidate = targetList.find((src) => loadedMap[src]);
+
+    if (readyCandidate) {
+      setDisplayIdx(targetIdx);
+      setCandidateIdx(targetList.indexOf(readyCandidate));
+    }
+  }, [globalTick, total, member.images, loadedMap, displayIdx]);
 
   const handleImageError = () => {
     if (candidateIdx < candidateList.length - 1) {
       setCandidateIdx((idx) => idx + 1);
       return;
     }
-    setImgError(true);
   };
 
   return (
@@ -78,16 +105,16 @@ const TeamCard = ({ member, globalTick, index }) => {
       className="group relative flex flex-col"
     >
       <div className="relative h-72 rounded-2xl overflow-hidden border border-white/12 shadow-[0_10px_26px_rgba(0,0,0,0.5)] mb-3 bg-[#0d0e24]">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           <motion.div
             key={displayImg}
-            initial={{ opacity: 0, scale: 1.08 }}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.6, ease: 'easeInOut' }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: 'easeInOut' }}
             className="absolute inset-0"
           >
-            {!imgError ? (
+            {displayImg ? (
               <img
                 src={displayImg}
                 alt={member.name}
@@ -123,7 +150,7 @@ const About = () => {
 
   // Cambio automatico de foto por card
   useEffect(() => {
-    const id = setInterval(() => setGlobalTick((t) => t + 1), 3200);
+    const id = setInterval(() => setGlobalTick((t) => t + 1), 5200);
     return () => clearInterval(id);
   }, []);
 
