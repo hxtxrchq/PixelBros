@@ -3,9 +3,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPortfolioAssets } from '../config/assets.js';
 
-const INITIAL_VISIBLE = 18;
-const LOAD_STEP = 18;
-
 const normalizeName = (value) => value
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g, '');
@@ -15,6 +12,12 @@ const slugify = (value) => normalizeName(value)
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/(^-|-$)/g, '');
 
+const isBrandingCategory = (project) => {
+  const id = project?.categoryId || '';
+  const name = slugify(project?.categoryName || '');
+  return id === 'diseno-de-identidad-visual' || id === 'branding' || name.includes('identidad-visual') || name.includes('branding');
+};
+
 const getFileOrder = (fileName) => {
   const match = fileName.match(/(\d+)/);
   return match ? Number.parseInt(match[1], 10) : Number.MAX_SAFE_INTEGER;
@@ -23,10 +26,20 @@ const getFileOrder = (fileName) => {
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
-const derivePoster = (src) => {
+const optimizeImageSrc = (src, width = 800) => {
+  if (!src || !src.includes('/image/upload/')) return src;
+  return src.replace('/image/upload/', `/image/upload/f_auto,q_auto:eco,w_${width},c_limit/`);
+};
+
+const optimizeVideoSrc = (src, width = 1280) => {
+  if (!src || !src.includes('/video/upload/')) return src;
+  return src.replace('/video/upload/', `/video/upload/f_auto,q_auto,w_${width},c_limit/`);
+};
+
+const derivePoster = (src, width = 800) => {
   if (!src || !isVideoSrc(src)) return src;
   return src
-    .replace('/video/upload/', '/video/upload/so_0,q_auto,f_jpg/')
+    .replace('/video/upload/', `/video/upload/so_0,f_jpg,q_auto:eco,w_${width},c_limit/`)
     .replace(/\.(mp4|webm)$/i, '.jpg');
 };
 
@@ -52,6 +65,7 @@ const buildPortfolioIndex = (assets) => {
     const extMatch = fileName.match(/\.([^.]+)$/);
     const ext = extMatch ? extMatch[1].toLowerCase() : '';
     const type = ['mp4', 'webm'].includes(ext) ? 'video' : 'image';
+    const previewSrc = type === 'video' ? derivePoster(src, 540) : optimizeImageSrc(src, 540);
 
     const order = getFileOrder(fileName);
     const nameKey = fileName.toLowerCase();
@@ -91,6 +105,7 @@ const buildPortfolioIndex = (assets) => {
     project.groups.get(groupKey).items.push({
       id: `${slug}-${groupKey}-${nameKey}`,
       src,
+      previewSrc,
       type,
       order,
       nameKey,
@@ -134,15 +149,34 @@ const buildPortfolioIndex = (assets) => {
   return { categories, projects, projectsBySlug };
 };
 
-const ProjectMediaTile = ({ item, onOpen, branding = false }) => {
-  const previewSrc = item.type === 'video' ? derivePoster(item.src) : item.src;
+const buildBalancedBlocks = (items) => {
+  const blocks = [];
+  for (let i = 0; i < items.length; i += 5) blocks.push(items.slice(i, i + 5));
+
+  // Avoid a final lonely row (e.g., 6+1) by borrowing from previous blocks.
+  while (blocks.length > 1) {
+    const last = blocks[blocks.length - 1];
+    if (last.length >= 3) break;
+
+    const prev = blocks[blocks.length - 2];
+    if (!prev || prev.length <= 3) break;
+
+    last.unshift(prev.pop());
+  }
+
+  return blocks;
+};
+
+const ReferenceMediaTile = ({ item, onOpen, className = '', width = 620, fit = 'cover' }) => {
+  if (!item) return <div className={`bg-[#dcdad3]/60 ${className}`} />;
+
+  const previewSrc = item.previewSrc || (item.type === 'video' ? derivePoster(item.src, width) : optimizeImageSrc(item.src, width));
 
   return (
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className={`group relative block w-full overflow-hidden border border-white/10 bg-[#0f122d] text-left ${branding ? 'mb-3' : 'mb-4'}`}
-      style={{ breakInside: 'avoid' }}
+      className={`group relative w-full h-full overflow-hidden bg-[#12142b] ${className}`}
     >
       {previewSrc && (
         <img
@@ -150,12 +184,15 @@ const ProjectMediaTile = ({ item, onOpen, branding = false }) => {
           alt={item.alt}
           loading="lazy"
           decoding="async"
-          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+          fetchPriority="low"
+          className={`h-full w-full ${fit === 'cover' ? 'object-cover' : 'object-contain p-1 sm:p-1.5'} transition-transform duration-500 group-hover:scale-[1.01]`}
         />
       )}
 
+      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/28 transition-colors duration-300" />
+
       {item.type === 'video' && (
-        <span className="absolute bottom-2 right-2 px-2 py-1 text-[10px] uppercase tracking-[0.15em] bg-black/65 text-white/85">
+        <span className="absolute bottom-2 right-2 px-2 py-1 text-[10px] uppercase tracking-[0.15em] bg-black/70 text-white/90">
           Video
         </span>
       )}
@@ -163,22 +200,122 @@ const ProjectMediaTile = ({ item, onOpen, branding = false }) => {
   );
 };
 
-const BRANDING_ROW_PATTERN = [
-  [1],
-  [1],
-  [0.5, 0.5],
-  [0.5, 0.5],
-  [1],
-  [1],
-  [1],
-  [0.5, 0.5],
-  [0.5, 0.5],
-  [1],
-  [1],
-];
+const ReferenceComposition = ({ items, onOpen }) => {
+  const blocks = buildBalancedBlocks(items);
+
+  return (
+    <div className="w-full max-w-[920px] lg:max-w-[980px] mx-auto flex flex-col gap-4 sm:gap-6">
+      {blocks.map((block, blockIndex) => {
+        if (block.length === 1) {
+          return (
+            <div
+              key={`ref-single-${blockIndex}`}
+              className="max-w-[760px] mx-auto w-full border border-white/10 bg-[#f1efe8] p-2 sm:p-3"
+            >
+              <div className="aspect-[16/9] overflow-hidden bg-[#12142b]">
+                <ReferenceMediaTile item={block[0]} onOpen={onOpen} width={980} fit="cover" className="h-full" />
+              </div>
+            </div>
+          );
+        }
+
+        if (block.length === 2) {
+          return (
+            <div
+              key={`ref-double-${blockIndex}`}
+              className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 border border-white/10 bg-[#f1efe8] p-2 sm:p-3"
+            >
+              {block.map((item) => (
+                <div key={item.id} className="aspect-[4/3] overflow-hidden bg-[#12142b]">
+                  <ReferenceMediaTile item={item} onOpen={onOpen} width={680} fit="cover" className="h-full" />
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        if (block.length === 3) {
+          const featured = block[0];
+          const rightTop = block[1];
+          const rightBottom = block[2];
+
+          return (
+            <div
+              key={`ref-triple-${blockIndex}`}
+              className="grid grid-cols-[1.08fr_0.92fr] h-[300px] sm:h-[360px] lg:h-[420px] overflow-hidden border border-white/10 bg-[#0f122d]"
+            >
+              <div className="h-full min-h-0">
+                <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
+              </div>
+
+              <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
+                <div className="grid h-full min-h-0 grid-rows-2 gap-2 sm:gap-2.5">
+                  <ReferenceMediaTile item={rightTop} onOpen={onOpen} width={700} fit="cover" className="row-span-1" />
+                  <ReferenceMediaTile item={rightBottom} onOpen={onOpen} width={700} fit="cover" className="row-span-1" />
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        if (block.length === 4) {
+          const featured = block[0];
+          const top = block[1];
+          const leftBottom = block[2];
+          const rightBottom = block[3];
+
+          return (
+            <div
+              key={`ref-quad-${blockIndex}`}
+              className="grid grid-cols-[1.05fr_0.95fr] h-[300px] sm:h-[360px] lg:h-[440px] overflow-hidden border border-white/10 bg-[#0f122d]"
+            >
+              <div className="h-full min-h-0">
+                <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
+              </div>
+
+              <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
+                <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[1.15fr_1fr] gap-2 sm:gap-2.5">
+                  <ReferenceMediaTile item={top} onOpen={onOpen} width={700} fit="cover" className="col-span-2 row-span-1" />
+                  <ReferenceMediaTile item={leftBottom} onOpen={onOpen} width={640} fit="cover" className="col-span-1 row-span-1" />
+                  <ReferenceMediaTile item={rightBottom} onOpen={onOpen} width={640} fit="cover" className="col-span-1 row-span-1" />
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        const featured = block[0];
+        const top = block[1];
+        const center = block[2];
+        const accent = block[3];
+        const bottom = block[4];
+
+        return (
+          <div
+            key={`ref-block-${blockIndex}`}
+            className="grid grid-cols-[1.04fr_0.96fr] h-[320px] sm:h-[380px] lg:h-[460px] overflow-hidden border border-white/10 bg-[#0f122d]"
+          >
+            <div className="h-full min-h-0">
+              <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
+            </div>
+
+            <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
+              <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[1.2fr_1fr_1fr] gap-2 sm:gap-2.5">
+                <ReferenceMediaTile item={top} onOpen={onOpen} width={620} fit="cover" className="col-span-2 row-span-1" />
+                <ReferenceMediaTile item={center} onOpen={onOpen} width={620} fit="cover" className="col-span-1 row-span-1" />
+                <ReferenceMediaTile item={accent} onOpen={onOpen} width={540} fit="cover" className="col-span-1 row-span-1" />
+                <ReferenceMediaTile item={bottom} onOpen={onOpen} width={620} fit="cover" className="col-span-2 row-span-1" />
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 const BrandingTile = ({ item, onOpen }) => {
-  const previewSrc = item.type === 'video' ? derivePoster(item.src) : item.src;
+  const previewSrc = item.previewSrc || (item.type === 'video' ? derivePoster(item.src, 620) : optimizeImageSrc(item.src, 620));
 
   return (
     <button
@@ -192,7 +329,7 @@ const BrandingTile = ({ item, onOpen }) => {
           alt={item.alt}
           loading="lazy"
           decoding="async"
-          className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.01]"
+          className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.01]"
         />
       )}
 
@@ -206,48 +343,20 @@ const BrandingTile = ({ item, onOpen }) => {
 };
 
 const BrandingComposition = ({ items, onOpen }) => {
-  const rows = [];
-  let cursor = 0;
-
-  for (let i = 0; i < BRANDING_ROW_PATTERN.length && cursor < items.length; i += 1) {
-    const rowPattern = BRANDING_ROW_PATTERN[i];
-    const rowItems = items.slice(cursor, cursor + rowPattern.length);
-    rows.push({ rowPattern, rowItems, key: `row-${i}` });
-    cursor += rowPattern.length;
-  }
-
-  if (cursor < items.length) {
-    const leftovers = items.slice(cursor);
-    leftovers.forEach((item, index) => {
-      rows.push({ rowPattern: [1], rowItems: [item], key: `leftover-${index}` });
-    });
-  }
-
   return (
-    <div className="w-full max-w-[740px] sm:max-w-[820px] lg:max-w-[640px] xl:max-w-[700px] mx-auto">
-      <div className="flex flex-col gap-3 sm:gap-4">
-        {rows.map((row) => (
-          <div key={row.key} className="flex gap-3 sm:gap-4">
-            {row.rowItems.map((item, idx) => {
-              const ratio = row.rowPattern[idx] ?? 1;
-              const widthClass = ratio === 1 ? 'basis-full' : 'basis-1/2';
-              return (
-                <div key={item.id} className={widthClass}>
-                  <BrandingTile item={item} onOpen={onOpen} />
-                </div>
-              );
-            })}
-          </div>
-        ))}
+    <div className="w-full max-w-[740px] sm:max-w-[820px] lg:max-w-[700px] xl:max-w-[760px] mx-auto columns-1 sm:columns-2 gap-3 sm:gap-4">
+      {items.map((item) => (
+        <div key={item.id} className="mb-3 sm:mb-4" style={{ breakInside: 'avoid' }}>
+          <BrandingTile item={item} onOpen={onOpen} />
+        </div>
+      ))}
       </div>
-    </div>
   );
 };
 
 const PortfolioDetail = () => {
   const { slug } = useParams();
   const [activeGroupIndex, setActiveGroupIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [activeMedia, setActiveMedia] = useState(null);
 
   const portfolioAssets = getPortfolioAssets();
@@ -258,23 +367,16 @@ const PortfolioDetail = () => {
   );
 
   const project = portfolioIndex.projectsBySlug[slug] || portfolioIndex.projects[0];
+  const activeGroup = project?.groups?.[activeGroupIndex] || null;
+  const activeItems = activeGroup?.items || [];
 
   useEffect(() => {
     setActiveGroupIndex(0);
-    setVisibleCount(INITIAL_VISIBLE);
     setActiveMedia(null);
   }, [project?.slug]);
 
-  useEffect(() => {
-    setVisibleCount(INITIAL_VISIBLE);
-  }, [activeGroupIndex]);
-
-  const activeGroup = project?.groups?.[activeGroupIndex] || null;
-  const activeItems = activeGroup?.items || [];
-  const visibleItems = activeItems.slice(0, visibleCount);
-
-  const canLoadMore = visibleCount < activeItems.length;
-  const isBranding = project?.categoryId === 'diseno-de-identidad-visual';
+  const visibleItems = activeItems;
+  const isBranding = isBrandingCategory(project);
 
   return (
     <motion.div
@@ -342,27 +444,7 @@ const PortfolioDetail = () => {
           {isBranding ? (
             <BrandingComposition items={visibleItems} onOpen={setActiveMedia} />
           ) : (
-            <div className="columns-1 sm:columns-2 xl:columns-3 gap-4">
-              {visibleItems.map((item) => (
-                <ProjectMediaTile
-                  key={item.id}
-                  item={item}
-                  onOpen={setActiveMedia}
-                />
-              ))}
-            </div>
-          )}
-
-          {canLoadMore && (
-            <div className="mt-8 text-center">
-              <button
-                type="button"
-                onClick={() => setVisibleCount((prev) => prev + LOAD_STEP)}
-                className="px-8 py-3 bg-[#e73c50] text-white font-semibold hover:bg-[#ef4b63] transition-colors"
-              >
-                Cargar mas
-              </button>
-            </div>
+            <ReferenceComposition items={visibleItems} onOpen={setActiveMedia} />
           )}
         </div>
       </section>
@@ -378,14 +460,14 @@ const PortfolioDetail = () => {
               .filter((entry) => entry.slug !== project?.slug)
               .slice(0, 3)
               .map((entry) => {
-                const cover = entry.coverType === 'video' ? derivePoster(entry.coverSrc) : entry.coverSrc;
+                const coverSrc = entry.coverType === 'video' ? derivePoster(entry.coverSrc, 700) : optimizeImageSrc(entry.coverSrc, 700);
                 return (
                   <Link key={entry.slug} to={`/portfolio/${entry.slug}`}>
                     <article className="border border-white/10 bg-[#0c0e24] hover:border-[#e73c50]/60 transition-colors h-full">
                       <div className="aspect-[4/3] overflow-hidden bg-[#131632]">
-                        {cover && (
+                        {coverSrc && (
                           <img
-                            src={cover}
+                            src={coverSrc}
                             alt={entry.title}
                             loading="lazy"
                             decoding="async"
@@ -434,7 +516,7 @@ const PortfolioDetail = () => {
                 <div className="p-4 sm:p-6 flex items-center justify-center max-h-[92vh]">
                   {activeMedia.type === 'video' ? (
                     <video
-                      src={activeMedia.src}
+                      src={optimizeVideoSrc(activeMedia.src, 1280)}
                       className="max-h-[84vh] max-w-full object-contain"
                       controls
                       preload="metadata"
@@ -442,7 +524,7 @@ const PortfolioDetail = () => {
                     />
                   ) : (
                     <img
-                      src={activeMedia.src}
+                      src={optimizeImageSrc(activeMedia.src, 1700)}
                       alt={activeMedia.alt}
                       className="max-h-[84vh] max-w-full object-contain"
                     />
