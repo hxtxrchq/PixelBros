@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import AnimatedCounter from '../components/AnimatedCounter';
 import LogoPixelBros from '../images/LogoPixelBros.png';
-import logoElevaria from '../assets/LogosMarcas/Elevaria Logo.png';
-import logoBarbarian from '../assets/LogosMarcas/Barbarian Bar.png';
-import logoDesignMarket from '../assets/LogosMarcas/Design Market.png';
-import logoGms from '../assets/LogosMarcas/GMS.png';
-import logoKanagawa from '../assets/LogosMarcas/Kanagawa Nikkei.png';
 
 const TEAM = [
   {
@@ -53,11 +48,11 @@ const TEAM = [
 ];
 
 const BRAND_LOGOS = [
-  { name: 'Elevaria cafe', src: logoElevaria },
-  { name: 'Barbarian Bar', src: logoBarbarian },
-  { name: 'Design Market', src: logoDesignMarket },
-  { name: 'GMS', src: logoGms },
-  { name: 'Kanagawa Nikkei', src: logoKanagawa },
+  { name: 'Elevaria cafe', src: '/logos/Elevaria Logo.png' },
+  { name: 'Barbarian Bar', src: '/logos/Barbarian Bar.png' },
+  { name: 'Design Market', src: '/logos/Design Market.png' },
+  { name: 'GMS', src: '/logos/GMS.png' },
+  { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
 ];
 
 const TeamCard = ({ member, globalTick, index }) => {
