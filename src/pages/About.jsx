@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import AnimatedCounter from '../components/AnimatedCounter';
 import LogoPixelBros from '../images/LogoPixelBros.png';
+import logoElevaria from '../assets/LogosMarcas/Elevaria Logo.png';
+import logoBarbarian from '../assets/LogosMarcas/Barbarian Bar.png';
+import logoDesignMarket from '../assets/LogosMarcas/Design Market.png';
+import logoGms from '../assets/LogosMarcas/GMS.png';
+import logoKanagawa from '../assets/LogosMarcas/Kanagawa Nikkei.png';
 
 const TEAM = [
   {
@@ -45,6 +50,14 @@ const TEAM = [
       ['/team/alonso2.jpg'],
     ],
   },
+];
+
+const BRAND_LOGOS = [
+  { name: 'Elevaria cafe', src: logoElevaria },
+  { name: 'Barbarian Bar', src: logoBarbarian },
+  { name: 'Design Market', src: logoDesignMarket },
+  { name: 'GMS', src: logoGms },
+  { name: 'Kanagawa Nikkei', src: logoKanagawa },
 ];
 
 const TeamCard = ({ member, globalTick, index }) => {
@@ -232,6 +245,42 @@ const About = () => {
                 </motion.div>
               ))}
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Brands */}
+      <section className="py-12 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-5"
+          >
+            <h1 className="text-3xl md:text-4xl font-display font-bold text-white">
+              Marcas <span className="text-[#e73c50]">Aliadas</span>
+            </h1>
+          </motion.div>
+
+          <div className="pb-logo-fade overflow-hidden py-3">
+            <div className="pb-logo-track items-center gap-4 sm:gap-5" aria-label="Logos de clientes">
+                {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, idx) => (
+                  <div
+                    key={`${brand.name}-${idx}`}
+                    className="h-[116px] min-w-[220px] sm:min-w-[270px] px-6 sm:px-8 flex items-center justify-center"
+                  >
+                    <img
+                      src={brand.src}
+                      alt={brand.name}
+                      className="max-h-[68px] sm:max-h-[80px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </section>
