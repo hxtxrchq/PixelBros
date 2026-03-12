@@ -6,6 +6,15 @@
   100% { transform: translateY(-50%); }
 }
 
+@keyframes pbLogoMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 /* Performance Optimization */
 * {
   -webkit-font-smoothing: antialiased;
@@ -244,6 +253,18 @@
   .content-contrast li,
   .content-contrast a {
     text-shadow: none;
+  }
+
+  .pb-logo-fade {
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .pb-logo-track {
+    display: flex;
+    width: max-content;
+    animation: pbLogoMarquee 34s linear infinite;
+    will-change: transform;
   }
 }
 

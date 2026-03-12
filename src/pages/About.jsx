@@ -259,7 +259,7 @@ const About = () => {
             transition={{ duration: 0.5 }}
             className="mb-5"
           >
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-white">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-white">
               Marcas <span className="text-[#e73c50]">Aliadas</span>
             </h1>
           </motion.div>
