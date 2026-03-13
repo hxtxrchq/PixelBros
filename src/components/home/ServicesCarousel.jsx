@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useInView } from 'framer-motion';
 const SERVICES = [
   {
     id: 'identidad',
-    keyword: 'Identidad Visual',
+    keyword: 'Branding',
     sub: 'Marca, logotipo y dirección visual que conecta con tu audiencia.',
     slug: 'identidad-visual',
     accent: '#474192',
@@ -17,7 +17,7 @@ const SERVICES = [
   },
   {
     id: 'contenidos',
-    keyword: 'Contenidos',
+    keyword: 'Contenido para Redes',
     sub: 'Piezas visuales y texto de alto impacto para cada plataforma.',
     slug: 'contenidos',
     accent: '#e73c50',
@@ -28,7 +28,7 @@ const SERVICES = [
   },
   {
     id: 'campanas',
-    keyword: 'Campañas',
+    keyword: 'Publicidad Digital',
     sub: 'Campañas estructuradas para crecer y convertir.',
     slug: 'campanas-publicitarias',
     accent: '#eb5a44',
@@ -61,7 +61,7 @@ const SERVICES = [
   },
   {
     id: 'asesoramiento',
-    keyword: 'Asesoramiento',
+    keyword: 'Estrategia Comercial',
     sub: 'Estrategia y consultoría para escalar tu negocio.',
     slug: 'asesoramiento-comercial',
     accent: '#4357a2',

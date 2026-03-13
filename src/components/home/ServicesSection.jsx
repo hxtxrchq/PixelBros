@@ -6,21 +6,21 @@ const LogoIconPixel = 'https://res.cloudinary.com/dhhd92sgr/image/upload/pixelbr
 const services = [
   {
     id: 1,
-    title: 'Identidad Visual',
+    title: 'Branding',
     slug: 'identidad-visual',
     description: 'Marca, logotipo y dirección visual que conecta con tu audiencia.',
     iconPath: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
   },
   {
     id: 2,
-    title: 'Contenidos',
+    title: 'Contenido para Redes',
     slug: 'contenidos',
     description: 'Piezas visuales y texto de alto impacto para cada plataforma.',
     iconPath: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
   },
   {
     id: 3,
-    title: 'Campañas Publicitarias',
+    title: 'Publicidad Digital',
     slug: 'campanas-publicitarias',
     description: 'Campañas estructuradas para crecer y convertir.',
     iconPath: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z',
@@ -41,7 +41,7 @@ const services = [
   },
   {
     id: 6,
-    title: 'Asesoramiento Comercial',
+    title: 'Estrategia Comercial',
     slug: 'asesoramiento-comercial',
     description: 'Estrategia y consultoría para escalar tu negocio.',
     iconPath: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
@@ -49,14 +49,13 @@ const services = [
 ];
 
 const TICKER_ITEMS = [
-  'Identidad Visual',
-  'Social Media',
-  'Campañas',
+  'Branding',
+  'Contenido para Redes',
+  'Publicidad Digital',
   'Fotografía',
   'Producción Audiovisual',
-  'Branding',
-  'Estrategia',
-  'BTL',
+  'Estrategia Comercial',
+  'Activaciones BTL',
 ];
 
 /* Arrow icon */

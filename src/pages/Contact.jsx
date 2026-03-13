@@ -19,13 +19,13 @@ const Contact = () => {
   const [selectedServices, setSelectedServices] = useState([]);
 
   const SERVICES = [
-    'Gestión de contenido / redes sociales',
+    'Contenido para Redes',
     'Fotografia profesional',
     'Producción audiovisual',
-    'Branding / identidad de marca',
-    'Campañas publicitarias',
+    'Branding',
+    'Publicidad digital',
     'Activaciones BTL',
-    'Estrategia comercial y crecimiento de marca',
+    'Estrategia comercial',
     'No estoy seguro / necesito guia',
   ];
 

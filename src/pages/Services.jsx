@@ -36,6 +36,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 1,
     title: 'Branding',
+    slug: 'identidad-visual',
     description:
       'Trabajamos la base de tu marca para que tenga una dirección clara. Definimos su identidad visual y lineamientos de comunicación para que todo lo que publiques mantenga coherencia.',
     media: {
@@ -46,6 +47,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 2,
     title: 'Contenido para Redes',
+    slug: 'contenidos',
     description:
       'Creamos contenido que muestra lo mejor de tu marca y amplía su alcance en redes. Combinamos creatividad y anuncios para atraer más público y generar oportunidades de venta.',
     media: {
@@ -56,6 +58,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 3,
     title: 'Publicidad Digital',
+    slug: 'campanas-publicitarias',
     description:
       'Creamos y gestionamos campañas en plataformas digitales para llegar a las personas correctas. Segmentamos, optimizamos y analizamos cada anuncio para que tu inversión tenga resultados claros.',
     media: {
@@ -66,6 +69,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 4,
     title: 'Fotografía Profesional',
+    slug: 'fotografia-profesional',
     description: 'Realizamos sesiones fotográficas que destacan lo mejor de tu marca.',
     media: {
       type: 'image',
@@ -75,6 +79,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 5,
     title: 'Producción Audiovisual',
+    slug: 'produccion-audiovisual',
     description:
       'Desarrollamos piezas de video desde la idea hasta la edición final. Contenido audiovisual pensado para comunicar de forma clara y generar mayor impacto en plataformas digitales.',
     media: {
@@ -85,6 +90,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 6,
     title: 'Estrategia Comercial',
+    slug: 'asesoramiento-comercial',
     description:
       'Analizamos tu negocio para encontrar oportunidades de crecimiento. Te ayudamos a ordenar tu oferta, mejorar tu comunicación y definir acciones que impulsen tus ventas.',
     media: {
@@ -95,6 +101,7 @@ const SHOWCASE_SLIDES = [
   {
     id: 7,
     title: 'Activaciones BTL',
+    slug: 'activaciones-btl',
     description:
       'Diseñamos experiencias de marca fuera del entorno digital. Eventos, lanzamientos o intervenciones que generan interacción directa y recordación en tu público.',
     media: {
@@ -181,9 +188,17 @@ const Services = () => {
   const incoming = incomingSlide !== null ? slides[incomingSlide] || null : null;
   const safeFlip = Math.max(0, Math.min(1, flipProgress));
   const easedFlip = easeInOutCubic(safeFlip);
-  const incomingClockwiseRotation = -180 + easedFlip * 180;
-  const consumePercent = Math.max(0, Math.min(100, easedFlip * 100));
+  const outgoingRotate = easedFlip * 22;
+  const outgoingScale = 1 - easedFlip * 0.06;
+  const outgoingOpacity = 1 - easedFlip * 0.86;
+  const outgoingBlur = easedFlip * 1.9;
+  const incomingRotate = (1 - easedFlip) * -22;
+  const incomingScale = 0.94 + easedFlip * 0.06;
+  const incomingOpacity = 0.12 + easedFlip * 0.88;
+  const incomingBlur = (1 - easedFlip) * 2.2;
   const displayTitle = isFlipping && incoming && safeFlip >= 0.5 ? incoming.title : current?.title;
+  const activeSlideForNavigation = isFlipping && incoming && safeFlip >= 0.5 ? incoming : current;
+  const activeServiceLink = activeSlideForNavigation?.slug ? `/services/${activeSlideForNavigation.slug}` : '/services';
 
   return (
     <motion.div
@@ -228,7 +243,12 @@ const Services = () => {
 
         <section className="mb-20 flex justify-center">
           <div className="w-full max-w-[640px] [perspective:1700px]">
-            <div className="relative overflow-hidden rounded-[30px]" style={{ aspectRatio: '1 / 1' }}>
+            <Link
+              to={activeServiceLink}
+              aria-label={`Ver detalle de ${activeSlideForNavigation?.title || 'servicio'}`}
+              className="group block"
+            >
+              <div className="relative overflow-hidden rounded-[30px] cursor-pointer" style={{ aspectRatio: '1 / 1' }}>
               {current && (
                 <div className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${current.backgroundImage})` }}>
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
@@ -252,10 +272,21 @@ const Services = () => {
                     className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center"
                     style={{
                       backgroundImage: `url(${incoming.backgroundImage})`,
-                      transform: `rotate(${incomingClockwiseRotation}deg)`,
-                      transformOrigin: '50% 50%',
-                      clipPath: `inset(0 ${100 - consumePercent}% 0 0 round 30px)`,
-                      WebkitClipPath: `inset(0 ${100 - consumePercent}% 0 0 round 30px)`,
+                      transform: `rotate(${incomingRotate}deg) scale(${incomingScale})`,
+                      opacity: incomingOpacity,
+                      filter: `blur(${incomingBlur}px)`,
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
+                    <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
+                  </div>
+                  <div
+                    className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${current.backgroundImage})`,
+                      transform: `rotate(${outgoingRotate}deg) scale(${outgoingScale})`,
+                      opacity: outgoingOpacity,
+                      filter: `blur(${outgoingBlur}px)`,
                     }}
                   >
                     <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
@@ -271,7 +302,8 @@ const Services = () => {
                   </div>
                 </div>
               )}
-            </div>
+              </div>
+            </Link>
           </div>
         </section>
 

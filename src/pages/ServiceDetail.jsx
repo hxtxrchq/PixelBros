@@ -6,52 +6,43 @@ const ServiceDetail = () => {
 
   const servicesData = {
     'identidad-visual': {
-      title: 'Identidad Visual',
+      title: 'Branding',
       iconPath: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Transformamos tu visión en una identidad visual única que conecta con tu audiencia y diferencia tu marca en el mercado.',
+      description: 'Trabajamos la base de tu marca para que tenga una dirección clara. Definimos su identidad visual y lineamientos de comunicación para que todo lo que publiques mantenga coherencia.',
       includes: [
-        'Diseño de logotipo profesional',
-        'Paleta de colores corporativa',
-        'Tipografía personalizada',
-        'Manual de identidad completo',
-        'Aplicaciones en mockups',
-        'Archivos vectoriales editables',
-      ],
-      benefits: [
-        'Diferenciación inmediata en el mercado',
-        'Mayor recordación de marca',
-        'Coherencia en todos los puntos de contacto',
-        'Profesionalismo que genera confianza',
-        'Versatilidad para múltiples aplicaciones',
+        'Logo principal',
+        'Variaciones de logo',
+        'Paleta de colores (principales y secundarios)',
+        'Tipografías de marca',
+        'Usos correctos del logo',
+        'Aplicaciones básicas',
+        'Manual de marca resumido',
+        'Archivos editables y finales',
       ],
       process: [
-        { step: 1, title: 'Descubrimiento', description: 'Conocemos tu negocio, valores y objetivos' },
-        { step: 2, title: 'Concepto', description: 'Desarrollamos propuestas creativas alineadas a tu visión' },
-        { step: 3, title: 'Diseño', description: 'Creamos tu identidad visual completa' },
-        { step: 4, title: 'Refinamiento', description: 'Ajustamos hasta lograr la perfección' },
-        { step: 5, title: 'Entrega', description: 'Recibes todos los archivos y el manual de marca' },
+        { step: 1, title: 'Brief del proyecto', description: 'Entendimiento del negocio, objetivos de marca, público y contexto.' },
+        { step: 2, title: 'Análisis de marca', description: 'Diagnóstico de la marca actual: personalidad, percepción, valores y oportunidades.' },
+        { step: 3, title: 'Análisis de competencia', description: 'Mapa competitivo, referentes del sector y espacios de diferenciación.' },
+        { step: 4, title: 'Proceso creativo', description: 'Exploración conceptual, moodboard, dirección visual y desarrollo de propuestas.' },
+        { step: 5, title: 'Selección tipográfica', description: 'Elección estratégica de tipografías y su rol dentro del sistema visual.' },
+        { step: 6, title: 'Sistema y manual de marca', description: 'Construcción del universo visual: logo, colores, tipografía, usos y lineamientos.' },
+        { step: 7, title: 'Entregables finales', description: 'Archivos editables + paquete completo de marca listo para implementar.' },
       ],
     },
     'contenidos': {
-      title: 'Contenidos',
+      title: 'Gestión de Contenidos',
       iconPath: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Creamos contenido estratégico que cuenta tu historia, conecta emocionalmente con tu audiencia y genera resultados medibles.',
+      description: 'Creamos contenido que muestra lo mejor de tu marca y amplía su alcance en redes. Combinamos creatividad y anuncios para atraer más público y generar oportunidades de venta.',
       includes: [
-        'Estrategia de contenidos personalizada',
-        'Calendario editorial mensual',
-        'Copywriting profesional',
-        'Diseño gráfico para redes sociales',
-        'Gestión de comunidades',
-        'Análisis y reportes mensuales',
-      ],
-      benefits: [
-        'Aumento del engagement en redes sociales',
-        'Mayor visibilidad de marca',
-        'Comunidad activa y comprometida',
-        'Generación constante de leads',
-        'Posicionamiento como referente del sector',
+        'Estrategia de contenido personalizada',
+        'Planificación y cronograma de contenido',
+        'Copywriting',
+        'Diseños, fotografía y audiovisual para redes sociales',
+        'Gestión de historias',
+        'Publicidad digital y anuncios para ventas',
+        'Análisis de rendimiento y reportes',
       ],
       process: [
         { step: 1, title: 'Análisis', description: 'Estudiamos tu marca, audiencia y competencia' },
@@ -62,10 +53,10 @@ const ServiceDetail = () => {
       ],
     },
     'campanas-publicitarias': {
-      title: 'Campañas Publicitarias',
+      title: 'Publicidad Digital',
       iconPath: 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Diseñamos y ejecutamos campañas publicitarias 360° que maximizan tu inversión y generan resultados reales.',
+      description: 'Creamos y gestionamos campañas en plataformas digitales para llegar a las personas correctas. Segmentamos, optimizamos y analizamos cada anuncio para que tu inversión tenga resultados claros.',
       includes: [
         'Estrategia publicitaria integral',
         'Gestión de campañas en Meta Ads',
@@ -73,13 +64,6 @@ const ServiceDetail = () => {
         'Creatividades y copys persuasivos',
         'A/B testing continuo',
         'Reportes detallados de performance',
-      ],
-      benefits: [
-        'ROI positivo desde el primer mes',
-        'Alcance masivo en tu público objetivo',
-        'Optimización constante del presupuesto',
-        'Conversiones medibles y escalables',
-        'Datos accionables para decisiones estratégicas',
       ],
       process: [
         { step: 1, title: 'Investigación', description: 'Analizamos mercado, competencia y audiencia' },
@@ -93,7 +77,7 @@ const ServiceDetail = () => {
       title: 'Fotografía Profesional',
       iconPath: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Capturamos la esencia de tu marca con imágenes profesionales que cuentan historias y generan impacto visual.',
+      description: 'Realizamos sesiones fotográficas que destacan lo mejor de tu marca.',
       includes: [
         'Sesión fotográfica profesional',
         'Dirección creativa',
@@ -101,13 +85,6 @@ const ServiceDetail = () => {
         'Banco de imágenes corporativas',
         'Fotografía de producto',
         'Fotografía lifestyle y branding',
-      ],
-      benefits: [
-        'Contenido visual de alta calidad',
-        'Mayor profesionalismo en comunicaciones',
-        'Imágenes únicas y diferenciadas',
-        'Material para todos tus canales',
-        'Storytelling visual potente',
       ],
       process: [
         { step: 1, title: 'Briefing', description: 'Entendemos tu necesidad y visión' },
@@ -121,7 +98,7 @@ const ServiceDetail = () => {
       title: 'Producción Audiovisual',
       iconPath: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Creamos piezas audiovisuales cinematográficas que capturan la atención y transmiten tu mensaje con impacto.',
+      description: 'Desarrollamos piezas de video desde la idea hasta la edición final. Contenido audiovisual pensado para comunicar de forma clara y generar mayor impacto en plataformas digitales.',
       includes: [
         'Concepto creativo y guión',
         'Producción completa',
@@ -129,13 +106,6 @@ const ServiceDetail = () => {
         'Edición y postproducción',
         'Motion graphics y animaciones',
         'Sonorización y música',
-      ],
-      benefits: [
-        'Videos que generan engagement masivo',
-        'Contenido versátil para múltiples plataformas',
-        'Storytelling emocional y efectivo',
-        'Mayor conversión en campañas',
-        'Posicionamiento premium de marca',
       ],
       process: [
         { step: 1, title: 'Pre-producción', description: 'Guión, storyboard y planificación' },
@@ -146,10 +116,10 @@ const ServiceDetail = () => {
       ],
     },
     'asesoramiento-comercial': {
-      title: 'Asesoramiento Comercial',
+      title: 'Estrategia Comercial',
       iconPath: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Optimizamos tus procesos comerciales y de ventas para maximizar resultados y escalar tu negocio de forma sostenible.',
+      description: 'Analizamos tu negocio para encontrar oportunidades de crecimiento. Te ayudamos a ordenar tu oferta, mejorar tu comunicación y definir acciones que impulsen tus ventas.',
       includes: [
         'Auditoría de procesos comerciales',
         'Estrategia de ventas personalizada',
@@ -157,13 +127,6 @@ const ServiceDetail = () => {
         'Implementación de CRM',
         'Definición de funnels de venta',
         'KPIs y seguimiento de resultados',
-      ],
-      benefits: [
-        'Aumento de conversión de leads',
-        'Optimización de ciclo de ventas',
-        'Equipo comercial más efectivo',
-        'Procesos escalables y medibles',
-        'Mayor rentabilidad y cierre de negocios',
       ],
       process: [
         { step: 1, title: 'Diagnóstico', description: 'Analizamos tu situación actual' },
@@ -177,7 +140,7 @@ const ServiceDetail = () => {
       title: 'Activaciones BTL',
       iconPath: 'M4 4h16v12H5.17L4 17.17V4zm6 4h4m-4 3h7',
       gradient: 'from-[#B3262E] to-[#B3262E]',
-      description: 'Diseñamos e implementamos experiencias presenciales y directas con el público para generar impacto y conversiones reales.',
+      description: 'Diseñamos experiencias de marca fuera del entorno digital. Eventos, lanzamientos o intervenciones que generan interacción directa y recordación en tu público.',
       includes: [
         'Concepto creativo y narrativa de activación',
         'Planificación y logística integral',
@@ -185,13 +148,6 @@ const ServiceDetail = () => {
         'Producción de materiales y montaje',
         'Permisos y gestión de proveedores',
         'Medición de resultados y reportes',
-      ],
-      benefits: [
-        'Contacto directo con tu público objetivo',
-        'Mayor recordación y reconocimiento de marca',
-        'Experiencias memorables que impulsan conversión',
-        'Datos reales para optimizar futuras acciones',
-        'Posicionamiento diferencial en puntos clave',
       ],
       process: [
         { step: 1, title: 'Briefing', description: 'Definimos objetivos, público y contexto' },
@@ -288,37 +244,6 @@ const ServiceDetail = () => {
                   </svg>
                   <p className="text-white/80 group-hover:text-[#e73c50] transition-colors">{item}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-20 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold mb-12 text-center text-white"
-          >
-            <span className="text-[#e73c50]">Beneficios</span> Principales
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {service.benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-start bg-white/5 p-6 rounded-xl border border-white/10 hover:border-[#e73c50] transition-all shadow-sm"
-              >
-                <div className="w-12 h-12 rounded-full bg-[#B3262E] flex items-center justify-center text-xl font-bold mr-4 flex-shrink-0 text-white">
-                  {index + 1}
-                </div>
-                <p className="text-lg text-white/80">{benefit}</p>
               </motion.div>
             ))}
           </div>
