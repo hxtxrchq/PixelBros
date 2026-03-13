@@ -9,7 +9,6 @@ const TEAM = [
     id: 1,
     name: 'Erika',
     role: 'Gerente General',
-    tag: 'Dirección',
     images: [
       ['/team/erika1.jpg'],
       ['/team/erika2.jpg'],
@@ -19,7 +18,6 @@ const TEAM = [
     id: 2,
     name: 'Mave',
     role: 'Diseñador multimedia',
-    tag: 'Diseño',
     images: [
       ['/team/mave1.jpg'],
       ['/team/mave2.jpg'],
@@ -29,7 +27,6 @@ const TEAM = [
     id: 3,
     name: 'Andrea',
     role: 'Content creator',
-    tag: 'Contenido',
     images: [
       ['/team/andrea1.jpg'],
       ['/team/andrea2.jpg'],
@@ -39,7 +36,6 @@ const TEAM = [
     id: 4,
     name: 'Alonso',
     role: 'Programador Web',
-    tag: 'Web',
     images: [
       ['/team/alonso1.jpg'],
       ['/team/alonso2.jpg'],
@@ -140,11 +136,6 @@ const TeamCard = ({ member, globalTick, index }) => {
 
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_48%,rgba(0,0,0,0.35)_80%,rgba(0,0,0,0.55)_100%)]" />
 
-        <div className="absolute top-3 left-3">
-          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-black/50 text-white/90 backdrop-blur-sm">
-            {member.tag}
-          </span>
-        </div>
       </div>
 
       <h3 className="text-lg font-bold text-white leading-tight">{member.name}</h3>
