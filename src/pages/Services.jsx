@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { getAssetUrl } from '../config/assets';
@@ -104,19 +104,16 @@ const SHOWCASE_SLIDES = [
   },
 ];
 
-const HOLD_DURATION = 3600;
-const SWEEP_DURATION = 2100;
-const CARD_SWAP_POINT = 0.5;
-const BACKGROUND_SCRIM = 'linear-gradient(180deg,rgba(5,7,19,0.2)_0%,rgba(5,7,19,0.58)_100%)';
+const HOLD_DURATION = 3200;
+const FLIP_DURATION = 980;
 
-const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 const Services = () => {
   const [visibleSlide, setVisibleSlide] = useState(0);
-  const [incomingSlide, setIncomingSlide] = useState(1);
-  const [cardSlide, setCardSlide] = useState(0);
-  const [isSweeping, setIsSweeping] = useState(false);
-  const [sweepProgress, setSweepProgress] = useState(0);
+  const [incomingSlide, setIncomingSlide] = useState(null);
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipProgress, setFlipProgress] = useState(0);
   const frameRef = useRef(null);
   const holdTimerRef = useRef(null);
 
@@ -147,24 +144,17 @@ const Services = () => {
     holdTimerRef.current = setTimeout(() => {
       if (isCancelled) return;
 
-      let hasSwappedCard = false;
       setIncomingSlide(nextIndex);
-      setIsSweeping(true);
-      setSweepProgress(0);
+      setIsFlipping(true);
+      setFlipProgress(0);
 
       const startedAt = performance.now();
 
       const tick = (now) => {
         if (isCancelled) return;
 
-        const progress = Math.min((now - startedAt) / SWEEP_DURATION, 1);
-        setSweepProgress(progress);
-        const visualProgress = easeOutCubic(progress);
-
-        if (!hasSwappedCard && visualProgress >= CARD_SWAP_POINT) {
-          setCardSlide(nextIndex);
-          hasSwappedCard = true;
-        }
+        const progress = Math.min((now - startedAt) / FLIP_DURATION, 1);
+        setFlipProgress(progress);
 
         if (progress < 1) {
           frameRef.current = requestAnimationFrame(tick);
@@ -172,19 +162,9 @@ const Services = () => {
         }
 
         setVisibleSlide(nextIndex);
-        setCardSlide(nextIndex);
-        setSweepProgress(1);
-
-        // Let the final sweep frame settle before hiding the overlay to avoid a hard cut.
-        frameRef.current = requestAnimationFrame(() => {
-          if (isCancelled) return;
-          frameRef.current = requestAnimationFrame(() => {
-            if (isCancelled) return;
-            setIsSweeping(false);
-            setIncomingSlide((nextIndex + 1) % slides.length);
-            setSweepProgress(0);
-          });
-        });
+        setIncomingSlide(null);
+        setIsFlipping(false);
+        setFlipProgress(0);
       };
 
       frameRef.current = requestAnimationFrame(tick);
@@ -198,16 +178,12 @@ const Services = () => {
   }, [visibleSlide, slides.length]);
 
   const current = slides[visibleSlide] || null;
-  const incoming = slides[incomingSlide] || null;
-  const cardContent = slides[cardSlide] || current || null;
-  const sweep = Math.max(0, Math.min(1, sweepProgress));
-  const easedSweep = easeOutCubic(sweep);
-
-  // Diagonal front that starts at bottom-left and fully overshoots right edge.
-  // Overshoot avoids the visible hard cut at the end of the sweep.
-  const sweepTop = easedSweep * 148 - 26;
-  const sweepBottom = easedSweep * 138 - 4;
-  const diagonalMask = `polygon(0 0, ${sweepTop}% 0, ${sweepBottom}% 100%, 0 100%)`;
+  const incoming = incomingSlide !== null ? slides[incomingSlide] || null : null;
+  const safeFlip = Math.max(0, Math.min(1, flipProgress));
+  const easedFlip = easeInOutCubic(safeFlip);
+  const incomingClockwiseRotation = -180 + easedFlip * 180;
+  const consumePercent = Math.max(0, Math.min(100, easedFlip * 100));
+  const displayTitle = isFlipping && incoming && safeFlip >= 0.5 ? incoming.title : current?.title;
 
   return (
     <motion.div
@@ -221,16 +197,19 @@ const Services = () => {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75 }}
-          className="relative mb-16 min-h-[360px] sm:min-h-[420px] overflow-hidden rounded-[28px] border border-[#474192]/35"
-          style={{ background: 'linear-gradient(130deg, #101336 0%, #0b102a 52%, #080a19 100%)' }}
+          className="relative mb-16 min-h-[360px] sm:min-h-[420px] overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_22%,rgba(71,65,146,0.18),transparent_44%),radial-gradient(circle_at_84%_80%,rgba(231,60,80,0.12),transparent_40%)]" />
-
-          <div className="absolute inset-0 pointer-events-none">
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%)',
+            }}
+          >
             {collageImages.map((img, idx) => (
               <motion.div
                 key={`${img.path}-${idx}`}
-                className={`absolute ${img.size} overflow-hidden rounded-[2px] border border-white/10 shadow-[0_10px_28px_rgba(0,0,0,0.32)]`}
+                className={`absolute ${img.size} overflow-hidden rounded-[4px] shadow-[0_10px_28px_rgba(0,0,0,0.32)]`}
                 style={{ top: img.top, left: `${106 + idx * 10}%` }}
                 animate={{ x: ['0vw', '-320vw'] }}
                 transition={{ duration: img.duration, repeat: Infinity, ease: 'linear', delay: idx * 0.24 }}
@@ -247,76 +226,50 @@ const Services = () => {
           </div>
         </motion.section>
 
-        <section className="mb-20">
-          <div className="relative h-[72vh] min-h-[500px] max-h-[760px] overflow-hidden rounded-[32px] border border-white/10 bg-[#080b1a]">
-            {current && (
-              <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${current.backgroundImage})` }}>
-                <div className="absolute inset-0" style={{ background: BACKGROUND_SCRIM }} />
-              </div>
-            )}
-
-            {incoming && isSweeping && (
-              <div className="absolute inset-0 z-[6] pointer-events-none">
-                <div
-                  className="absolute inset-0 will-change-transform"
-                  style={{
-                    opacity: easedSweep,
-                    transform: `translateX(${(1 - easedSweep) * 6}%) scale(${1.015 - easedSweep * 0.015})`,
-                    transformOrigin: 'left center',
-                    clipPath: diagonalMask,
-                  }}
-                >
-                  <div className="absolute -inset-y-[2%] -inset-x-[3%] bg-cover bg-center" style={{ backgroundImage: `url(${incoming.backgroundImage})` }} />
-                  <div className="absolute inset-0" style={{ background: BACKGROUND_SCRIM }} />
-                </div>
-
-                <div
-                  className="absolute inset-y-[-10%] w-[30%]"
-                  style={{
-                    left: `calc(${easedSweep * 100}% - 15%)`,
-                    bottom: `${(1 - easedSweep) * -12}%`,
-                    transform: 'skewX(-12deg)',
-                    opacity: Math.max(0, 0.24 - easedSweep * 0.2),
-                  }}
-                >
-                  <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.24),rgba(255,255,255,0.05),transparent)]" />
-                </div>
-              </div>
-            )}
-
-            <div className="absolute inset-0 z-10 bg-black/26" />
-            <div className="absolute inset-0 z-10 bg-[linear-gradient(90deg,rgba(3,7,19,0.48)_0%,rgba(3,7,19,0.12)_50%,rgba(3,7,19,0.44)_100%)]" />
-            <div className="absolute inset-0 z-10 backdrop-blur-[1.2px]" />
-
-            <div className="relative z-20 flex h-full items-center justify-center px-4 sm:px-8">
-              {cardContent && (
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.article
-                    key={`card-${cardContent.id}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.32, ease: 'easeOut' }}
-                    className="relative z-30 w-full max-w-[520px] overflow-hidden rounded-[30px] border border-white/40 bg-[#030916]/92 backdrop-blur-md shadow-[0_28px_86px_rgba(0,0,0,0.76)]"
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(88,101,255,0.16)_0%,rgba(10,15,35,0.06)_42%,rgba(231,60,80,0.16)_100%)]" />
-                    <div className="absolute inset-x-0 top-0 h-[1px] bg-white/50" />
-                    <div className="relative p-7 sm:p-9">
-                      <h3
-                        className="max-w-[14ch] text-[2.25rem] sm:text-[2.9rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
-                        style={{ textShadow: '0 2px 18px rgba(0,0,0,0.84)' }}
+        <section className="mb-20 flex justify-center">
+          <div className="w-full max-w-[640px] [perspective:1700px]">
+            <div className="relative overflow-hidden rounded-[30px]" style={{ aspectRatio: '1 / 1' }}>
+              {current && (
+                <div className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${current.backgroundImage})` }}>
+                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
+                  <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
+                  {!isFlipping && (
+                    <div className="absolute inset-x-0 bottom-0 px-7 pb-8 sm:px-8 sm:pb-9">
+                      <h2
+                        className="max-w-[11ch] text-[2rem] sm:text-[2.35rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
+                        style={{ textShadow: '0 4px 20px rgba(0,0,0,0.72)' }}
                       >
-                        {cardContent.title}
-                      </h3>
-                      <p
-                        className="mt-4 max-w-[36ch] text-[16px] sm:text-[18px] leading-relaxed text-white"
-                        style={{ textShadow: '0 1px 13px rgba(0,0,0,0.82)' }}
-                      >
-                        {cardContent.description}
-                      </p>
+                        {current.title}
+                      </h2>
                     </div>
-                  </motion.article>
-                </AnimatePresence>
+                  )}
+                </div>
+              )}
+
+              {isFlipping && current && incoming && (
+                <div className="absolute inset-0">
+                  <div
+                    className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center"
+                    style={{
+                      backgroundImage: `url(${incoming.backgroundImage})`,
+                      transform: `rotate(${incomingClockwiseRotation}deg)`,
+                      transformOrigin: '50% 50%',
+                      clipPath: `inset(0 ${100 - consumePercent}% 0 0 round 30px)`,
+                      WebkitClipPath: `inset(0 ${100 - consumePercent}% 0 0 round 30px)`,
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
+                    <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 px-7 pb-8 sm:px-8 sm:pb-9 pointer-events-none">
+                    <h2
+                      className="max-w-[11ch] text-[2rem] sm:text-[2.35rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
+                      style={{ textShadow: '0 4px 20px rgba(0,0,0,0.72)' }}
+                    >
+                      {displayTitle}
+                    </h2>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -327,7 +280,7 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative overflow-hidden rounded-3xl p-10 lg:p-14 text-center"
+          className="relative mx-auto w-[97%] overflow-hidden rounded-3xl p-10 lg:p-14 text-center"
           style={{ background: 'linear-gradient(135deg,#1e1c50 0%,#474192 55%,#6560b8 100%)' }}
         >
           <div
