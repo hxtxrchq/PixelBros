@@ -5,6 +5,8 @@ const AnimatedCounter = ({
   number,
   label,
   delay = 0,
+  numberSizeClassName = 'text-5xl md:text-6xl',
+  labelSizeClassName = 'text-sm md:text-base',
   numberClassName = 'text-white',
   suffixClassName = 'text-[#e73c50]',
   labelClassName = 'text-white/60',
@@ -126,11 +128,11 @@ const AnimatedCounter = ({
       transition={{ duration: 0.5, delay }}
       className="text-center"
     >
-      <div className={`text-5xl md:text-6xl font-display font-bold mb-3 ${numberClassName}`}>
+      <div className={`${numberSizeClassName} font-display font-bold mb-3 ${numberClassName}`}>
         <span>{formatDisplay(displayValue)}</span>
         {suffix && <span className={suffixClassName}>{suffix}</span>}
       </div>
-      <div className={`text-sm md:text-base font-medium ${labelClassName}`}>{label}</div>
+      <div className={`${labelSizeClassName} font-medium ${labelClassName}`}>{label}</div>
     </motion.div>
   );
 };
