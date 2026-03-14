@@ -1,7 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const AnimatedCounter = ({ number, label, delay = 0 }) => {
+const AnimatedCounter = ({
+  number,
+  label,
+  delay = 0,
+  numberClassName = 'text-white',
+  suffixClassName = 'text-[#e73c50]',
+  labelClassName = 'text-white/60',
+}) => {
   const [displayValue, setDisplayValue] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
@@ -119,11 +126,11 @@ const AnimatedCounter = ({ number, label, delay = 0 }) => {
       transition={{ duration: 0.5, delay }}
       className="text-center"
     >
-      <div className="text-5xl md:text-6xl font-display font-bold text-white mb-3">
+      <div className={`text-5xl md:text-6xl font-display font-bold mb-3 ${numberClassName}`}>
         <span>{formatDisplay(displayValue)}</span>
-        {suffix && <span className="text-[#e73c50]">{suffix}</span>}
+        {suffix && <span className={suffixClassName}>{suffix}</span>}
       </div>
-      <div className="text-sm md:text-base text-white/60 font-medium">{label}</div>
+      <div className={`text-sm md:text-base font-medium ${labelClassName}`}>{label}</div>
     </motion.div>
   );
 };

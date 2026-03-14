@@ -55,6 +55,12 @@ const BRAND_LOGOS = [
   { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
 ];
 
+const ABOUT_METRICS = [
+  { number: '450+', label: 'Proyectos completados', accent: false },
+  { number: '200+', label: 'Clientes satisfechos', accent: true },
+  { number: '85%', label: 'Tasa de retención', accent: false },
+];
+
 const TeamCard = ({ member, globalTick, index }) => {
   const total = member.images.length || 1;
   const [displayIdx, setDisplayIdx] = useState(0);
@@ -112,7 +118,7 @@ const TeamCard = ({ member, globalTick, index }) => {
       transition={{ delay: index * 0.07, duration: 0.55, ease: 'easeOut' }}
       className="group relative flex flex-col"
     >
-      <div className="relative h-72 rounded-2xl overflow-hidden border border-white/12 shadow-[0_10px_26px_rgba(0,0,0,0.5)] mb-3 bg-[#0d0e24]">
+      <div className="relative h-72 overflow-hidden mb-3 bg-[#0d0e24] rounded-[14px]">
         <AnimatePresence mode="sync">
           <motion.div
             key={displayImg}
@@ -166,135 +172,138 @@ const About = () => {
       className="min-h-screen bg-transparent"
     >
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-transparent">
+      <section className="pt-28 pb-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+            transition={{ duration: 0.7 }}
+            className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(140deg,#0c0f20_0%,#06091b_100%)]"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-white">
-              Somos <span className="text-[#e73c50]">PixelBros</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/65 max-w-4xl mx-auto leading-relaxed">
-              Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.
-            </p>
+            <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(231,60,80,0.36) 0%, transparent 32%), radial-gradient(circle at 90% 20%, rgba(255,255,255,0.06) 0%, transparent 30%)' }} />
+            <div className="absolute -left-6 bottom-[-34px] text-[100px] sm:text-[160px] font-display font-black tracking-tight text-white/[0.04] leading-none select-none">PIXEL</div>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 p-7 sm:p-10">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#e73c50]">Quiénes somos</p>
+                <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.92] text-white max-w-[12ch]">
+                  Somos <span className="text-[#e73c50]">PixelBros</span>
+                </h1>
+                <p className="mt-6 max-w-2xl text-base sm:text-lg text-white/80 leading-relaxed">
+Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.                </p>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 self-end">
+                {ABOUT_METRICS.map((stat) => (
+                  <div key={stat.label} className={`min-h-[150px] px-3 py-4 flex items-center ${stat.accent ? 'rounded-xl bg-[#e73c50]' : 'rounded-xl bg-white/[0.04]'}`}>
+                    <AnimatedCounter
+                      number={stat.number}
+                      label={stat.label}
+                      delay={0.08}
+                      numberClassName="text-white"
+                      suffixClassName={stat.accent ? 'text-white' : 'text-[#e73c50]'}
+                      labelClassName={stat.accent ? 'text-white/95' : 'text-white/85'}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="py-16 bg-transparent">
+      {/* Story */}
+      <section className="pb-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-                <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-white">
-                  Nuestra <span className="text-[#e73c50]">Historia</span>
-              </h2>
-                <div className="space-y-4 text-white/65 text-lg">
-                <p>
-                  PixelBros nace en 2020 como una agencia creativa de contenido, con la idea de que muchas veces las grandes ideas empiezan desde lo más pequeño. De ahí viene Pixel, la unidad mínima que, al juntarse con otras, puede construir algo mucho más grande.
-                </p>
-                <p>
-                  El Bros viene curiosamente de Mario Bros, como una referencia a ese espíritu creativo con el que nació la agencia.
-                </p>
-                <p>
-                  En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a crecer y destacar. También integramos la ingeniería empresarial, porque entendemos que el marketing no va solo, sino que forma parte de todo lo que mueve a una empresa.
-                </p>
-              </div>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="pointer-events-none absolute -left-6 top-1/2 h-24 w-1 -translate-y-1/2 bg-[#e73c50]" />
+            <div className="pointer-events-none absolute right-4 top-6 h-32 w-32 rounded-full bg-[#e73c50]/14 blur-3xl" />
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {[
-                { number: '450+', label: 'Proyectos Completados' },
-                { number: '200+', label: 'Clientes Satisfechos' },
-                { number: '85%', label: 'Tasa de Retención' },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-[#0d0e24] p-6 rounded-2xl min-h-[145px] flex items-center"
-                >
-                  <AnimatedCounter
-                    number={stat.number}
-                    label={stat.label}
-                    delay={index * 0.1}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-7 px-2 sm:px-4">
+              <div className="text-center lg:pt-24">
+                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#e73c50] mb-3">Nuestra historia</p>
+                <h2 className="mx-auto text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white max-w-[11ch] leading-[0.94]">
+                  Así empezó PixelBros
+                </h2>
+                
+              </div>
+
+              <div className="space-y-4 text-white/95 text-base sm:text-lg leading-relaxed lg:pt-7">
+                <p>
+PixelBros nace en 2020 como una agencia creativa de contenido, con la idea de que muchas veces las grandes ideas empiezan desde lo más pequeño. De ahí viene Pixel, la unidad mínima que, al juntarse con otras, puede construir algo mucho más grande.                </p>
+                <p>
+El Bros viene curiosamente de Mario Bros, como una referencia a ese espíritu creativo con el que nació la agencia.                </p>
+                <p>
+En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a crecer y destacar. También integramos la ingeniería empresarial, porque entendemos que el marketing no va solo, sino que forma parte de todo lo que mueve a una empresa.                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Brands */}
-      <section className="pt-8 pb-6 bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-5"
-          >
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-white">
-              Marcas <span className="text-[#e73c50]">Aliadas</span>
-            </h1>
-          </motion.div>
-
-          <div className="pb-logo-fade overflow-hidden py-1">
-            <div className="pb-logo-track items-center gap-6 sm:gap-8" aria-label="Logos de clientes">
-                {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, idx) => (
-                  <div
-                    key={`${brand.name}-${idx}`}
-                    className="h-[132px] min-w-[250px] sm:min-w-[320px] px-6 sm:px-10 flex items-center justify-center"
-                  >
-                    <img
-                      src={brand.src}
-                      alt={brand.name}
-                      className="max-h-[86px] sm:max-h-[102px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.28)]"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="pt-10 pb-16 bg-[#06071a] overflow-hidden">
+      <section className="pb-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-10"
+            className="relative"
           >
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-3">El equipo</p>
-              <h2 className="text-4xl md:text-5xl font-display font-bold mb-2 text-white">
-                Nuestro <span className="text-[#e73c50]">Equipo</span>
+            <div className="flex flex-wrap items-end justify-between gap-4 mb-5">
+              <h2 className="text-3xl sm:text-4xl font-display font-black text-white leading-none">
+                Marcas <span className="text-[#e73c50]">Aliadas</span>
               </h2>
-              <p className="text-base text-white/55">
-                Nos tomamos en serio el trabajo detrás de una buena idea.
-              </p>
+              <p className="text-sm text-white/76">Algunas marcas que confían en nosotros</p>
+            </div>
+
+            <div className="pointer-events-none absolute inset-x-0 top-[46px] h-px bg-gradient-to-r from-transparent via-white/28 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-[2px] h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+            <div className="pb-logo-fade overflow-hidden py-2">
+              <div className="pb-logo-track items-center gap-8 sm:gap-10" aria-label="Logos de clientes">
+                {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, idx) => (
+                  <div
+                    key={`${brand.name}-${idx}`}
+                    className="h-[112px] min-w-[220px] sm:min-w-[290px] px-6 sm:px-10 flex items-center justify-center"
+                  >
+                    <img
+                      src={brand.src}
+                      alt={brand.name}
+                      className="max-h-[72px] sm:max-h-[86px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="pb-12 bg-transparent overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-6"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-2">El equipo</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white">
+              Nuestro <span className="text-[#e73c50]">Equipo</span>
+            </h2>
+            <p className="mt-2 text-white/86 text-sm sm:text-base">
+              Nos tomamos en serio el trabajo detrás de una buena idea.
+            </p>
+          </motion.div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {TEAM.map((member, index) => (
               <TeamCard
@@ -315,7 +324,7 @@ const About = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[30px] border border-[#474192]/35 bg-[#0b0d22] shadow-[0_24px_70px_rgba(0,0,0,0.5)]"
+            className="relative overflow-hidden rounded-2xl border border-[#474192]/35 bg-[#0b0d22] shadow-[0_24px_70px_rgba(0,0,0,0.5)]"
           >
             <div className="absolute inset-0">
               <div
@@ -342,10 +351,9 @@ const About = () => {
                 style={{ background: 'linear-gradient(270deg, #e73c50 0%, rgba(231,60,80,0) 85%)' }}
               />
               <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e73c50]/55 to-transparent" />
-              <div className="absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-[#e73c50]/0 via-[#e73c50]/60 to-[#e73c50]/0" />
             </div>
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-6 px-6 py-7 sm:px-9 sm:py-9">
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-6 px-6 py-7 sm:px-8 sm:py-8">
               <div className="relative z-10">
                 <h2 className="max-w-2xl text-2xl font-display font-bold leading-[1.08] text-white sm:text-3xl md:text-4xl">
                   Si te dicen que piensas demasiado, <span className="text-[#e73c50]">postula.</span>
@@ -364,7 +372,7 @@ const About = () => {
 
               <div className="relative flex min-h-[190px] items-center justify-center lg:min-h-[220px]">
                 <motion.div
-                  className="relative w-full max-w-[280px]"
+                  className="relative w-full max-w-[220px]"
                   animate={{ y: [0, -4, 0] }}
                   transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
                 >
@@ -373,36 +381,6 @@ const About = () => {
                     alt="Logo PixelBros"
                     className="relative z-20 w-full object-contain drop-shadow-[0_14px_34px_rgba(0,0,0,0.45)]"
                     loading="lazy"
-                  />
-
-                  {/* Capas de color para efecto glitch/pixel sutil */}
-                  <motion.img
-                    src={LogoPixelBros}
-                    alt=""
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 z-10 w-full object-contain opacity-0 mix-blend-screen"
-                    animate={{ x: [0, 2, -1, 0], opacity: [0, 0.16, 0, 0.12, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', repeatDelay: 1.2 }}
-                    style={{ filter: 'drop-shadow(0 0 4px rgba(231,60,80,0.8))' }}
-                  />
-                  <motion.img
-                    src={LogoPixelBros}
-                    alt=""
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 z-10 w-full object-contain opacity-0 mix-blend-screen"
-                    animate={{ x: [0, -2, 1, 0], opacity: [0, 0.14, 0, 0.1, 0] }}
-                    transition={{ duration: 2.1, repeat: Infinity, ease: 'linear', repeatDelay: 1.5 }}
-                    style={{ filter: 'drop-shadow(0 0 4px rgba(71,65,146,0.85))' }}
-                  />
-
-                  <motion.div
-                    className="pointer-events-none absolute inset-0 z-30 opacity-0"
-                    animate={{ opacity: [0, 0.22, 0, 0.14, 0], y: [0, -2, 2, -1, 0] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: 'linear', repeatDelay: 1.3 }}
-                    style={{
-                      background:
-                        'repeating-linear-gradient(to bottom, rgba(255,255,255,0.28) 0px, rgba(255,255,255,0.28) 1px, transparent 1px, transparent 4px)',
-                    }}
                   />
                 </motion.div>
               </div>
