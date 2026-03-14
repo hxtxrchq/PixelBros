@@ -192,13 +192,15 @@ const About = () => {
 Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.                </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 self-end">
+              <div className="grid grid-cols-3 gap-3 self-end">
                 {ABOUT_METRICS.map((stat) => (
-                  <div key={stat.label} className={`min-h-[150px] px-3 py-4 flex items-center ${stat.accent ? 'rounded-xl bg-[#e73c50]' : 'rounded-xl bg-white/[0.04]'}`}>
+                  <div key={stat.label} className={`min-h-[168px] px-4 sm:px-5 py-6 flex items-center ${stat.accent ? 'rounded-xl bg-[#e73c50]' : 'rounded-xl bg-white/[0.04]'}`}>
                     <AnimatedCounter
                       number={stat.number}
                       label={stat.label}
                       delay={0.08}
+                      numberSizeClassName="text-4xl md:text-5xl"
+                      labelSizeClassName="text-base md:text-lg"
                       numberClassName="text-white"
                       suffixClassName={stat.accent ? 'text-white' : 'text-[#e73c50]'}
                       labelClassName={stat.accent ? 'text-white/95' : 'text-white/85'}
@@ -258,7 +260,7 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
               <h2 className="text-3xl sm:text-4xl font-display font-black text-white leading-none">
                 Marcas <span className="text-[#e73c50]">Aliadas</span>
               </h2>
-              <p className="text-sm text-white/76">Algunas marcas que confían en nosotros</p>
+
             </div>
 
             <div className="pointer-events-none absolute inset-x-0 top-[46px] h-px bg-gradient-to-r from-transparent via-white/28 to-transparent" />
