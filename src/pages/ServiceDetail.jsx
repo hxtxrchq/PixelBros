@@ -297,28 +297,39 @@ const ServiceDetail = () => {
 
       {/* CTA */}
       <section className="py-20 bg-transparent">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white/5 border border-white/10 rounded-2xl p-12 shadow-lg"
+            transition={{ duration: 0.7 }}
+            className="relative mx-auto w-[97%] overflow-hidden rounded-3xl p-10 lg:p-14 text-center"
+            style={{ background: 'linear-gradient(135deg,#1e1c50 0%,#474192 55%,#6560b8 100%)' }}
           >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-white">
-              ¿Listo para comenzar?
-            </h2>
-            <p className="text-white/65 mb-8">
-              Agenda una llamada gratuita y descubre cómo este servicio puede transformar tu negocio
-            </p>
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 15px 40px rgba(179, 38, 46, 0.2)' }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-4 bg-[#B3262E] text-white font-bold rounded-lg text-lg shadow-md transition-all"
-              >
-                Agenda tu Llamada Ahora
-              </motion.button>
-            </Link>
+            <div
+              className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage:
+                  'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+              }}
+            />
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl font-display font-black text-white mb-3">
+                Las buenas marcas no aparecen por casualidad
+              </h2>
+              <p className="text-white/75 mb-8 max-w-xl mx-auto">
+                Cuéntanos tu idea y veamos hasta dónde puede llegar.
+              </p>
+              <Link to="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.04, boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
+                  whileTap={{ scale: 0.97 }}
+                  className="px-10 py-4 bg-white text-[#06071a] font-black rounded-full text-base shadow-lg transition-all"
+                >
+                  Empezar proyecto
+                </motion.button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

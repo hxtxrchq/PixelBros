@@ -20,8 +20,8 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Quiénes Somos', path: '/about' },
-    { name: 'Portafolio', path: '/portfolio' },
     { name: 'Servicios', path: '/services' },
+    { name: 'Portafolio', path: '/portfolio' },
   ];
 
   return (

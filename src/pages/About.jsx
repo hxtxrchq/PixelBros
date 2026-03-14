@@ -9,6 +9,7 @@ const TEAM = [
     id: 1,
     name: 'Erika',
     role: 'Gerente General',
+    imagePosition: 'center 20%',
     images: [
       ['/team/erika1.jpg'],
       ['/team/erika2.jpg'],
@@ -18,6 +19,7 @@ const TEAM = [
     id: 2,
     name: 'Mave',
     role: 'Diseñador multimedia',
+    imagePosition: 'center 18%',
     images: [
       ['/team/mave1.jpg'],
       ['/team/mave2.jpg'],
@@ -27,6 +29,7 @@ const TEAM = [
     id: 3,
     name: 'Andrea',
     role: 'Content creator',
+    imagePosition: 'center 16%',
     images: [
       ['/team/andrea1.jpg'],
       ['/team/andrea2.jpg'],
@@ -36,6 +39,7 @@ const TEAM = [
     id: 4,
     name: 'Alonso',
     role: 'Programador Web',
+    imagePosition: 'center 14%',
     images: [
       ['/team/alonso1.jpg'],
       ['/team/alonso2.jpg'],
@@ -123,6 +127,7 @@ const TeamCard = ({ member, globalTick, index }) => {
                 src={displayImg}
                 alt={member.name}
                 className="h-full w-full object-cover"
+                style={{ objectPosition: member.imagePosition || 'center 18%' }}
                 loading="lazy"
                 onError={handleImageError}
               />
@@ -180,7 +185,7 @@ const About = () => {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 bg-transparent">
+      <section className="py-16 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -236,7 +241,7 @@ const About = () => {
       </section>
 
       {/* Brands */}
-      <section className="py-12 bg-transparent">
+      <section className="pt-8 pb-6 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -250,17 +255,17 @@ const About = () => {
             </h1>
           </motion.div>
 
-          <div className="pb-logo-fade overflow-hidden py-3">
-            <div className="pb-logo-track items-center gap-4 sm:gap-5" aria-label="Logos de clientes">
+          <div className="pb-logo-fade overflow-hidden py-1">
+            <div className="pb-logo-track items-center gap-6 sm:gap-8" aria-label="Logos de clientes">
                 {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, idx) => (
                   <div
                     key={`${brand.name}-${idx}`}
-                    className="h-[116px] min-w-[220px] sm:min-w-[270px] px-6 sm:px-8 flex items-center justify-center"
+                    className="h-[132px] min-w-[250px] sm:min-w-[320px] px-6 sm:px-10 flex items-center justify-center"
                   >
                     <img
                       src={brand.src}
                       alt={brand.name}
-                      className="max-h-[68px] sm:max-h-[80px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]"
+                      className="max-h-[86px] sm:max-h-[102px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.28)]"
                       loading="lazy"
                       decoding="async"
                     />
@@ -272,7 +277,7 @@ const About = () => {
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-[#06071a] overflow-hidden">
+      <section className="pt-10 pb-16 bg-[#06071a] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -304,7 +309,7 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-transparent">
+      <section className="py-12 bg-transparent">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -340,26 +345,26 @@ const About = () => {
               <div className="absolute inset-y-0 left-0 w-[2px] bg-gradient-to-b from-[#e73c50]/0 via-[#e73c50]/60 to-[#e73c50]/0" />
             </div>
 
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-8 px-7 py-9 sm:px-10 sm:py-12">
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-6 px-6 py-7 sm:px-9 sm:py-9">
               <div className="relative z-10">
-                <h2 className="max-w-2xl text-3xl font-display font-bold leading-[1.05] text-white sm:text-4xl md:text-5xl">
+                <h2 className="max-w-2xl text-2xl font-display font-bold leading-[1.08] text-white sm:text-3xl md:text-4xl">
                   Si te dicen que piensas demasiado, <span className="text-[#e73c50]">postula.</span>
                 </h2>
 
-                <Link to="/postula" className="inline-block mt-8">
+                <Link to="/postula" className="inline-block mt-6">
                   <motion.button
                     whileHover={{ y: -2, boxShadow: '0 18px 42px rgba(231,60,80,0.32)' }}
                     whileTap={{ scale: 0.97 }}
-                    className="rounded-[10px] border border-[#e73c50] bg-[#e73c50] px-10 py-3.5 text-base font-bold text-white transition-colors duration-300 hover:bg-[#c9303f]"
+                    className="rounded-[10px] border border-[#e73c50] bg-[#e73c50] px-8 py-3 text-sm sm:text-base font-bold text-white transition-colors duration-300 hover:bg-[#c9303f]"
                   >
                     Vamos
                   </motion.button>
                 </Link>
               </div>
 
-              <div className="relative flex min-h-[220px] items-center justify-center lg:min-h-[260px]">
+              <div className="relative flex min-h-[190px] items-center justify-center lg:min-h-[220px]">
                 <motion.div
-                  className="relative w-full max-w-[320px]"
+                  className="relative w-full max-w-[280px]"
                   animate={{ y: [0, -4, 0] }}
                   transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
                 >
