@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import { getAssetUrl } from '../config/assets';
+import SvgIcon from '../components/SvgIcon';
 
 const optimizeCloudinaryImage = (url, width = 1400) => {
   if (!url || !url.includes('/image/upload/')) return url;
@@ -21,184 +22,90 @@ const resolveMediaToImage = (media, width = 1400) => {
   return optimizeCloudinaryImage(media.src, width);
 };
 
-const HERO_COLLAGE = [
-  { path: '/Portfolio/Fotografia/DOCTORA YURIKO/DSC04028.jpg', top: '10%', size: 'w-[72px] h-[90px] sm:w-[84px] sm:h-[106px]', duration: 42 },
-  { path: '/Portfolio/Fotografia/DULCE CUIDADO/DSC02902.jpg', top: '22%', size: 'w-[88px] h-[72px] sm:w-[102px] sm:h-[84px]', duration: 39 },
-  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/1_Feed/1_Febrero/2. Bolso Carrusel/POST-bolso-01.png', top: '36%', size: 'w-[86px] h-[86px] sm:w-[98px] sm:h-[98px]', duration: 45 },
-  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/1_Feed/1_Febrero/3. Gorra bike/gorra bike-02.png', top: '52%', size: 'w-[100px] h-[76px] sm:w-[114px] sm:h-[86px]', duration: 47 },
-  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/3. Fotos/Bolso2.png', top: '68%', size: 'w-[74px] h-[98px] sm:w-[86px] sm:h-[112px]', duration: 44 },
-  { path: '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.jpg', top: '18%', size: 'w-[108px] h-[82px] sm:w-[124px] sm:h-[94px]', duration: 48 },
-  { path: '/Portfolio/Fotografia/DOCTORA YURIKO/FOTO_PERFIL.jpg', top: '58%', size: 'w-[80px] h-[104px] sm:w-[92px] sm:h-[118px]', duration: 41 },
-  { path: '/Portfolio/Social Media/11_Ellos/2_Social Media/3. Fotos/BOX 2.png', top: '80%', size: 'w-[78px] h-[100px] sm:w-[90px] sm:h-[116px]', duration: 46 },
+const HERO_LOOP_MEDIA = [
+  { type: 'video', src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046479/pixelbros/Portfolio/AudioVisual/Elevaria_Servido_Con_Proposito/1.mp4' },
+  { type: 'image', src: getAssetUrl('/Portfolio/Fotografia/DULCE CUIDADO/DSC02902.jpg') },
+  { type: 'image', src: getAssetUrl('/Portfolio/Social Media/11_Ellos/2_Social Media/1_Feed/1_Febrero/2. Bolso Carrusel/POST-bolso-01.png') },
+  { type: 'video', src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046726/pixelbros/Portfolio/Social_Media/Design_Market/CLUB_DESING_DM.mp4' },
+  { type: 'image', src: getAssetUrl('/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.jpg') },
+  { type: 'image', src: getAssetUrl('/Portfolio/Social Media/11_Ellos/2_Social Media/3. Fotos/BOX 2.png') },
 ];
 
-const SHOWCASE_SLIDES = [
+const SERVICES = [
   {
     id: 1,
-    title: 'Branding',
+    title: 'BRANDING',
     slug: 'identidad-visual',
-    description:
-      'Trabajamos la base de tu marca para que tenga una dirección clara. Definimos su identidad visual y lineamientos de comunicación para que todo lo que publiques mantenga coherencia.',
-    media: {
-      type: 'image',
-      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046500/pixelbros/Portfolio/Diseno_de_Identidad_Visual/Dulce_Cuidado/1.jpg',
-    },
+    iconPath:
+      'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01',
   },
   {
     id: 2,
-    title: 'Contenido para Redes',
-    slug: 'contenidos',
-    description:
-      'Creamos contenido que muestra lo mejor de tu marca y amplía su alcance en redes. Combinamos creatividad y anuncios para atraer más público y generar oportunidades de venta.',
-    media: {
-      type: 'video',
-      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046726/pixelbros/Portfolio/Social_Media/Design_Market/CLUB_DESING_DM.mp4',
-    },
+    title: 'ESTRATEGIA COMERCIAL',
+    slug: 'asesoramiento-comercial',
+    iconPath:
+      'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
   },
   {
     id: 3,
-    title: 'Publicidad Digital',
+    title: 'PUBLICIDAD DIGITAL',
     slug: 'campanas-publicitarias',
-    description:
-      'Creamos y gestionamos campañas en plataformas digitales para llegar a las personas correctas. Segmentamos, optimizamos y analizamos cada anuncio para que tu inversión tenga resultados claros.',
-    media: {
-      type: 'video',
-      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046683/pixelbros/Portfolio/Social_Media/Barbarian_Bar/BARBARIAN_OKTUBRE_FEST.mp4',
-    },
+    iconPath:
+      'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z',
   },
   {
     id: 4,
-    title: 'Fotografía Profesional',
+    title: 'FOTOGRAFIA PROFESIONAL',
     slug: 'fotografia-profesional',
-    description: 'Realizamos sesiones fotográficas que destacan lo mejor de tu marca.',
-    media: {
-      type: 'image',
-      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046610/pixelbros/Portfolio/Fotografia/DULCE_CUIDADO/DSC02914.jpg',
-    },
+    iconPath:
+      'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z M15 13a3 3 0 11-6 0 3 3 0 016 0z',
   },
   {
     id: 5,
-    title: 'Producción Audiovisual',
-    slug: 'produccion-audiovisual',
-    description:
-      'Desarrollamos piezas de video desde la idea hasta la edición final. Contenido audiovisual pensado para comunicar de forma clara y generar mayor impacto en plataformas digitales.',
-    media: {
-      type: 'video',
-      src: 'https://res.cloudinary.com/dhhd92sgr/video/upload/v1772046479/pixelbros/Portfolio/AudioVisual/Elevaria_Servido_Con_Proposito/1.mp4',
-    },
+    title: 'CONTENIDOS',
+    slug: 'contenidos',
+    iconPath: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
   },
   {
     id: 6,
-    title: 'Estrategia Comercial',
-    slug: 'asesoramiento-comercial',
-    description:
-      'Analizamos tu negocio para encontrar oportunidades de crecimiento. Te ayudamos a ordenar tu oferta, mejorar tu comunicación y definir acciones que impulsen tus ventas.',
-    media: {
-      type: 'image',
-      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046533/pixelbros/Portfolio/Diseno_de_Identidad_Visual/Entrepenauta/1.jpg',
-    },
-  },
-  {
-    id: 7,
-    title: 'Activaciones BTL',
-    slug: 'activaciones-btl',
-    description:
-      'Diseñamos experiencias de marca fuera del entorno digital. Eventos, lanzamientos o intervenciones que generan interacción directa y recordación en tu público.',
-    media: {
-      type: 'image',
-      src: 'https://res.cloudinary.com/dhhd92sgr/image/upload/v1772046627/pixelbros/Portfolio/Fotografia/LA_VIEJA_TABERNA/DSC03827-Mejorado-NR.jpg',
-    },
+    title: 'PRODUCCION AUDIOVISUAL',
+    slug: 'produccion-audiovisual',
+    iconPath: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z',
   },
 ];
 
-const HOLD_DURATION = 3200;
-const FLIP_DURATION = 980;
-
-const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
 const Services = () => {
-  const [visibleSlide, setVisibleSlide] = useState(0);
-  const [incomingSlide, setIncomingSlide] = useState(null);
-  const [isFlipping, setIsFlipping] = useState(false);
-  const [flipProgress, setFlipProgress] = useState(0);
-  const frameRef = useRef(null);
-  const holdTimerRef = useRef(null);
+  const cardsViewportRef = useRef(null);
 
-  const collageImages = useMemo(
+  const heroLoopItems = useMemo(
     () =>
-      HERO_COLLAGE.map((item) => ({
-        ...item,
-        url: optimizeCloudinaryImage(getAssetUrl(item.path), 560),
-      })).filter((item) => Boolean(item.url)),
+      HERO_LOOP_MEDIA.map((item, index) => ({
+        key: `${item.src}-${index}`,
+        image: resolveMediaToImage(item, 1000),
+      })).filter((item) => Boolean(item.image)),
     []
   );
 
-  const slides = useMemo(
-    () =>
-      SHOWCASE_SLIDES.map((slide) => ({
-        ...slide,
-        backgroundImage: resolveMediaToImage(slide.media, 1440),
-      })).filter((slide) => Boolean(slide.backgroundImage)),
-    []
-  );
+  const heroTrackItems = useMemo(() => [...heroLoopItems, ...heroLoopItems], [heroLoopItems]);
 
-  useEffect(() => {
-    if (!slides.length) return undefined;
+  const moveCardsNext = () => {
+    const viewport = cardsViewportRef.current;
+    if (!viewport) return;
 
-    let isCancelled = false;
-    const nextIndex = (visibleSlide + 1) % slides.length;
+    const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+    const track = viewport.firstElementChild;
+    const firstCard = track?.querySelector('[data-service-card="true"]');
+    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 270;
+    const trackStyles = track ? window.getComputedStyle(track) : null;
+    const gap = trackStyles ? parseFloat(trackStyles.columnGap || trackStyles.gap || '20') : 20;
+    const step = Math.max(220, Math.floor(cardWidth + gap));
+    const next = viewport.scrollLeft + step;
 
-    holdTimerRef.current = setTimeout(() => {
-      if (isCancelled) return;
-
-      setIncomingSlide(nextIndex);
-      setIsFlipping(true);
-      setFlipProgress(0);
-
-      const startedAt = performance.now();
-
-      const tick = (now) => {
-        if (isCancelled) return;
-
-        const progress = Math.min((now - startedAt) / FLIP_DURATION, 1);
-        setFlipProgress(progress);
-
-        if (progress < 1) {
-          frameRef.current = requestAnimationFrame(tick);
-          return;
-        }
-
-        setVisibleSlide(nextIndex);
-        setIncomingSlide(null);
-        setIsFlipping(false);
-        setFlipProgress(0);
-      };
-
-      frameRef.current = requestAnimationFrame(tick);
-    }, HOLD_DURATION);
-
-    return () => {
-      isCancelled = true;
-      if (holdTimerRef.current) clearTimeout(holdTimerRef.current);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, [visibleSlide, slides.length]);
-
-  const current = slides[visibleSlide] || null;
-  const incoming = incomingSlide !== null ? slides[incomingSlide] || null : null;
-  const safeFlip = Math.max(0, Math.min(1, flipProgress));
-  const easedFlip = easeInOutCubic(safeFlip);
-  const outgoingRotate = easedFlip * 22;
-  const outgoingScale = 1 - easedFlip * 0.06;
-  const outgoingOpacity = 1 - easedFlip * 0.86;
-  const outgoingBlur = easedFlip * 1.9;
-  const incomingRotate = (1 - easedFlip) * -22;
-  const incomingScale = 0.94 + easedFlip * 0.06;
-  const incomingOpacity = 0.12 + easedFlip * 0.88;
-  const incomingBlur = (1 - easedFlip) * 2.2;
-  const displayTitle = isFlipping && incoming && safeFlip >= 0.5 ? incoming.title : current?.title;
-  const activeSlideForNavigation = isFlipping && incoming && safeFlip >= 0.5 ? incoming : current;
-  const activeServiceLink = activeSlideForNavigation?.slug ? `/services/${activeSlideForNavigation.slug}` : '/services';
+    viewport.scrollTo({
+      left: next >= maxScroll - 4 ? 0 : next,
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <motion.div
@@ -209,103 +116,109 @@ const Services = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.section
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75 }}
-          className="relative mb-16 min-h-[360px] sm:min-h-[420px] overflow-hidden"
+          transition={{ duration: 0.72 }}
+          className="relative mb-14 h-[320px] sm:h-[360px] lg:h-[390px] overflow-hidden"
         >
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="absolute inset-0"
             style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%)',
+              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
             }}
           >
-            {collageImages.map((img, idx) => (
+            <div className="h-full overflow-hidden no-scrollbar">
               <motion.div
-                key={`${img.path}-${idx}`}
-                className={`absolute ${img.size} overflow-hidden rounded-[4px] shadow-[0_10px_28px_rgba(0,0,0,0.32)]`}
-                style={{ top: img.top, left: `${106 + idx * 10}%` }}
-                animate={{ x: ['0vw', '-320vw'] }}
-                transition={{ duration: img.duration, repeat: Infinity, ease: 'linear', delay: idx * 0.24 }}
+                className="flex h-full items-center gap-40 w-max px-2"
+                animate={{ x: ['0%', '-50%'] }}
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
               >
-                <img src={img.url} alt="Muestra de servicio" className="h-full w-full object-cover" loading="lazy" />
+                {heroTrackItems.map((item, idx) => (
+                  <div
+                    key={`hero-${item.key}-${idx}`}
+                    className="h-[190px] w-[190px] sm:h-[224px] sm:w-[224px] lg:h-[238px] lg:w-[238px] shrink-0 overflow-hidden rounded-[10px] border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
+                  >
+                    <img src={item.image} alt={idx < heroLoopItems.length ? 'Muestra de servicio' : ''} className="h-full w-full object-cover" loading="lazy" />
+                  </div>
+                ))}
               </motion.div>
-            ))}
+            </div>
           </div>
 
-          <div className="relative z-20 flex min-h-[360px] sm:min-h-[420px] items-center justify-center px-6 text-center">
-            <h1 className="max-w-4xl text-5xl sm:text-6xl lg:text-7xl font-display font-black leading-[0.96] text-white">
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,7,26,0.84)_0%,rgba(6,7,26,0.56)_42%,rgba(6,7,26,0.64)_58%,rgba(6,7,26,0.9)_100%)]" />
+
+          <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
+            <h1 className="max-w-4xl text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.95] text-white">
               Nuestros <span className="text-[#e73c50]">Servicios</span>
             </h1>
           </div>
         </motion.section>
 
-        <section className="mb-20 flex justify-center">
-          <div className="w-full max-w-[640px] [perspective:1700px]">
-            <Link
-              to={activeServiceLink}
-              aria-label={`Ver detalle de ${activeSlideForNavigation?.title || 'servicio'}`}
-              className="group block"
-            >
-              <div className="relative overflow-hidden rounded-[30px] cursor-pointer" style={{ aspectRatio: '1 / 1' }}>
-              {current && (
-                <div className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${current.backgroundImage})` }}>
-                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
-                  <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
-                  {!isFlipping && (
-                    <div className="absolute inset-x-0 bottom-0 px-7 pb-8 sm:px-8 sm:pb-9">
-                      <h2
-                        className="max-w-[11ch] text-[2rem] sm:text-[2.35rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
-                        style={{ textShadow: '0 4px 20px rgba(0,0,0,0.72)' }}
-                      >
-                        {current.title}
-                      </h2>
-                    </div>
-                  )}
-                </div>
-              )}
+        <motion.section
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.68 }}
+          className="mb-20"
+        >
+          <div className="flex items-center gap-3 md:gap-4">
+            <div ref={cardsViewportRef} className="flex-1 overflow-x-auto overflow-y-hidden no-scrollbar select-none scroll-smooth">
+              <div className="flex gap-4 md:gap-5 w-max pr-2">
+              {SERVICES.map((service, index) => {
+                const isOdd = index % 2 === 1;
+                return (
+                  <Link
+                    key={`card-${service.id}`}
+                    to={`/services/${service.slug}`}
+                    data-service-card="true"
+                    className="group relative h-[330px] w-[240px] sm:h-[342px] sm:w-[255px] lg:h-[350px] lg:w-[270px] rounded-2xl border border-white/12 overflow-hidden shrink-0"
+                    style={{
+                      background: isOdd
+                        ? 'linear-gradient(140deg, rgba(25,29,62,0.94) 0%, rgba(30,33,74,0.93) 52%, rgba(36,40,82,0.95) 100%)'
+                        : 'linear-gradient(140deg, rgba(32,42,116,0.92) 0%, rgba(56,64,141,0.9) 55%, rgba(76,83,170,0.92) 100%)',
+                    }}
+                  >
+                    <div className="absolute inset-0 opacity-[0.14]" style={{ backgroundImage: 'radial-gradient(circle at 84% 12%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.04) 35%, transparent 72%)' }} />
+                    <div className="absolute inset-0 opacity-[0.16]" style={{ backgroundImage: 'linear-gradient(128deg, transparent 14%, rgba(255,255,255,0.16) 15%, transparent 16%, transparent 44%, rgba(255,255,255,0.12) 45%, transparent 46%, transparent 63%, rgba(255,255,255,0.1) 64%, transparent 65%)' }} />
 
-              {isFlipping && current && incoming && (
-                <div className="absolute inset-0">
-                  <div
-                    className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${incoming.backgroundImage})`,
-                      transform: `rotate(${incomingRotate}deg) scale(${incomingScale})`,
-                      opacity: incomingOpacity,
-                      filter: `blur(${incomingBlur}px)`,
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
-                    <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
-                  </div>
-                  <div
-                    className="absolute inset-0 rounded-[30px] border border-white/20 shadow-[0_26px_78px_rgba(0,0,0,0.58)] overflow-hidden bg-cover bg-center"
-                    style={{
-                      backgroundImage: `url(${current.backgroundImage})`,
-                      transform: `rotate(${outgoingRotate}deg) scale(${outgoingScale})`,
-                      opacity: outgoingOpacity,
-                      filter: `blur(${outgoingBlur}px)`,
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,7,19,0.88)_6%,rgba(5,7,19,0.42)_36%,rgba(5,7,19,0.12)_66%,transparent_100%)]" />
-                    <div className="absolute inset-y-0 left-0 w-[42%] bg-[radial-gradient(circle_at_0%_50%,rgba(231,60,80,0.32)_0%,rgba(231,60,80,0.16)_26%,transparent_72%)]" />
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 px-7 pb-8 sm:px-8 sm:pb-9 pointer-events-none">
-                    <h2
-                      className="max-w-[11ch] text-[2rem] sm:text-[2.35rem] font-display font-black leading-[0.9] tracking-[-0.02em] text-white"
-                      style={{ textShadow: '0 4px 20px rgba(0,0,0,0.72)' }}
-                    >
-                      {displayTitle}
-                    </h2>
-                  </div>
-                </div>
-              )}
+                    <div className="relative z-10 flex h-full flex-col px-6 pt-6 pb-5">
+                      <div className="mb-7 flex justify-end">
+                        <div className="rounded-full border border-white/20 bg-[#0e102d]/40 p-2.5 text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                          <SvgIcon path={service.iconPath} className="w-6 h-6" strokeWidth={1.8} />
+                        </div>
+                      </div>
+
+                      <h2 className="mt-auto text-center text-[1.6rem] sm:text-[1.72rem] font-display font-black leading-[0.95] tracking-[-0.015em] text-white px-1">
+                        {service.title}
+                      </h2>
+
+                      <div className="mt-8 flex justify-center">
+                        <span className="inline-flex items-center justify-center rounded-md border border-[#e73c50]/70 bg-transparent px-6 py-2 text-sm font-semibold text-[#ff5f70] transition-all duration-300 group-hover:bg-[#e73c50] group-hover:text-white group-hover:shadow-[0_12px_28px_rgba(231,60,80,0.35)]">
+                          Ver mas
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
               </div>
-            </Link>
+            </div>
+
+            <button
+              type="button"
+              onClick={moveCardsNext}
+              className="h-12 w-12 shrink-0 rounded-full border border-white/22 bg-[#11163d]/90 text-white transition-all duration-300 hover:border-white/50 hover:bg-[#1a2058] hover:shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
+              aria-label="Ver siguientes servicios"
+            >
+              <SvgIcon
+                path="M9 5l7 7-7 7"
+                className="w-5 h-5 mx-auto"
+                strokeWidth={2.2}
+              />
+            </button>
           </div>
-        </section>
+        </motion.section>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -327,7 +240,7 @@ const Services = () => {
               Las buenas marcas no aparecen por casualidad
             </h2>
             <p className="text-white/75 mb-8 max-w-xl mx-auto">
-              Cuéntanos tu idea y veamos hasta dónde puede llegar.
+              Cuentanos tu idea y veamos hasta donde puede llegar.
             </p>
             <Link to="/contact">
               <motion.button

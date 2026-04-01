@@ -1,9 +1,0 @@
-node_modules/
-dist/
-build/
-.env
-build-log.txt
-build-output.txt
-
-# Large media assets — served from Cloudinary CDN
-src/assets/
