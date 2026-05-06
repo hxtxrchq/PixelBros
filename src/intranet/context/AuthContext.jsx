@@ -34,6 +34,16 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  const updateProfile = async (input) => {
+    const profile = await authClient.updateProfile(input);
+    setUser(profile);
+    return profile;
+  };
+
+  const changePassword = async (input) => {
+    await authClient.changePassword(input);
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -41,6 +51,8 @@ export function AuthProvider({ children }) {
       isAuthenticated: Boolean(user),
       login,
       logout,
+      updateProfile,
+      changePassword,
     }),
     [user, isInitializing],
   );

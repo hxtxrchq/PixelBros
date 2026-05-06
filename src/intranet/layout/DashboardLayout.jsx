@@ -5,6 +5,7 @@ import { useIntranet } from '../context/IntranetContext';
 
 export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const { theme } = useIntranet();
   const isDark = theme === 'dark';
 
@@ -31,9 +32,14 @@ export default function DashboardLayout({ children }) {
       />
 
       <div className="relative flex min-h-screen">
-        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+        <Sidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={() => setIsSidebarCollapsed((p) => !p)}
+        />
 
-        <div className="flex min-w-0 flex-1 flex-col lg:pl-80">
+        <div className={`flex min-w-0 flex-1 flex-col transition-all duration-300 ${isSidebarCollapsed ? 'lg:pl-[72px]' : 'lg:pl-80'}`}>
           <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
           <main className="intranet-main flex-1 p-4 md:p-6 xl:p-8">
             <div className="mx-auto w-full max-w-[1500px]">{children}</div>

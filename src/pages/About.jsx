@@ -338,72 +338,64 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA Banner — "Si te dicen que piensas demasiado" */}
       <section className="py-12 bg-transparent">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-2xl border border-[#474192]/35 bg-[#0b0d22] shadow-[0_24px_70px_rgba(0,0,0,0.5)]"
+            className="relative overflow-hidden rounded-2xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)]"
           >
-            <div className="absolute inset-0">
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    'linear-gradient(120deg, #111434 0%, #0a0d22 46%, #090b1b 100%)',
-                }}
-              />
-              <div
-                className="absolute inset-0 opacity-[0.07]"
-                style={{
-                  backgroundImage:
-                    'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-                  backgroundSize: '24px 24px',
-                }}
-              />
-              <div
-                className="absolute -left-20 top-8 h-36 w-[55%] -skew-x-12 opacity-25"
-                style={{ background: 'linear-gradient(90deg, #474192 0%, rgba(71,65,146,0) 100%)' }}
-              />
-              <div
-                className="absolute right-0 bottom-0 h-40 w-[45%] skew-x-[-16deg] opacity-25"
-                style={{ background: 'linear-gradient(270deg, #e73c50 0%, rgba(231,60,80,0) 85%)' }}
-              />
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#e73c50]/55 to-transparent" />
-            </div>
-
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] items-center gap-6 px-6 py-7 sm:px-8 sm:py-8">
-              <div className="relative z-10">
-                <h2 className="max-w-2xl text-2xl font-display font-bold leading-[1.08] text-white sm:text-3xl md:text-4xl">
-                  Si te dicen que piensas demasiado, <span className="text-[#e73c50]">postula.</span>
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-6 px-8 py-9 sm:px-12 sm:py-11">
+              {/* Text + CTA */}
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-display font-black leading-[1.08] text-[#1e1c50]" style={{ fontStretch: 'semi-expanded' }}>
+                  Si te dicen que
                 </h2>
-
-                <Link to="/postula" className="inline-block mt-6">
+                <p className="text-3xl sm:text-4xl font-bodoni italic font-normal leading-[1.12] text-[#1e1c50] mt-0.5">
+                  piensas demasiado,
+                </p>
+                <Link to="/postula" className="inline-block mt-5">
                   <motion.button
-                    whileHover={{ y: -2, boxShadow: '0 18px 42px rgba(231,60,80,0.32)' }}
+                    whileHover={{ y: -2, boxShadow: '0 14px 36px rgba(231,60,80,0.32)' }}
                     whileTap={{ scale: 0.97 }}
-                    className="rounded-[10px] border border-[#e73c50] bg-[#e73c50] px-8 py-3 text-sm sm:text-base font-bold text-white transition-colors duration-300 hover:bg-[#c9303f]"
+                    className="rounded-lg bg-[#e73c50] px-7 py-3 text-sm font-bold text-white transition-colors hover:bg-[#c9303f]"
                   >
-                    Vamos
+                    Postula
                   </motion.button>
                 </Link>
               </div>
 
-              <div className="relative flex min-h-[190px] items-center justify-center lg:min-h-[220px]">
-                <motion.div
-                  className="relative w-full max-w-[220px]"
-                  animate={{ y: [0, -4, 0] }}
-                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <img
-                    src={LogoPixelBros}
-                    alt="Logo PixelBros"
-                    className="relative z-20 w-full object-contain drop-shadow-[0_14px_34px_rgba(0,0,0,0.45)]"
-                    loading="lazy"
-                  />
-                </motion.div>
+              {/* SVG logos PixelBros — motivo sol/rayos */}
+              <div className="flex items-center justify-end gap-2 pr-2 lg:pr-4">
+                {/* SVG 1: abanico izquierda */}
+                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[88px] h-[70px] sm:w-[104px] sm:h-[84px]">
+                  <polygon points="100,80 0,72 0,58"/>
+                  <polygon points="100,80 0,47 0,30"/>
+                  <polygon points="100,80 0,18 11,0"/>
+                  <polygon points="100,80 24,0 47,0"/>
+                  <polygon points="100,80 60,0 84,0"/>
+                </svg>
+                {/* SVG 2: abanico central */}
+                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[88px] h-[70px] sm:w-[104px] sm:h-[84px]">
+                  <polygon points="50,80 0,68 0,52"/>
+                  <polygon points="50,80 0,36 0,18"/>
+                  <polygon points="50,80 0,6 9,0"/>
+                  <polygon points="50,80 23,0 43,0"/>
+                  <polygon points="50,80 57,0 77,0"/>
+                  <polygon points="50,80 91,0 100,6"/>
+                  <polygon points="50,80 100,18 100,36"/>
+                  <polygon points="50,80 100,52 100,68"/>
+                </svg>
+                {/* SVG 3: abanico derecha */}
+                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[72px] h-[58px] sm:w-[86px] sm:h-[68px]">
+                  <polygon points="0,80 16,0 40,0"/>
+                  <polygon points="0,80 53,0 76,0"/>
+                  <polygon points="0,80 89,0 100,18"/>
+                  <polygon points="0,80 100,30 100,47"/>
+                  <polygon points="0,80 100,58 100,72"/>
+                </svg>
               </div>
             </div>
           </motion.div>

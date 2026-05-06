@@ -115,6 +115,32 @@ export const authClient = {
     setAccessToken(null);
   },
 
+  async updateProfile(input) {
+    const response = await authFetch('/auth/me', {
+      method: 'PATCH',
+      body: JSON.stringify(input),
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(payload.message ?? 'No se pudo actualizar el perfil');
+    }
+
+    return payload.user;
+  },
+
+  async changePassword(input) {
+    const response = await authFetch('/auth/me/password', {
+      method: 'PATCH',
+      body: JSON.stringify(input),
+    });
+
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      throw new Error(payload.message ?? 'No se pudo actualizar la contrasena');
+    }
+  },
+
   clearSession() {
     setAccessToken(null);
   },

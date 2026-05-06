@@ -29,6 +29,7 @@ export default {
       fontFamily: {
         display: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        bodoni: ['Bodoni Moda', 'Georgia', 'ui-serif', 'serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in',

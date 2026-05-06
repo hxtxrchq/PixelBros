@@ -42,7 +42,6 @@ const buildInvoiceModel = (record) => {
     company: record.company || '-',
     service: record.service || 'Servicio',
     responsible: creatorName,
-    responsibleRole: record.createdByRole || 'Usuario',
     billingStatus: record.billingStatus || 'Facturado',
     quantity: 1,
     subtotal,
@@ -290,7 +289,6 @@ const buildInvoiceHtml = (record) => {
           <p>Fecha: ${escapeHtml(toDate(data.invoiceDate))}</p>
           <p>Estado: ${escapeHtml(data.billingStatus)}</p>
           <p>Emitida por: ${escapeHtml(data.responsible)}</p>
-          <p>Rol: ${escapeHtml(data.responsibleRole)}</p>
         </div>
       </div>
 

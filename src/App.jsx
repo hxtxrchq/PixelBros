@@ -5,12 +5,14 @@ import { AnimatePresence } from 'framer-motion';
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './intranet/components/ProtectedRoute';
+import PanelRoute from './intranet/components/PanelRoute';
 
 // Intranet imports
 const IntranetLogin = lazy(() => import('./intranet/pages/Login'));
 const IntranetDashboard = lazy(() => import('./intranet/pages/Dashboard'));
 const IntranetHome = lazy(() => import('./intranet/pages/Home'));
 const IntranetUsers = lazy(() => import('./intranet/pages/Users'));
+const IntranetProfile = lazy(() => import('./intranet/pages/Profile'));
 const IntranetContent = lazy(() => import('./intranet/pages/Content'));
 const IntranetCRM = lazy(() => import('./intranet/pages/CRM'));
 const IntranetContentAdd = lazy(() => import('./intranet/pages/ContentAdd'));
@@ -67,33 +69,34 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route index element={<IntranetHome />} />
-            <Route path="usuarios" element={<IntranetUsers />} />
-            <Route path="contenido" element={<IntranetContent />}>
+            <Route index element={<PanelRoute panelKey="home"><IntranetHome /></PanelRoute>} />
+            <Route path="perfil" element={<IntranetProfile />} />
+            <Route path="usuarios" element={<PanelRoute panelKey="usuarios"><IntranetUsers /></PanelRoute>} />
+            <Route path="contenido" element={<PanelRoute panelKey="contenido"><IntranetContent /></PanelRoute>}>
               <Route index element={<IntranetContentAdd />} />
               <Route path="agregar" element={<IntranetContentAdd />} />
               <Route path="lista" element={<IntranetContentList />} />
             </Route>
-            <Route path="crm" element={<IntranetCRM />}>
+            <Route path="crm" element={<PanelRoute panelKey="crm"><IntranetCRM /></PanelRoute>}>
               <Route index element={<IntranetCRMProfile />} />
               <Route path="perfil" element={<IntranetCRMProfile />} />
               <Route path="lista" element={<IntranetCRMList />} />
             </Route>
-            <Route path="cotizaciones" element={<IntranetQuotes />}>
+            <Route path="cotizaciones" element={<PanelRoute panelKey="cotizaciones"><IntranetQuotes /></PanelRoute>}>
               <Route index element={<IntranetQuotesAdd />} />
               <Route path="agregar" element={<IntranetQuotesAdd />} />
               <Route path="lista" element={<IntranetQuotesList />} />
             </Route>
             <Route path="precios" element={<IntranetPricing />} />
-            <Route path="embudo" element={<IntranetPipeline />} />
-            <Route path="requerimientos" element={<IntranetRequests />} />
-            <Route path="ventas" element={<IntranetSalesBilling />}>
+            <Route path="embudo" element={<PanelRoute panelKey="embudo"><IntranetPipeline /></PanelRoute>} />
+            <Route path="requerimientos" element={<PanelRoute panelKey="requerimientos"><IntranetRequests /></PanelRoute>} />
+            <Route path="ventas" element={<PanelRoute panelKey="ventas"><IntranetSalesBilling /></PanelRoute>}>
               <Route index element={<IntranetSalesBillingAdd />} />
               <Route path="agregar" element={<IntranetSalesBillingAdd />} />
               <Route path="lista" element={<IntranetSalesBillingList />} />
             </Route>
-            <Route path="reportes" element={<IntranetReports />} />
-            <Route path="calendario" element={<IntranetCalendar />} />
+            <Route path="reportes" element={<PanelRoute panelKey="reportes"><IntranetReports /></PanelRoute>} />
+            <Route path="calendario" element={<PanelRoute panelKey="calendario"><IntranetCalendar /></PanelRoute>} />
           </Route>
         </Routes>
       </AnimatePresence>

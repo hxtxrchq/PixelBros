@@ -100,21 +100,15 @@ export default function Header({ onMenuClick }) {
               >
                 <button
                   type="button"
-                  onClick={() => setIsUserMenuOpen(false)}
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    navigate('/intranet/dashboard/perfil');
+                  }}
                   className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
                     isDark ? 'text-white/80 hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
                   }`}
                 >
                   Mi perfil
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsUserMenuOpen(false)}
-                  className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
-                    isDark ? 'text-white/80 hover:bg-white/10' : 'text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Configuracion
                 </button>
                 <button
                   type="button"

@@ -23,7 +23,7 @@ export const usersClient = {
     });
 
     const payload = await parsePayload(response, 'No se pudo crear el usuario');
-    return payload.user;
+    return payload;
   },
 
   async update(userId, input) {
