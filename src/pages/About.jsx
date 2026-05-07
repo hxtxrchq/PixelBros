@@ -347,7 +347,16 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
             viewport={{ once: true }}
             className="relative overflow-hidden rounded-2xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)]"
           >
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] items-center gap-6 px-8 py-9 sm:px-12 sm:py-11">
+            <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[170px] h-[120px] sm:w-[240px] sm:h-[170px] lg:w-[320px] lg:h-[220px] overflow-hidden pointer-events-none">
+              <img
+                src="/3%20juntos.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-contain object-right"
+              />
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-6 px-8 py-9 sm:px-12 sm:py-11 min-h-[230px] lg:min-h-[260px]">
               {/* Text + CTA */}
               <div>
                 <h2 className="text-3xl sm:text-4xl font-display font-black leading-[1.08] text-[#1e1c50]" style={{ fontStretch: 'semi-expanded' }}>
@@ -367,36 +376,7 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
                 </Link>
               </div>
 
-              {/* SVG logos PixelBros — motivo sol/rayos */}
-              <div className="flex items-center justify-end gap-2 pr-2 lg:pr-4">
-                {/* SVG 1: abanico izquierda */}
-                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[88px] h-[70px] sm:w-[104px] sm:h-[84px]">
-                  <polygon points="100,80 0,72 0,58"/>
-                  <polygon points="100,80 0,47 0,30"/>
-                  <polygon points="100,80 0,18 11,0"/>
-                  <polygon points="100,80 24,0 47,0"/>
-                  <polygon points="100,80 60,0 84,0"/>
-                </svg>
-                {/* SVG 2: abanico central */}
-                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[88px] h-[70px] sm:w-[104px] sm:h-[84px]">
-                  <polygon points="50,80 0,68 0,52"/>
-                  <polygon points="50,80 0,36 0,18"/>
-                  <polygon points="50,80 0,6 9,0"/>
-                  <polygon points="50,80 23,0 43,0"/>
-                  <polygon points="50,80 57,0 77,0"/>
-                  <polygon points="50,80 91,0 100,6"/>
-                  <polygon points="50,80 100,18 100,36"/>
-                  <polygon points="50,80 100,52 100,68"/>
-                </svg>
-                {/* SVG 3: abanico derecha */}
-                <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-[72px] h-[58px] sm:w-[86px] sm:h-[68px]">
-                  <polygon points="0,80 16,0 40,0"/>
-                  <polygon points="0,80 53,0 76,0"/>
-                  <polygon points="0,80 89,0 100,18"/>
-                  <polygon points="0,80 100,30 100,47"/>
-                  <polygon points="0,80 100,58 100,72"/>
-                </svg>
-              </div>
+                <div className="hidden lg:block" />
             </div>
           </motion.div>
         </div>

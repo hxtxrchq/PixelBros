@@ -295,25 +295,22 @@ const Services = () => {
           transition={{ duration: 0.7 }}
           className="relative mx-auto w-[97%] overflow-hidden rounded-3xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)] px-10 py-12 lg:px-20 lg:py-14 text-center"
         >
-          {/* SVG esquina izquierda — rayos desde esquina superior-derecha */}
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 w-[58px] h-[58px] lg:w-[68px] lg:h-[68px]">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-full h-full">
-              <polygon points="80,0 80,20 4,80"/>
-              <polygon points="80,0 80,40 0,75"/>
-              <polygon points="80,0 80,62 0,57"/>
-              <polygon points="80,0 62,80 44,80"/>
-              <polygon points="80,0 36,80 20,80"/>
-            </svg>
+          <div className="absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] lg:w-[50px] lg:h-[116px] overflow-hidden pointer-events-none">
+            <img
+              src="/icono%20izq.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-contain object-left"
+            />
           </div>
-          {/* SVG esquina derecha — rayos desde esquina superior-izquierda */}
-          <div className="absolute right-5 top-1/2 -translate-y-1/2 w-[58px] h-[58px] lg:w-[68px] lg:h-[68px]">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" fill="#e73c50" className="w-full h-full">
-              <polygon points="0,0 0,20 76,80"/>
-              <polygon points="0,0 0,40 80,75"/>
-              <polygon points="0,0 0,62 80,57"/>
-              <polygon points="0,0 18,80 36,80"/>
-              <polygon points="0,0 44,80 60,80"/>
-            </svg>
+
+          <div className="absolute right-[4.5rem] top-1/2 -translate-y-1/2 w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] lg:w-[50px] lg:h-[116px] overflow-hidden pointer-events-none">
+            <img
+              src="/icono%20der.svg"
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-contain object-right"
+            />
           </div>
 
           <div className="relative z-10">
