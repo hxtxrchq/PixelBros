@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import SvgIcon from '../components/SvgIcon';
+import { listPublicContent } from '../services/publicContentClient';
 
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'avif'];
 const VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov', 'm4v'];
@@ -102,6 +103,20 @@ const SERVICES = [
 
 const Services = () => {
   const cardsViewportRef = useRef(null);
+  const [contentItems, setContentItems] = useState([]);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const content = await listPublicContent();
+        setContentItems(content);
+      } catch (error) {
+        console.error('Error loading content:', error);
+      }
+    };
+
+    loadContent();
+  }, []);
 
   const heroLoopItems = useMemo(
     () =>
@@ -270,6 +285,54 @@ const Services = () => {
                   </Link>
                 );
               })}
+              {contentItems.map((item, index) => (
+                <Link
+                  key={`content-card-${item.id}`}
+                  to={`/portfolio/${item.slug}`}
+                  data-service-card="true"
+                  className="group relative h-[330px] w-[240px] sm:h-[342px] sm:w-[255px] lg:h-[350px] lg:w-[270px] rounded-2xl border border-white/12 overflow-hidden shrink-0 bg-[#171b46] transition-all duration-300 hover:border-white/30 hover:shadow-[0_18px_38px_rgba(0,0,0,0.35)]"
+                  aria-label={`Ver ${item.title}`}
+                >
+                  <img
+                    src={item.coverUrl}
+                    alt={item.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    loading="lazy"
+                    fetchPriority={SERVICES.length + index < 3 ? 'high' : 'auto'}
+                    decoding="async"
+                  />
+
+                  <div className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-10 flex flex-col items-center justify-between px-5 py-6 bg-gradient-to-b from-transparent via-transparent to-[#080b24]/95">
+                    {/* Categoría */}
+                    <div className="text-xs font-semibold text-white/70 uppercase tracking-widest">
+                      {item.category}
+                    </div>
+
+                    {/* Logo en blanco entre categoría y título */}
+                    {item.logoUrl && (
+                      <div className="flex-1 flex items-center justify-center">
+                        <img
+                          src={item.logoUrl}
+                          alt={`${item.title} logo`}
+                          className="h-16 w-16 object-contain filter brightness-0 invert"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    )}
+
+                    {/* Título y botón */}
+                    <div className="flex flex-col items-center gap-3 w-full">
+                      <h3 className="text-sm font-bold text-white text-center line-clamp-2">
+                        {item.title}
+                      </h3>
+                      <span className="inline-flex items-center justify-center rounded-md border border-[#e73c50]/70 bg-transparent px-6 py-2 text-sm font-semibold text-[#ff5f70] transition-all duration-300 group-hover:bg-[#e73c50] group-hover:text-white group-hover:shadow-[0_12px_28px_rgba(231,60,80,0.35)]">
+                        Ver mas
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
               </div>
             </div>
 
@@ -295,7 +358,7 @@ const Services = () => {
           transition={{ duration: 0.7 }}
           className="relative mx-auto w-[97%] overflow-hidden rounded-3xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)] px-10 py-12 lg:px-20 lg:py-14 text-center"
         >
-          <div className="absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] lg:w-[50px] lg:h-[116px] overflow-hidden pointer-events-none">
+          <div className="hidden lg:block absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-[50px] h-[116px] overflow-hidden pointer-events-none">
             <img
               src="/icono%20izq.svg"
               alt=""
@@ -304,7 +367,7 @@ const Services = () => {
             />
           </div>
 
-          <div className="absolute right-[4.5rem] top-1/2 -translate-y-1/2 w-[72px] h-[72px] sm:w-[96px] sm:h-[96px] lg:w-[50px] lg:h-[116px] overflow-hidden pointer-events-none">
+          <div className="hidden lg:block absolute right-[4.5rem] top-1/2 -translate-y-1/2 w-[50px] h-[116px] overflow-hidden pointer-events-none">
             <img
               src="/icono%20der.svg"
               alt=""
@@ -313,7 +376,15 @@ const Services = () => {
             />
           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 flex flex-col items-center gap-6 lg:gap-0">
+            <div className="flex justify-center lg:hidden mb-4">
+              <img
+                src="/icono%20izq.svg"
+                alt=""
+                aria-hidden="true"
+                className="w-[60px] h-[60px] object-contain"
+              />
+            </div>
             <h2 className="text-3xl md:text-4xl font-display font-black text-[#1e1c50] leading-[1.05] mb-0" style={{ fontStretch: 'semi-expanded' }}>
               Las buenas marcas
             </h2>
@@ -332,6 +403,14 @@ const Services = () => {
                 Empezar proyecto
               </motion.button>
             </Link>
+            <div className="flex justify-center lg:hidden mt-4">
+              <img
+                src="/icono%20der.svg"
+                alt=""
+                aria-hidden="true"
+                className="w-[60px] h-[60px] object-contain"
+              />
+            </div>
           </div>
         </motion.div>
       </div>

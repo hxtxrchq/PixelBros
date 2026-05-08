@@ -384,71 +384,70 @@ const Portfolio = () => {
                   className="bg-[#080c2a]"
                 >
                   <Link to={`/portfolio/${project.slug}`} className="group block">
-                    <article className="relative aspect-[4/5] overflow-hidden bg-[#13183d] [perspective:1200px]">
-                      <div className="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                        <div className="absolute inset-0 [backface-visibility:hidden]">
-                          {project.coverIsVideo && project.coverMedia ? (
-                            <video
-                              src={project.coverMedia}
-                              poster={project.coverVideoPoster || undefined}
-                              muted
-                              loop
-                              autoPlay
-                              playsInline
-                              preload="metadata"
-                              className="h-full w-full object-cover scale-[1.02] group-hover:scale-[1.08] transition-transform duration-700"
-                            />
-                          ) : project.coverSrc ? (
-                            <motion.img
-                              src={project.coverSrc}
-                              srcSet={project.coverSrcSet || undefined}
-                              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
-                              alt={project.title}
-                              loading={idx < 4 ? 'eager' : 'lazy'}
-                              fetchPriority={idx < 4 ? 'high' : 'auto'}
-                              decoding="async"
-                              className="h-full w-full object-cover"
-                              animate={{ scale: [1.02, 1.08, 1.02] }}
-                              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: (idx % 6) * 0.15 }}
-                            />
-                          ) : (
-                            <div className="h-full w-full bg-[linear-gradient(145deg,#1d2458,#121639)]" />
-                          )}
+                    <article className="relative aspect-[4/5] overflow-hidden bg-[#13183d]">
+                      {project.coverIsVideo && project.coverMedia ? (
+                        <video
+                          src={project.coverMedia}
+                          poster={project.coverVideoPoster || undefined}
+                          muted
+                          loop
+                          autoPlay
+                          playsInline
+                          preload="metadata"
+                          className="h-full w-full object-cover transition-transform duration-700"
+                        />
+                      ) : project.coverSrc ? (
+                        <motion.img
+                          src={project.coverSrc}
+                          srcSet={project.coverSrcSet || undefined}
+                          sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                          alt={project.title}
+                          loading={idx < 4 ? 'eager' : 'lazy'}
+                          fetchPriority={idx < 4 ? 'high' : 'auto'}
+                          decoding="async"
+                          className="h-full w-full object-cover"
+                          animate={{ scale: [1.02, 1.08, 1.02] }}
+                          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: (idx % 6) * 0.15 }}
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-[linear-gradient(145deg,#1d2458,#121639)]" />
+                      )}
 
-                          <div className="absolute inset-0 bg-[#06091f]/36 transition-colors duration-300" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/34 to-black/14 transition-all duration-300" />
+                      {/* Base overlay */}
+                      <div className="absolute inset-0 bg-[#06091f]/36 transition-colors duration-300 group-hover:bg-[#06091f]/70" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/34 to-black/14 transition-all duration-300 group-hover:via-black/50 group-hover:to-black/30" />
 
-                          {project.brand?.src && (
-                            <div className="absolute left-3 top-3 rounded-lg bg-black/28 px-2 py-1 backdrop-blur-sm">
-                              <img
-                                src={project.brand.src}
-                                alt={project.brand.label}
-                                loading="lazy"
-                                decoding="async"
-                                className="h-6 w-auto object-contain [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
-                              />
-                            </div>
-                          )}
-
-                          <div className="absolute inset-x-3 bottom-3">
-                            <h3 className="text-white text-sm sm:text-base font-semibold leading-tight drop-shadow-[0_3px_10px_rgba(0,0,0,1)]">
-                              {project.title}
-                            </h3>
-                          </div>
+                      {/* Logo - visible always but more prominent on hover */}
+                      {project.brand?.src && (
+                        <div className="absolute left-3 top-3 rounded-lg bg-black/28 px-2 py-1 backdrop-blur-sm opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+                          <img
+                            src={project.brand.src}
+                            alt={project.brand.label}
+                            loading="lazy"
+                            decoding="async"
+                            className="h-6 w-auto object-contain [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
+                          />
                         </div>
+                      )}
 
-                        <div className="absolute inset-0 flex items-center justify-center [backface-visibility:hidden] [transform:rotateY(180deg)] bg-[radial-gradient(circle_at_30%_20%,rgba(231,60,80,0.45),rgba(8,12,42,0.92)_58%)] border border-white/10">
-                          <div className="text-center px-4">
-                            <p className="text-[10px] uppercase tracking-[0.2em] text-white/60">
-                              {project.categoryId === 'social-media' ? 'Rubro' : 'Categoria'}
-                            </p>
-                            <h3 className="mt-2 text-white text-lg sm:text-xl font-display font-bold leading-tight">
-                              {project.categoryId === 'social-media'
-                                ? (SOCIAL_RUBRO_LABEL[project.socialRubro] || 'Social Media')
-                                : (CATEGORY_DISPLAY[project.categoryId] || project.categoryName)}
-                            </h3>
-                            <p className="mt-3 text-xs text-white/70">{project.title}</p>
-                          </div>
+                      {/* Title */}
+                      <div className="absolute inset-x-3 bottom-3">
+                        <h3 className="text-white text-sm sm:text-base font-semibold leading-tight drop-shadow-[0_3px_10px_rgba(0,0,0,1)]">
+                          {project.title}
+                        </h3>
+                      </div>
+
+                      {/* Hover content - appears on hover */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="text-center">
+                          <p className="text-[10px] uppercase tracking-[0.2em] text-white/80">
+                            {project.categoryId === 'social-media' ? 'Rubro' : 'Categoria'}
+                          </p>
+                          <h3 className="mt-3 text-white text-lg sm:text-xl font-display font-bold leading-tight">
+                            {project.categoryId === 'social-media'
+                              ? (SOCIAL_RUBRO_LABEL[project.socialRubro] || 'Social Media')
+                              : (CATEGORY_DISPLAY[project.categoryId] || project.categoryName)}
+                          </h3>
                         </div>
                       </div>
                     </article>

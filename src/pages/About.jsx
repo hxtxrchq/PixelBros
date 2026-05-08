@@ -188,9 +188,9 @@ const About = () => {
             className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(140deg,#0c0f20_0%,#06091b_100%)]"
           >
             <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(231,60,80,0.36) 0%, transparent 32%), radial-gradient(circle at 90% 20%, rgba(255,255,255,0.06) 0%, transparent 30%)' }} />
-            <div className="absolute -left-6 bottom-[-34px] text-[100px] sm:text-[160px] font-display font-black tracking-tight text-white/[0.04] leading-none select-none">PIXEL</div>
+            <div className="absolute -left-6 bottom-[-18px] sm:bottom-[-34px] text-[80px] sm:text-[160px] font-display font-black tracking-tight text-white/[0.04] leading-none select-none">PIXEL</div>
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 p-7 sm:p-10">
-              <div>
+              <div className="pl-4 sm:pl-0">
                 <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#e73c50]">Quiénes somos</p>
                 <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.92] text-white max-w-[12ch]">
                   Somos <span className="text-[#e73c50]">PixelBros</span>
@@ -347,7 +347,7 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
             viewport={{ once: true }}
             className="relative overflow-hidden rounded-2xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)]"
           >
-            <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[170px] h-[120px] sm:w-[240px] sm:h-[170px] lg:w-[320px] lg:h-[220px] overflow-hidden pointer-events-none">
+            <div className="hidden lg:block absolute right-[10%] top-1/2 -translate-y-1/2 w-[320px] h-[220px] overflow-hidden pointer-events-none">
               <img
                 src="/3%20juntos.svg"
                 alt=""
@@ -356,10 +356,10 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
               />
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-6 px-8 py-9 sm:px-12 sm:py-11 min-h-[230px] lg:min-h-[260px]">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-6 px-6 py-8 sm:px-12 sm:py-11 min-h-auto lg:min-h-[260px]">
               {/* Text + CTA */}
               <div>
-                <h2 className="text-3xl sm:text-4xl font-display font-black leading-[1.08] text-[#1e1c50]" style={{ fontStretch: 'semi-expanded' }}>
+                <h2 className="text-4xl sm:text-4xl font-display font-bold leading-[1.08] text-[#1e1c50]" style={{ fontStretch: 'semi-expanded' }}>
                   Si te dicen que
                 </h2>
                 <p className="text-3xl sm:text-4xl font-bodoni italic font-normal leading-[1.12] text-[#1e1c50] mt-0.5">
@@ -374,9 +374,18 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
                     Postula
                   </motion.button>
                 </Link>
+
+                <div className="mt-12 flex justify-center lg:hidden">
+                  <img
+                    src="/3%20juntos.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className="h-[80px] w-auto object-contain"
+                  />
+                </div>
               </div>
 
-                <div className="hidden lg:block" />
+              <div className="hidden lg:block" />
             </div>
           </motion.div>
         </div>

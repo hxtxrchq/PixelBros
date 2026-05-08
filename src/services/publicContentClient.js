@@ -38,6 +38,7 @@ export const listPublicContent = async () => {
   return (payload.items ?? []).map((item) => ({
     ...item,
     coverUrl: toAbsoluteUrl(item.coverUrl),
+    logoUrl: toAbsoluteUrl(item.logoUrl),
     medias: Array.isArray(item.medias)
       ? item.medias.map((media) => ({
           ...media,

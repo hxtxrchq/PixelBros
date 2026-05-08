@@ -576,9 +576,18 @@ const PortfolioDetail = () => {
           >
             <Link
               to="/portfolio"
-              className="inline-flex items-center gap-2 text-[#e73c50] hover:text-[#e73c50]/75 transition-colors font-medium text-sm uppercase tracking-wide"
+              className="inline-flex items-center gap-2 text-white hover:text-[#e73c50] transition-colors font-medium text-sm uppercase tracking-wide"
             >
-              <span>Volver al portfolio</span>
+              <svg
+                className="w-4 h-4 rotate-180"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+              <span>Volver</span>
             </Link>
           </motion.div>
 

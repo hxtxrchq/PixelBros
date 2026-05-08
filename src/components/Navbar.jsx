@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogoPixelBros from '../images/LogoPixelBros.png';
 
@@ -7,6 +7,12 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleMobileNavigation = (path) => {
+    setIsMobileMenuOpen(false);
+    navigate(path);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +21,20 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Force close menu on navigation
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setIsMobileMenuOpen(false);
+    };
+
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
   }, []);
 
   const navLinks = [
@@ -116,38 +136,36 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isMobileMenuOpen && (
           <motion.div
+            key="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-[#06071a]/97 backdrop-blur-lg"
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-[#06071a]/97 backdrop-blur-lg"
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
-                <Link
+                <button
                   key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block py-2 text-lg font-semibold transition-colors ${
+                  onClick={() => handleMobileNavigation(link.path)}
+                  className={`block w-full text-left py-2 text-lg font-semibold transition-colors ${
                     location.pathname === link.path
                       ? 'text-[#E93556]'
                       : 'text-white/80 hover:text-[#e73c50]'
                   }`}
                 >
                   {link.name}
-                </Link>
-              ))}
-              <Link
-                to="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block"
-              >
-                <button className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full">
-                  Contacto
                 </button>
-              </Link>
+              ))}
+              <button
+                onClick={() => handleMobileNavigation('/contact')}
+                className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full"
+              >
+                Contacto
+              </button>
             </div>
           </motion.div>
         )}
