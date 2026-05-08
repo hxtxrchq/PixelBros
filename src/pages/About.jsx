@@ -199,15 +199,15 @@ const About = () => {
 Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.                </p>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 self-end">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 self-end">
                 {ABOUT_METRICS.map((stat) => (
-                  <div key={stat.label} className={`min-h-[168px] px-4 sm:px-5 py-6 flex items-center ${stat.accent ? 'rounded-xl bg-[#e73c50]' : 'rounded-xl bg-white/[0.04]'}`}>
+                  <div key={stat.label} className={`min-h-auto sm:min-h-[168px] px-4 sm:px-5 py-4 sm:py-6 flex flex-col items-center justify-center ${stat.accent ? 'rounded-xl bg-[#e73c50]' : 'rounded-xl bg-white/[0.04]'}`}>
                     <AnimatedCounter
                       number={stat.number}
                       label={stat.label}
                       delay={0.08}
-                      numberSizeClassName="text-4xl md:text-5xl"
-                      labelSizeClassName="text-base md:text-lg"
+                      numberSizeClassName="text-3xl sm:text-4xl md:text-5xl"
+                      labelSizeClassName="text-xs sm:text-base md:text-lg"
                       numberClassName="text-white"
                       suffixClassName={stat.accent ? 'text-white' : 'text-[#e73c50]'}
                       labelClassName={stat.accent ? 'text-white/95' : 'text-white/85'}

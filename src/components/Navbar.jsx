@@ -7,12 +7,6 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleMobileNavigation = (path) => {
-    setIsMobileMenuOpen(false);
-    navigate(path);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,19 +17,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close menu when location changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  // Force close menu on navigation
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setIsMobileMenuOpen(false);
-    };
-
-    window.addEventListener('popstate', handleRouteChange);
-    return () => window.removeEventListener('popstate', handleRouteChange);
-  }, []);
+  }, [location.pathname, location.search]);
 
   const navLinks = [
     { name: 'Inicio', path: '/' },
@@ -148,9 +133,9 @@ const Navbar = () => {
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.path}
-                  onClick={() => handleMobileNavigation(link.path)}
+                  to={link.path}
                   className={`block w-full text-left py-2 text-lg font-semibold transition-colors ${
                     location.pathname === link.path
                       ? 'text-[#E93556]'
@@ -158,14 +143,15 @@ const Navbar = () => {
                   }`}
                 >
                   {link.name}
-                </button>
+                </Link>
               ))}
-              <button
-                onClick={() => handleMobileNavigation('/contact')}
-                className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full"
-              >
-                Contacto
-              </button>
+              <Link to="/contact" className="block">
+                <button
+                  className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full"
+                >
+                  Contacto
+                </button>
+              </Link>
             </div>
           </motion.div>
         )}
