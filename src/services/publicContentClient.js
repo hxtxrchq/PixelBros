@@ -9,8 +9,12 @@ const resolveApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
     const { hostname, origin } = window.location;
 
-    if (hostname === 'pixelbros.pe' || hostname === 'www.pixelbros.pe') {
+    if (hostname === 'pixelbros.pe' || hostname.endsWith('.pixelbros.pe')) {
       return 'https://backendpixel.chiqo.site/api/v1';
+    }
+
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return `${normalizeBaseUrl(origin)}/api/v1`;
     }
   }
 
@@ -22,7 +26,9 @@ const API_BASE_URL = resolveApiBaseUrl();
 const toAbsoluteUrl = (url) => {
   if (!url) return null;
   if (/^https?:\/\//i.test(url)) return url;
-  return `${API_BASE_URL.replace(/\/api\/v1$/, '')}${url.startsWith('/') ? '' : '/'}${url}`;
+  // Keep the API prefix so uploaded assets can be served from `${API_BASE}/uploads/...`
+  // (useful behind reverse proxies that only expose the API prefix).
+  return `${API_BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
 export const listPublicContent = async () => {

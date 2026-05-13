@@ -23,6 +23,8 @@ const toSummaryRecord = (item) => ({
   showOnPortfolio: item.showOnPortfolio,
   coverUrl: item.coverUrl,
   coverMimeType: item.coverMimeType,
+  logoUrl: item.logoUrl,
+  logoMimeType: item.logoMimeType,
   galleryCount: item.galleryCount,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
@@ -46,6 +48,7 @@ export default function ContentAdd() {
         showOnHome: payload.showOnHome,
         showOnPortfolio: payload.showOnPortfolio,
         coverFile: payload.coverFile,
+        logoFile: payload.logoFile,
         galleryFiles: payload.galleryFiles,
       });
 

@@ -105,6 +105,23 @@ const Services = () => {
   const cardsViewportRef = useRef(null);
   const [contentItems, setContentItems] = useState([]);
 
+  const splitLabelForLogo = (label) => {
+    const raw = String(label ?? '').trim();
+    if (!raw) return { left: '', right: '' };
+
+    const words = raw.split(/\s+/).filter(Boolean);
+    if (words.length >= 2) {
+      const mid = Math.ceil(words.length / 2);
+      return {
+        left: words.slice(0, mid).join(' '),
+        right: words.slice(mid).join(' '),
+      };
+    }
+
+    const midChar = Math.ceil(raw.length / 2);
+    return { left: raw.slice(0, midChar), right: raw.slice(midChar) };
+  };
+
   useEffect(() => {
     const loadContent = async () => {
       try {
@@ -304,22 +321,25 @@ const Services = () => {
 
                   <div className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-10 flex flex-col items-center justify-between px-5 py-6 bg-gradient-to-b from-transparent via-transparent to-[#080b24]/95">
                     {/* Categoría */}
-                    <div className="text-xs font-semibold text-white/70 uppercase tracking-widest">
-                      {item.category}
-                    </div>
-
-                    {/* Logo en blanco entre categoría y título */}
-                    {item.logoUrl && (
-                      <div className="flex-1 flex items-center justify-center">
-                        <img
-                          src={item.logoUrl}
-                          alt={`${item.title} logo`}
-                          className="h-16 w-16 object-contain filter brightness-0 invert"
-                          loading="lazy"
-                          decoding="async"
-                        />
+                      <div className="text-xs font-semibold text-white/70 uppercase tracking-widest flex items-center gap-2">
+                        {(() => {
+                          if (!item.logoUrl) return item.category;
+                          const parts = splitLabelForLogo(item.category);
+                          return (
+                            <>
+                              <span>{parts.left}</span>
+                              <img
+                                src={item.logoUrl}
+                                alt={`${item.title} logo`}
+                                className="h-5 w-5 object-contain filter brightness-0 invert"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              {parts.right ? <span>{parts.right}</span> : null}
+                            </>
+                          );
+                        })()}
                       </div>
-                    )}
 
                     {/* Título y botón */}
                     <div className="flex flex-col items-center gap-3 w-full">

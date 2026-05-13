@@ -17,7 +17,15 @@ const BRAND_LOGOS = [
   { name: 'Design Market', src: '/logos/Design Market.png' },
   { name: 'GMS', src: '/logos/GMS.png' },
   { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
+  { name: 'Corte87', src: '/logos/Corte87.png' },
+  { name: 'DGary', src: '/logos/DGary.png' },
+  { name: 'Ginecofeme', src: '/logos/Ginecofeme.png' },
+  { name: 'RYC arquitectos', src: '/logos/RYC arquitectos.png' },
+  { name: 'LaViejaTaberna', src: '/logos/LaViejaTaberna.png' },
+  { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
 ];
+
+const BRAND_LOGOS_WITH_LABEL = new Set(['Kanagawa Nikkei', 'Barbarian Bar']);
 
 const ABOUT_METRICS = [
   { number: '450+', label: 'Proyectos completados', accent: false },
@@ -33,6 +41,7 @@ const TeamCard = ({ member, globalTick, index }) => {
   const activeCandidates = member.images[displayIdx] || [];
   const candidateList = Array.isArray(activeCandidates) ? activeCandidates : [activeCandidates];
   const displayImg = candidateList[candidateIdx] || '';
+  const displayPosition = member.imagePositions?.[displayIdx] || member.imagePosition || 'center 18%';
 
   useEffect(() => {
     setCandidateIdx(0);
@@ -97,7 +106,7 @@ const TeamCard = ({ member, globalTick, index }) => {
                 src={displayImg}
                 alt={member.name}
                 className="h-full w-full object-cover"
-                style={{ objectPosition: member.imagePosition || 'center 18%' }}
+                style={{ objectPosition: displayPosition }}
                 loading="lazy"
                 onError={handleImageError}
               />
@@ -122,6 +131,13 @@ const TeamCard = ({ member, globalTick, index }) => {
 const About = () => {
   const [globalTick, setGlobalTick] = useState(0);
   const teamViewportRef = useRef(null);
+
+  const scrollTeamBy = (direction) => {
+    const viewport = teamViewportRef.current;
+    if (!viewport) return;
+    const amount = Math.max(260, Math.round(viewport.clientWidth * 0.75));
+    viewport.scrollBy({ left: direction * amount, behavior: 'smooth' });
+  };
 
   // Cambio automatico de foto por card
   useEffect(() => {
@@ -191,7 +207,6 @@ const About = () => {
             <div className="absolute -left-6 bottom-[-18px] sm:bottom-[-34px] text-[80px] sm:text-[160px] font-display font-black tracking-tight text-white/[0.04] leading-none select-none">PIXEL</div>
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 p-7 sm:p-10">
               <div className="pl-4 sm:pl-0">
-                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#e73c50]">Quiénes somos</p>
                 <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.92] text-white max-w-[12ch]">
                   Somos <span className="text-[#e73c50]">PixelBros</span>
                 </h1>
@@ -234,9 +249,8 @@ Una agencia de marketing digital donde la estrategia, la creatividad y el negoci
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-7 px-2 sm:px-4">
               <div className="text-center lg:pt-24">
-                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#e73c50] mb-3">Nuestra historia</p>
-                <h2 className="mx-auto text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white max-w-[11ch] leading-[0.94]">
-                  Así empezó PixelBros
+                <h2 className="mx-auto mt-6 text-2xl sm:text-3xl lg:text-5xl font-display font-black text-white max-w-[18ch] leading-tight">
+                  Así empezó Nuestra historia
                 </h2>
                 
               </div>
@@ -278,15 +292,30 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
                 {[...BRAND_LOGOS, ...BRAND_LOGOS].map((brand, idx) => (
                   <div
                     key={`${brand.name}-${idx}`}
-                    className="h-[112px] min-w-[220px] sm:min-w-[290px] px-6 sm:px-10 flex items-center justify-center"
+                    className="h-[112px] min-w-[220px] sm:min-w-[290px] px-6 sm:px-10 flex flex-col items-center justify-center"
                   >
-                    <img
-                      src={brand.src}
-                      alt={brand.name}
-                      className="max-h-[72px] sm:max-h-[86px] w-auto object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <div className="h-[64px] w-[180px] sm:h-[72px] sm:w-[220px] flex items-center justify-center overflow-visible">
+                      <img
+                        src={brand.src}
+                        alt={brand.name}
+className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] origin-center transform-gpu ${
+  (brand.name === 'Corte87')
+    ? 'scale-[2.9]'
+    : (brand.name === 'LaViejaTaberna' || brand.name === 'GMS' || brand.name === 'Design Market')
+    ? 'scale-[1.8]'
+    : brand.name === 'DGary'
+    ? 'scale-[0.7]'
+    : ''
+}`}                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+
+                    {BRAND_LOGOS_WITH_LABEL.has(brand.name) ? (
+                      <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white/85">
+                        {brand.name}
+                      </p>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -305,11 +334,10 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
             className="mb-6"
           >
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-2">El equipo</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-white">
                 Nuestro <span className="text-[#e73c50]">Equipo</span>
               </h2>
-              <p className="mt-2 text-white/86 text-sm sm:text-base">
+              <p className="mt-2 text-white text-sm sm:text-base">
                 Nos tomamos en serio el trabajo detrás de una buena idea.
               </p>
             </div>
@@ -319,11 +347,33 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
             <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-[linear-gradient(90deg,rgba(6,9,27,0.96)_0%,rgba(6,9,27,0)_100%)] sm:w-16" />
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-[linear-gradient(270deg,rgba(6,9,27,0.96)_0%,rgba(6,9,27,0)_100%)] sm:w-16" />
 
+            <button
+              type="button"
+              aria-label="Mover equipo a la izquierda"
+              onClick={() => scrollTeamBy(-1)}
+              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 h-10 w-10 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-white/80 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="mx-auto h-5 w-5" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            <button
+              type="button"
+              aria-label="Mover equipo a la derecha"
+              onClick={() => scrollTeamBy(1)}
+              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 h-10 w-10 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm text-white/80 transition hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="mx-auto h-5 w-5" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
             <div
               ref={teamViewportRef}
-              className="overflow-x-auto overflow-y-hidden no-scrollbar select-none scroll-smooth"
+              className="overflow-x-auto overflow-y-hidden no-scrollbar select-none scroll-smooth scroll-pl-14 sm:scroll-pl-20"
             >
-              <div className="flex w-max gap-6 pb-2 pr-14 snap-x snap-mandatory sm:pr-20">
+              <div className="flex w-max gap-6 pb-2 pl-14 pr-14 snap-x snap-mandatory sm:pl-20 sm:pr-20">
                 {TEAM.map((member, index) => (
                   <TeamCard
                     key={member.id}

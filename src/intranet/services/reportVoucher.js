@@ -476,7 +476,7 @@ const buildReportHtml = (stats, meta) => {
 
   /* BODY */
   .body-text p{font-size:13px;line-height:1.7;color:#333;margin-bottom:8px}
-  .intro-stripe{position:absolute;left:0;right:0;bottom:52px;height:14px;background:#06091b}
+  .intro-stripe{position:absolute;left:0;right:0;bottom:52px;height:2px;background:#e73c50;opacity:0.3}
 
   /* STATS */
   .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4mm}

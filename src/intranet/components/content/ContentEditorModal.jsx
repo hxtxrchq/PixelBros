@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const overlayAnimation = {
   initial: { opacity: 0 },
@@ -48,6 +48,7 @@ const baseFormFrom = (initialValues, categories) => ({
   category: initialValues?.category || categories[0] || 'Social Media',
   showOnHome: Boolean(initialValues?.showOnHome),
   showOnPortfolio: initialValues?.showOnPortfolio !== undefined ? Boolean(initialValues.showOnPortfolio) : true,
+  logoLabel: initialValues?.logoLabel || '',
 });
 
 export default function ContentEditorModal({
@@ -61,8 +62,13 @@ export default function ContentEditorModal({
   onSubmit,
   inline = false,
 }) {
+  const prevOpenRef = useRef(false);
+  const prevContentIdRef = useRef(null);
   const [form, setForm] = useState(() => baseFormFrom(initialValues, categories));
   const [coverFilePreview, setCoverFilePreview] = useState(null);
+  const [logoFilePreview, setLogoFilePreview] = useState(null);
+  const [removeCover, setRemoveCover] = useState(false);
+  const [removeLogo, setRemoveLogo] = useState(false);
   const [galleryFilePreviews, setGalleryFilePreviews] = useState([]);
   const [removedExistingMediaIds, setRemovedExistingMediaIds] = useState([]);
   const [activePreview, setActivePreview] = useState(null);
@@ -80,6 +86,19 @@ export default function ContentEditorModal({
     );
   }, [initialValues]);
 
+  const existingLogo = useMemo(() => {
+    if (!initialValues?.logoUrl) return null;
+    return toExistingMedia(
+      {
+        id: `logo-${initialValues.id}`,
+        url: initialValues.logoUrl,
+        mimeType: initialValues.logoMimeType,
+        name: 'Logo actual',
+      },
+      'logo',
+    );
+  }, [initialValues]);
+
   const existingGallery = useMemo(() => {
     if (!Array.isArray(initialValues?.medias)) return [];
     return initialValues.medias.filter((media) => Boolean(media?.url)).map((media) => toExistingMedia(media, 'gallery'));
@@ -89,8 +108,15 @@ export default function ContentEditorModal({
     setForm(baseFormFrom(initialValues, categories));
     setRemovedExistingMediaIds([]);
     setActivePreview(null);
+    setRemoveCover(false);
+    setRemoveLogo(false);
 
     setCoverFilePreview((prev) => {
+      if (prev?.url) URL.revokeObjectURL(prev.url);
+      return null;
+    });
+
+    setLogoFilePreview((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url);
       return null;
     });
@@ -102,17 +128,29 @@ export default function ContentEditorModal({
   };
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      prevOpenRef.current = false;
+      prevContentIdRef.current = null;
+      return;
+    }
 
+    const currentId = mode === 'create' ? '__create__' : (initialValues?.id || null);
+    const shouldReset = !prevOpenRef.current || prevContentIdRef.current !== currentId;
+
+    prevOpenRef.current = true;
+    prevContentIdRef.current = currentId;
+
+    if (!shouldReset) return;
     resetEditorState();
-  }, [isOpen, initialValues, categories]);
+  }, [isOpen, mode, initialValues?.id, categories]);
 
   useEffect(() => {
     return () => {
       if (coverFilePreview?.url) URL.revokeObjectURL(coverFilePreview.url);
+      if (logoFilePreview?.url) URL.revokeObjectURL(logoFilePreview.url);
       galleryFilePreviews.forEach((item) => item?.url && URL.revokeObjectURL(item.url));
     };
-  }, [coverFilePreview, galleryFilePreviews]);
+  }, [coverFilePreview, logoFilePreview, galleryFilePreviews]);
 
   const onChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -122,9 +160,25 @@ export default function ContentEditorModal({
     const file = event.target.files?.[0];
     if (!file) return;
 
+    setRemoveCover(false);
+
     setCoverFilePreview((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url);
       return toFilePreview(file, 'cover');
+    });
+
+    event.target.value = '';
+  };
+
+  const onLogoChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setRemoveLogo(false);
+
+    setLogoFilePreview((prev) => {
+      if (prev?.url) URL.revokeObjectURL(prev.url);
+      return toFilePreview(file, 'logo');
     });
 
     event.target.value = '';
@@ -163,6 +217,9 @@ export default function ContentEditorModal({
     await onSubmit({
       ...form,
       coverFile: coverFilePreview?.file || null,
+      logoFile: logoFilePreview?.file || null,
+      removeCover,
+      removeLogo,
       galleryFiles: galleryFilePreviews.map((item) => item.file),
       removeMediaIds: removedExistingMediaIds,
     });
@@ -250,7 +307,7 @@ export default function ContentEditorModal({
           </label>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-3">
           <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <div className="mb-3 flex items-center justify-between">
               <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff9eac]">Portada</p>
@@ -263,13 +320,37 @@ export default function ContentEditorModal({
               <span className="rounded-lg border border-white/20 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em]">Elegir archivo</span>
             </label>
 
+            {mode === 'edit' && existingCover && !coverFilePreview && (
+              <div className="mb-3 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-xs font-bold text-white/70">Portada actual</p>
+                <button
+                  type="button"
+                  onClick={() => setRemoveCover((value) => !value)}
+                  className="rounded-lg border border-white/15 px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:border-[#e73c50]/65"
+                >
+                  {removeCover ? 'Deshacer' : 'Eliminar portada'}
+                </button>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-2">
-              {existingCover && (
+              {!removeCover && existingCover && (
                 <button type="button" onClick={() => openPreview(existingCover, 'Portada actual')} className="group overflow-hidden rounded-xl border border-white/10 bg-black/40 text-left">
                   {isVideoType(existingCover.type, existingCover.url) ? (
-                    <video src={existingCover.url} className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]" muted />
+                    <div className="flex h-24 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-white/65">
+                      Video
+                    </div>
                   ) : (
-                    <img src={existingCover.url} alt={existingCover.name} className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]" />
+                    <img
+                      src={existingCover.url}
+                      alt={existingCover.name}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(event) => {
+                        event.currentTarget.style.display = 'none';
+                      }}
+                      className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                    />
                   )}
                   <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-[0.06em] text-white/75">Actual</p>
                 </button>
@@ -278,16 +359,118 @@ export default function ContentEditorModal({
               {coverFilePreview && (
                 <button type="button" onClick={() => openPreview(coverFilePreview, 'Nueva portada')} className="group overflow-hidden rounded-xl border border-[#e73c50]/40 bg-black/40 text-left">
                   {isVideoType(coverFilePreview.type, coverFilePreview.url) ? (
-                    <video src={coverFilePreview.url} className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]" muted />
+                    <div className="flex h-24 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-[#ffc2cc]">
+                      Video
+                    </div>
                   ) : (
-                    <img src={coverFilePreview.url} alt={coverFilePreview.name} className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]" />
+                    <img
+                      src={coverFilePreview.url}
+                      alt={coverFilePreview.name}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(event) => {
+                        event.currentTarget.style.display = 'none';
+                      }}
+                      className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                    />
                   )}
                   <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-[0.06em] text-[#ffc2cc]">Nueva • {readableSize(coverFilePreview.size)}</p>
                 </button>
               )}
             </div>
 
+            {removeCover && !coverFilePreview && (
+              <p className="mt-2 text-xs font-bold text-[#ffc1cb]">Se eliminara la portada al guardar.</p>
+            )}
+
             {!existingCover && !coverFilePreview && <p className="text-xs text-white/55">Aun no hay portada seleccionada.</p>}
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#9bc2ff]">Logo marca</p>
+              <span className="rounded-full border border-[#9bc2ff]/35 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#bfd8ff]">Logo</span>
+            </div>
+
+            <label className="mb-3 flex cursor-pointer items-center justify-between rounded-xl border border-dashed border-white/25 bg-[#090c22] px-3 py-2.5 text-xs text-white/80 transition hover:border-[#7ba7ff]/65">
+              <span>Subir logo</span>
+              <input type="file" accept="image/*" onChange={onLogoChange} className="hidden" />
+              <span className="rounded-lg border border-white/20 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em]">Elegir archivo</span>
+            </label>
+
+            <label className="mb-3 space-y-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/55">Nombre debajo del logo (opcional)</span>
+              <input
+                value={form.logoLabel}
+                onChange={(event) => onChange('logoLabel', event.target.value)}
+                placeholder="Ej: Barbarian Bar"
+                className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none transition focus:border-[#7ba7ff]/70 focus:ring-2 focus:ring-[#7ba7ff]/25"
+              />
+              <p className="text-[11px] text-white/45">Deja vacio si el logo ya tiene texto.</p>
+            </label>
+
+            {mode === 'edit' && existingLogo && !logoFilePreview && (
+              <div className="mb-3 flex items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                <p className="text-xs font-bold text-white/70">Logo actual</p>
+                <button
+                  type="button"
+                  onClick={() => setRemoveLogo((value) => !value)}
+                  className="rounded-lg border border-white/15 px-2 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white/80 transition hover:border-[#7ba7ff]/65"
+                >
+                  {removeLogo ? 'Deshacer' : 'Eliminar logo'}
+                </button>
+              </div>
+            )}
+
+            <div className="space-y-2">
+              {!removeLogo && existingLogo && !logoFilePreview && (
+                <button type="button" onClick={() => openPreview(existingLogo, 'Logo actual')} className="group relative w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 p-3 text-left">
+                  <div className="flex items-center justify-center h-28">
+                    <div className="flex h-full w-full items-center justify-center p-2">
+                      <img
+                        src={existingLogo.url}
+                        alt={existingLogo.name}
+                        loading="eager"
+                        decoding="async"
+                        fetchPriority="high"
+                        onError={(event) => {
+                          event.currentTarget.style.display = 'none';
+                        }}
+                        className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-110 opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                      />
+                    </div>
+                  </div>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.06em] text-white/75">Actual</p>
+                </button>
+              )}
+
+              {logoFilePreview && (
+                <button type="button" onClick={() => openPreview(logoFilePreview, 'Nuevo logo')} className="group relative w-full overflow-hidden rounded-xl border border-[#7ba7ff]/40 bg-black/40 p-3 text-left">
+                  <div className="flex items-center justify-center h-28">
+                    <div className="flex h-full w-full items-center justify-center p-2">
+                      <img
+                        src={logoFilePreview.url}
+                        alt={logoFilePreview.name}
+                        loading="eager"
+                        decoding="async"
+                        fetchPriority="high"
+                        onError={(event) => {
+                          event.currentTarget.style.display = 'none';
+                        }}
+                        className="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-110 opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                      />
+                    </div>
+                  </div>
+                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.06em] text-[#bfd8ff]">Nuevo • {readableSize(logoFilePreview.size)}</p>
+                </button>
+              )}
+            </div>
+
+            {removeLogo && !logoFilePreview && (
+              <p className="mt-2 text-xs font-bold text-[#bfd8ff]">Se eliminara el logo al guardar.</p>
+            )}
+
+            {!existingLogo && !logoFilePreview && <p className="text-xs text-white/55">Aun no hay logo seleccionado.</p>}
           </article>
 
           <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -313,9 +496,20 @@ export default function ContentEditorModal({
                         <div key={media.id} className={`group relative overflow-hidden rounded-lg border bg-black/30 ${isMarked ? 'border-[#e73c50]/60 opacity-60' : 'border-white/10'}`}>
                           <button type="button" onClick={() => openPreview(media, 'Galeria actual')} className="block w-full">
                             {isVideoType(media.type, media.url) ? (
-                              <video src={media.url} className="h-20 w-full object-cover transition duration-300 group-hover:scale-105" muted />
+                              <div className="flex h-20 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-white/65">
+                                Video
+                              </div>
                             ) : (
-                              <img src={media.url} alt={media.name} className="h-20 w-full object-cover transition duration-300 group-hover:scale-105" />
+                              <img
+                                src={media.url}
+                                alt={media.name}
+                                loading="lazy"
+                                decoding="async"
+                                onError={(event) => {
+                                  event.currentTarget.style.display = 'none';
+                                }}
+                                className="h-20 w-full object-cover transition duration-300 group-hover:scale-105"
+                              />
                             )}
                           </button>
                           <button
@@ -341,9 +535,20 @@ export default function ContentEditorModal({
                       <div key={media.id} className="group relative overflow-hidden rounded-lg border border-[#7ba7ff]/35 bg-black/30">
                         <button type="button" onClick={() => openPreview(media, 'Nueva galeria')} className="block w-full">
                           {isVideoType(media.type, media.url) ? (
-                            <video src={media.url} className="h-20 w-full object-cover transition duration-300 group-hover:scale-105" muted />
+                            <div className="flex h-20 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-[#bfd8ff]">
+                              Video
+                            </div>
                           ) : (
-                            <img src={media.url} alt={media.name} className="h-20 w-full object-cover transition duration-300 group-hover:scale-105" />
+                            <img
+                              src={media.url}
+                              alt={media.name}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(event) => {
+                                event.currentTarget.style.display = 'none';
+                              }}
+                              className="h-20 w-full object-cover transition duration-300 group-hover:scale-105"
+                            />
                           )}
                         </button>
                         <button

@@ -9,8 +9,12 @@ const resolveApiBaseUrl = () => {
   if (typeof window !== 'undefined') {
     const { hostname, origin } = window.location;
 
-    if (hostname === 'pixelbros.pe' || hostname === 'www.pixelbros.pe') {
+    if (hostname === 'pixelbros.pe' || hostname.endsWith('.pixelbros.pe')) {
       return 'https://backendpixel.chiqo.site/api/v1';
+    }
+
+    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      return `${normalizeBaseUrl(origin)}/api/v1`;
     }
   }
 

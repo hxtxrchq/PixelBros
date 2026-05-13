@@ -13,12 +13,15 @@ const toAbsoluteUrl = (url) => {
   if (!url) return null;
   if (/^https?:\/\//i.test(url)) return url;
 
-  return `${getApiBaseUrl().replace(/\/api\/v1$/, '')}${url.startsWith('/') ? '' : '/'}${url}`;
+  // Keep the API prefix so uploaded assets can be served from `${API_BASE}/uploads/...`
+  // (useful behind reverse proxies that only expose the API prefix).
+  return `${getApiBaseUrl()}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
 const normalizeItem = (item) => ({
   ...item,
   coverUrl: toAbsoluteUrl(item.coverUrl),
+  logoUrl: toAbsoluteUrl(item.logoUrl),
   medias: Array.isArray(item.medias)
     ? item.medias.map((media) => ({
         ...media,
@@ -47,9 +50,16 @@ export const contentClient = {
     form.append('category', input.category);
     form.append('showOnHome', String(Boolean(input.showOnHome)));
     form.append('showOnPortfolio', String(Boolean(input.showOnPortfolio)));
+    if (input.logoLabel !== undefined) {
+      form.append('logoLabel', input.logoLabel);
+    }
 
     if (input.coverFile) {
       form.append('cover', input.coverFile);
+    }
+
+    if (input.logoFile) {
+      form.append('logo', input.logoFile);
     }
 
     for (const file of input.galleryFiles ?? []) {
@@ -66,7 +76,7 @@ export const contentClient = {
   },
 
   async update(contentId, input) {
-    const hasFileChanges = Boolean(input.coverFile) || Boolean(input.galleryFiles?.length);
+    const hasFileChanges = Boolean(input.coverFile) || Boolean(input.logoFile) || Boolean(input.galleryFiles?.length);
     const removeMediaIds = Array.isArray(input.removeMediaIds) ? input.removeMediaIds : [];
 
     const response = hasFileChanges
@@ -79,7 +89,11 @@ export const contentClient = {
             if (input.category !== undefined) form.append('category', input.category);
             if (input.showOnHome !== undefined) form.append('showOnHome', String(Boolean(input.showOnHome)));
             if (input.showOnPortfolio !== undefined) form.append('showOnPortfolio', String(Boolean(input.showOnPortfolio)));
+            if (input.logoLabel !== undefined) form.append('logoLabel', input.logoLabel);
+            if (input.removeCover !== undefined) form.append('removeCover', String(Boolean(input.removeCover)));
+            if (input.removeLogo !== undefined) form.append('removeLogo', String(Boolean(input.removeLogo)));
             if (input.coverFile) form.append('cover', input.coverFile);
+            if (input.logoFile) form.append('logo', input.logoFile);
             for (const file of input.galleryFiles ?? []) {
               form.append('gallery', file);
             }

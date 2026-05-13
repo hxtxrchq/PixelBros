@@ -32,14 +32,6 @@ const SOCIAL_RUBROS = [
 
 const SOCIAL_RUBRO_LABEL = Object.fromEntries(SOCIAL_RUBROS.map((item) => [item.id, item.label]));
 
-const BRAND_LOGOS = [
-  { key: 'elevaria', src: '/logos/Elevaria Logo.png', label: 'Elevaria' },
-  { key: 'barbarian', src: '/logos/Barbarian Bar.png', label: 'Barbarian Bar' },
-  { key: 'design-market', src: '/logos/Design Market.png', label: 'Design Market' },
-  { key: 'dm', src: '/logos/Design Market.png', label: 'Design Market' },
-  { key: 'gms', src: '/logos/GMS.png', label: 'GMS' },
-  { key: 'kanagawa', src: '/logos/Kanagawa Nikkei.png', label: 'Kanagawa Nikkei' },
-];
 
 const slugify = (value) =>
   value
@@ -67,23 +59,6 @@ const getSocialRubro = (title) => {
   return null;
 };
 
-const getProjectBrand = (title) => {
-  const key = slugify(title || '');
-  const match = BRAND_LOGOS.find((brand) => key.includes(brand.key));
-  if (match) return match;
-
-  if (key.includes('yuriko') || key.includes('ginecofeme')) {
-    return { key: 'salud', src: null, label: 'Salud' };
-  }
-  if (key.includes('frissagio')) {
-    return { key: 'educacion', src: null, label: 'Educacion' };
-  }
-  if (key.includes('ellos')) {
-    return { key: 'retail', src: null, label: 'Retail' };
-  }
-
-  return { key: 'pixelbros', src: null, label: 'PixelBros' };
-};
 
 const getOrderFromName = (fileName) => {
   const m = fileName.match(/(\d+)/);
@@ -185,7 +160,7 @@ const buildPortfolioIndex = (assets) => {
             coverSrc: thumb.src,
             coverSrcSet: thumb.srcSet,
             socialRubro: project.categoryId === 'social-media' ? getSocialRubro(project.title) : null,
-            brand: getProjectBrand(project.title),
+            brand: { src: null, label: null, caption: null },
           };
         })
         .sort((a, b) => a.title.localeCompare(b.title));
@@ -239,7 +214,13 @@ const buildPortfolioIndexFromApi = (items) => {
       coverSrc: thumb.src,
       coverSrcSet: thumb.srcSet,
       socialRubro: categoryId === 'social-media' ? getSocialRubro(title) : null,
-      brand: getProjectBrand(title),
+      brand: item.logoUrl
+        ? {
+            src: item.logoUrl,
+            label: item.logoLabel || item.companyName || title,
+            caption: item.logoLabel || null,
+          }
+        : { src: null, label: null, caption: null },
     });
   }
 
@@ -413,41 +394,41 @@ const Portfolio = () => {
                         <div className="h-full w-full bg-[linear-gradient(145deg,#1d2458,#121639)]" />
                       )}
 
-                      {/* Base overlay */}
-                      <div className="absolute inset-0 bg-[#06091f]/36 transition-colors duration-300 group-hover:bg-[#06091f]/70" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/82 via-black/34 to-black/14 transition-all duration-300 group-hover:via-black/50 group-hover:to-black/30" />
-
-                      {/* Logo - visible always but more prominent on hover */}
-                      {project.brand?.src && (
-                        <div className="absolute left-3 top-3 rounded-lg bg-black/28 px-2 py-1 backdrop-blur-sm opacity-100 group-hover:opacity-100 transition-opacity duration-300">
-                          <img
-                            src={project.brand.src}
-                            alt={project.brand.label}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-6 w-auto object-contain [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
-                          />
-                        </div>
-                      )}
-
-                      {/* Title */}
-                      <div className="absolute inset-x-3 bottom-3">
-                        <h3 className="text-white text-sm sm:text-base font-semibold leading-tight drop-shadow-[0_3px_10px_rgba(0,0,0,1)]">
-                          {project.title}
-                        </h3>
-                      </div>
+                      {/* Base overlay (only on hover for readability) */}
+                      <div className="pointer-events-none absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-75" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/82 via-black/34 to-black/14 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                       {/* Hover content - appears on hover */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="text-center">
-                          <p className="text-[10px] uppercase tracking-[0.2em] text-white/80">
-                            {project.categoryId === 'social-media' ? 'Rubro' : 'Categoria'}
-                          </p>
-                          <h3 className="mt-3 text-white text-lg sm:text-xl font-display font-bold leading-tight">
-                            {project.categoryId === 'social-media'
-                              ? (SOCIAL_RUBRO_LABEL[project.socialRubro] || 'Social Media')
-                              : (CATEGORY_DISPLAY[project.categoryId] || project.categoryName)}
+                          <p className="text-[10px] uppercase tracking-[0.2em] text-white/80">Categoria</p>
+                          <h3 className="mt-2 text-white text-lg sm:text-xl font-display font-bold leading-tight">
+                            {CATEGORY_DISPLAY[project.categoryId] || project.categoryName}
                           </h3>
+
+                          {project.brand?.src ? (
+                            <div className="mt-4 flex items-center justify-center">
+                              <div className="flex flex-col items-center gap-2">
+                                <div className="flex items-center justify-center px-3 py-2">
+                                  <img
+                                    src={project.brand.src}
+                                    alt={project.brand.label || 'Logo'}
+                                    loading="eager"
+                                    decoding="async"
+                                    className="max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                                    onError={(event) => {
+                                      event.currentTarget.style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                                {project.brand.caption ? (
+                                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/85">
+                                    {project.brand.caption}
+                                  </p>
+                                ) : null}
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </article>

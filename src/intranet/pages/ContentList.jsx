@@ -23,6 +23,9 @@ const toSummaryRecord = (item) => ({
   showOnPortfolio: item.showOnPortfolio,
   coverUrl: item.coverUrl,
   coverMimeType: item.coverMimeType,
+  logoUrl: item.logoUrl,
+  logoMimeType: item.logoMimeType,
+  logoLabel: item.logoLabel,
   galleryCount: item.galleryCount,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
@@ -50,8 +53,19 @@ export default function ContentList() {
     try {
       setError('');
       setIsLoadingDetailId(item.id);
+      // Open immediately with the lightweight summary to keep UI snappy.
+      setEditingItem(item);
       const detailedItem = await contentClient.getById(item.id);
-      setEditingItem(detailedItem);
+      setEditingItem((prev) => {
+        if (!prev || prev.id !== item.id) return prev;
+        return {
+          ...detailedItem,
+          coverUrl: detailedItem.coverUrl ?? prev.coverUrl,
+          coverMimeType: detailedItem.coverMimeType ?? prev.coverMimeType,
+          logoUrl: detailedItem.logoUrl ?? prev.logoUrl,
+          logoMimeType: detailedItem.logoMimeType ?? prev.logoMimeType,
+        };
+      });
     } catch (detailError) {
       setError(detailError.message || 'No se pudo cargar el detalle del contenido');
     } finally {
@@ -103,27 +117,58 @@ export default function ContentList() {
               <article
                 key={item.id}
                 className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_12px_26px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:border-white/25"
+                style={{ contentVisibility: 'auto', containIntrinsicSize: '260px 420px' }}
               >
-                <div className="relative h-36 bg-black/35">
+              <div className="relative h-36 bg-black/35">
                   {item.coverUrl ? (
                     item.coverMimeType?.startsWith('video/') ? (
-                      <video src={item.coverUrl} className="h-full w-full object-cover" muted />
+                      <div className="flex h-full w-full items-center justify-center bg-black/55 text-[11px] font-black uppercase tracking-[0.14em] text-white/65">
+                        Portada video
+                      </div>
                     ) : (
-                      <img src={item.coverUrl} alt={item.companyName} className="h-full w-full object-cover" loading="lazy" />
+                      <img
+                        src={item.coverUrl}
+                        alt={item.companyName}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                      />
                     )
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs font-bold uppercase tracking-[0.12em] text-white/45">Sin portada</div>
                   )}
 
+                  <div className="pointer-events-none absolute inset-0 bg-black opacity-0 transition-opacity duration-200 group-hover:opacity-45" />
+
                   <div className="absolute left-2 top-2 rounded-md bg-black/60 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-white/80">
-                    {item.category}
+                    {(() => {
+                      if (!item.logoUrl) return item.category;
+                      return (
+                        <span className="inline-flex items-center gap-2">
+                          <span className="flex h-7 w-7 items-center justify-center">
+                            <img
+                              src={item.logoUrl}
+                              alt="Logo"
+                              className="h-6 w-6 object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                              loading="lazy"
+                              decoding="async"
+                              fetchPriority="low"
+                              onError={(event) => {
+                                event.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          </span>
+                          <span>{item.category}</span>
+                        </span>
+                      );
+                    })()}
                   </div>
                 </div>
 
                 <div className="space-y-3 p-4">
                   <div>
                     <h4 className="truncate text-base font-black text-white">{item.companyName}</h4>
-                    <p className="truncate text-xs text-white/60">{item.title || 'Sin titulo'}</p>
                   </div>
 
                   <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[0.08em]">
