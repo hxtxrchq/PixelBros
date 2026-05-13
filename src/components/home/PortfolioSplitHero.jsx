@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { getPortfolioAssets } from '../../config/assets.js';
-import { listPublicContent } from '../../services/publicContentClient';
+import { listHomeContent } from '../../services/publicContentClient';
 
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
@@ -85,7 +85,7 @@ const PortfolioSplitHero = () => {
 
     const run = async () => {
       try {
-        const items = await listPublicContent();
+        const items = await listHomeContent();
         if (!isMounted) return;
         setApiCovers(extractCoversFromApi(items));
       } catch {

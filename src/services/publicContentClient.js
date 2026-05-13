@@ -53,3 +53,26 @@ export const listPublicContent = async () => {
       : [],
   }));
 };
+
+export const listHomeContent = async () => {
+  const response = await fetch(`${API_BASE_URL}/public/content/home`, {
+    credentials: 'include',
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(payload.message ?? 'No se pudo cargar contenido publico');
+  }
+
+  return (payload.items ?? []).map((item) => ({
+    ...item,
+    coverUrl: toAbsoluteUrl(item.coverUrl),
+    logoUrl: toAbsoluteUrl(item.logoUrl),
+    medias: Array.isArray(item.medias)
+      ? item.medias.map((media) => ({
+          ...media,
+          url: toAbsoluteUrl(media.url),
+        }))
+      : [],
+  }));
+};

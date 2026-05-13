@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef } from 'react';
 import SvgIcon from '../components/SvgIcon';
-import { listPublicContent } from '../services/publicContentClient';
 
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'avif'];
 const VIDEO_EXTENSIONS = ['mp4', 'webm', 'mov', 'm4v'];
@@ -103,7 +102,6 @@ const SERVICES = [
 
 const Services = () => {
   const cardsViewportRef = useRef(null);
-  const [contentItems, setContentItems] = useState([]);
 
   const splitLabelForLogo = (label) => {
     const raw = String(label ?? '').trim();
@@ -122,18 +120,10 @@ const Services = () => {
     return { left: raw.slice(0, midChar), right: raw.slice(midChar) };
   };
 
-  useEffect(() => {
-    const loadContent = async () => {
-      try {
-        const content = await listPublicContent();
-        setContentItems(content);
-      } catch (error) {
-        console.error('Error loading content:', error);
-      }
-    };
-
-    loadContent();
-  }, []);
+  // Services page uses a static set of service cards (SERVICES).
+  // Portfolio content was previously appended to the service cards; that behavior
+  // produced portfolio projects inside the Services grid. We intentionally
+  // render only the predefined `SERVICES` array here.
 
   const heroLoopItems = useMemo(
     () =>
@@ -302,57 +292,7 @@ const Services = () => {
                   </Link>
                 );
               })}
-              {contentItems.map((item, index) => (
-                <Link
-                  key={`content-card-${item.id}`}
-                  to={`/portfolio/${item.slug}`}
-                  data-service-card="true"
-                  className="group relative h-[330px] w-[240px] sm:h-[342px] sm:w-[255px] lg:h-[350px] lg:w-[270px] rounded-2xl border border-white/12 overflow-hidden shrink-0 bg-[#171b46] transition-all duration-300 hover:border-white/30 hover:shadow-[0_18px_38px_rgba(0,0,0,0.35)]"
-                  aria-label={`Ver ${item.title}`}
-                >
-                  <img
-                    src={item.coverUrl}
-                    alt={item.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    loading="lazy"
-                    fetchPriority={SERVICES.length + index < 3 ? 'high' : 'auto'}
-                    decoding="async"
-                  />
-
-                  <div className="pointer-events-none absolute inset-x-0 top-0 bottom-0 z-10 flex flex-col items-center justify-between px-5 py-6 bg-gradient-to-b from-transparent via-transparent to-[#080b24]/95">
-                    {/* Categoría */}
-                      <div className="text-xs font-semibold text-white/70 uppercase tracking-widest flex items-center gap-2">
-                        {(() => {
-                          if (!item.logoUrl) return item.category;
-                          const parts = splitLabelForLogo(item.category);
-                          return (
-                            <>
-                              <span>{parts.left}</span>
-                              <img
-                                src={item.logoUrl}
-                                alt={`${item.title} logo`}
-                                className="h-5 w-5 object-contain filter brightness-0 invert"
-                                loading="lazy"
-                                decoding="async"
-                              />
-                              {parts.right ? <span>{parts.right}</span> : null}
-                            </>
-                          );
-                        })()}
-                      </div>
-
-                    {/* Título y botón */}
-                    <div className="flex flex-col items-center gap-3 w-full">
-                      <h3 className="text-sm font-bold text-white text-center line-clamp-2">
-                        {item.title}
-                      </h3>
-                      <span className="inline-flex items-center justify-center rounded-md border border-[#e73c50]/70 bg-transparent px-6 py-2 text-sm font-semibold text-[#ff5f70] transition-all duration-300 group-hover:bg-[#e73c50] group-hover:text-white group-hover:shadow-[0_12px_28px_rgba(231,60,80,0.35)]">
-                        Ver mas
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              {/* Portfolio content intentionally omitted from Services page. */}
               </div>
             </div>
 

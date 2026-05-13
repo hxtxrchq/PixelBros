@@ -408,7 +408,7 @@ className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] items-center gap-6 px-6 py-8 sm:px-12 sm:py-11 min-h-auto lg:min-h-[260px]">
               {/* Text + CTA */}
-              <div>
+              <div className="pl-4 sm:pl-5 lg:pl-[50px]">
                 <h2 className="text-4xl sm:text-4xl font-display font-bold leading-[1.08] text-[#1e1c50]" style={{ fontStretch: 'semi-expanded' }}>
                   Si te dicen que
                 </h2>
