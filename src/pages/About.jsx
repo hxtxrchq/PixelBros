@@ -25,7 +25,7 @@ const BRAND_LOGOS = [
   { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
 ];
 
-const BRAND_LOGOS_WITH_LABEL = new Set(['Kanagawa Nikkei', 'Barbarian Bar']);
+const BRAND_LOGOS_WITH_LABEL = new Set(['Barbarian Bar']);
 
 const ABOUT_METRICS = [
   { number: '450+', label: 'Proyectos completados', accent: false },
