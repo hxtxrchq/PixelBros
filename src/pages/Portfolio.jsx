@@ -13,7 +13,6 @@ const CATEGORY_ORDER = [
 ];
 
 const CATEGORY_DISPLAY = {
-  all: 'All',
   'diseno-de-identidad-visual': 'Branding',
   'social-media': 'Social Media',
   audiovisual: 'Audiovisual',
@@ -22,7 +21,6 @@ const CATEGORY_DISPLAY = {
 };
 
 const SOCIAL_RUBROS = [
-  { id: 'all', label: 'Todos los rubros' },
   { id: 'horeca', label: 'HORECA' },
   { id: 'salud', label: 'Salud' },
   { id: 'construccion-inmobiliaria', label: 'Construccion e inmobiliaria' },
@@ -315,20 +313,22 @@ const Portfolio = () => {
 
             <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">
               {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => {
-                    setSelectedCategory(category.id);
-                    if (category.id !== 'social-media') setSelectedSocialRubro('all');
-                  }}
-                  className={`px-4 py-2.5 rounded-md border text-sm font-semibold transition-colors ${
-                    selectedCategory === category.id
-                      ? 'bg-[#e73c50] border-[#e73c50] text-white'
-                      : 'border-white/15 text-white/65 hover:border-white/35 hover:text-white'
-                  }`}
-                >
-                  {category.label}
-                </button>
+                category.id !== 'all' ? (
+                  <button
+                    key={category.id}
+                    onClick={() => {
+                      setSelectedCategory(category.id);
+                      if (category.id !== 'social-media') setSelectedSocialRubro('all');
+                    }}
+                    className={`px-4 py-2.5 rounded-md border text-sm font-semibold transition-colors ${
+                      selectedCategory === category.id
+                        ? 'bg-[#e73c50] border-[#e73c50] text-white'
+                        : 'border-white/15 text-white/65 hover:border-white/35 hover:text-white'
+                    }`}
+                  >
+                    {category.label}
+                  </button>
+                ) : null
               ))}
             </div>
 
@@ -375,7 +375,7 @@ const Portfolio = () => {
                           autoPlay
                           playsInline
                           preload="metadata"
-                          className="h-full w-full object-cover transition-transform duration-700"
+                          className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:opacity-95 group-hover:scale-105"
                         />
                       ) : project.coverSrc ? (
                         <motion.img
@@ -386,23 +386,23 @@ const Portfolio = () => {
                           loading={idx < 4 ? 'eager' : 'lazy'}
                           fetchPriority={idx < 4 ? 'high' : 'auto'}
                           decoding="async"
-                          className="h-full w-full object-cover"
-                          animate={{ scale: [1.02, 1.08, 1.02] }}
+                          className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:opacity-95"
+                          animate={{ scale: [1.02, 1.06, 1.02] }}
                           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: (idx % 6) * 0.15 }}
                         />
                       ) : (
-                        <div className="h-full w-full bg-[linear-gradient(145deg,#1d2458,#121639)]" />
+                        <div className="h-full w-full bg-[linear-gradient(145deg,#1d2458,#121639)] opacity-85" />
                       )}
 
-                      {/* Base overlay (only on hover for readability) */}
-                      <div className="pointer-events-none absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-75" />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/82 via-black/34 to-black/14 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      {/* Base overlay for consistent readability */}
+                      <div className="pointer-events-none absolute inset-0 bg-black/30 transition-colors duration-300 group-hover:bg-black/55" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/78 via-black/28 to-black/10 opacity-100 transition-colors duration-300 group-hover:from-black/85 group-hover:via-black/40" />
 
-                      {/* Hover content - appears on hover */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {/* Always-visible content with stronger hover contrast */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 opacity-100 transition-transform duration-300 group-hover:scale-[1.01]">
                         <div className="text-center">
                           <p className="text-[10px] uppercase tracking-[0.2em] text-white/80">Categoria</p>
-                          <h3 className="mt-2 text-white text-lg sm:text-xl font-display font-bold leading-tight">
+                          <h3 className="mt-2 text-white text-lg sm:text-xl font-display font-bold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
                             {CATEGORY_DISPLAY[project.categoryId] || project.categoryName}
                           </h3>
 
@@ -415,7 +415,7 @@ const Portfolio = () => {
                                     alt={project.brand.label || 'Logo'}
                                     loading="eager"
                                     decoding="async"
-                                    className="max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)]"
+                                    className="max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-90 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] transition-transform duration-300 group-hover:scale-[1.02]"
                                     onError={(event) => {
                                       event.currentTarget.style.display = 'none';
                                     }}
