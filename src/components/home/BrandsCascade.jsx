@@ -35,7 +35,7 @@ const BrandsCascade = () => {
       {/* NO MODIFICADO: Mantiene tu posición y diseño exactos */}
       <div className="pointer-events-none absolute right-[7%] bottom-[-40px] z-0 flex items-center justify-end overflow-hidden">
         <img 
-          src="public/favicon.png" 
+          src="/favicon.png" 
           alt="Logo Pixel" 
           className="h-[380px] w-auto object-contain opacity-35 filter grayscale brightness-[0.5] sm:h-[450px] md:h-[500px]"
           loading="lazy"
