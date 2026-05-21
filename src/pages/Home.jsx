@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/home/Hero';
+import QuickAbout from '../components/home/QuickAbout';
+import TechShowcase from '../components/home/TechShowcase';
 import ServicesCarousel from '../components/home/ServicesCarousel';
 import PortfolioSplitHero from '../components/home/PortfolioSplitHero';
+import BrandsCascade from '../components/home/BrandsCascade';
 import InitialLoading from '../components/InitialLoading';
 
 const Home = () => {
@@ -31,9 +34,12 @@ const Home = () => {
         position: 'relative',
         zIndex: 10,
       }} />
+      <QuickAbout />
+      <TechShowcase />
       <ServicesCarousel />
       <div style={{ height: '6rem', background: '#06071a' }} />
       <PortfolioSplitHero />
+      <BrandsCascade />
     </motion.div>
   );
 };

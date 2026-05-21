@@ -16,6 +16,15 @@
   }
 }
 
+@keyframes pbCascadeFall {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -280,6 +289,14 @@
     display: flex;
     width: max-content;
     animation: pbLogoMarquee 34s linear infinite;
+    will-change: transform;
+  }
+
+  .pb-cascade-track {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: pbCascadeFall 20s linear infinite;
     will-change: transform;
   }
 }
