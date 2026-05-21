@@ -39,6 +39,32 @@ const Footer = () => {
   return (
     <footer className="footer-root mt-16 bg-[#06071a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+
+        {/* CTA Section: Trabajemos juntos */}
+        <div className="w-full bg-transparent mb-40">
+          <div className="max-w-3xl mx-auto text-center px-4">
+            <p className="text-sm text-white/60 mb-2">¿Tienes una marca?</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-3">
+              <span className="block">¡Trabajemos <span className="text-[#E73C50]">juntos!</span></span>
+            </h2>
+            <p className="text-sm text-white/50 mb-6">
+              ¿Listo para hacer realidad tu visión? Nuestro servicio de diseño ilimitado hace
+              que sea fácil comenzar con soporte de diseño ilimitado y de alta calidad.
+            </p>
+            <div>
+              <Link to="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(93,76,197,0.18)' }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#5d4cc5] text-white font-bold rounded-full text-sm hover:bg-[#4b3aa8] transition-colors"
+                >
+                  Agenda con nosotros
+                </motion.button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           <div className="flex flex-col gap-5">
             <div>
