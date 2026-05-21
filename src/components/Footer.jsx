@@ -32,7 +32,6 @@ const Footer = () => {
     { name: 'Quiénes Somos', path: '/about' },
     { name: 'Servicios', path: '/services' },
     { name: 'Portafolio', path: '/portfolio' },
-    { name: 'Intranet', path: '/intranet/login' },
     { name: 'Contacto', path: '/contact' },
     { name: 'Trabaja con nosotros', path: '/postula' },
   ];
