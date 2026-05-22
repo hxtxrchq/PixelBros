@@ -128,8 +128,8 @@ const PortfolioSplitHero = () => {
         minHeight: '540px',
         maxHeight: '940px',
       }}
-      initial={{ opacity: 0 }}
-      animate={inView ? { opacity: 1 } : {}}
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={inView ? { opacity: 1, scale: 1 } : {}}
       transition={{ duration: 0.8 }}
     >
       {/* separator top */}

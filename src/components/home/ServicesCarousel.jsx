@@ -77,6 +77,9 @@ const ServiceTile = ({ service, active, onHover }) => {
   return (
     <motion.article
       layout
+      initial={{ opacity: 0, scale: 0.96 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
       onMouseEnter={onHover}
       transition={{ type: 'spring', stiffness: 220, damping: 28 }}
       className="group relative h-[230px] overflow-hidden rounded-xl border border-white/15 bg-[#05070f] p-4 shadow-[0_18px_34px_rgba(0,0,0,0.2)] sm:h-[250px]"

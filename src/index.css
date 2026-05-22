@@ -109,7 +109,7 @@
     font-weight: 600;
   }
 
-  /* Global button shape: rectangular with soft corners across the site. */
+  /* Global button shape: pill-style across the site. */
   button,
   input[type="button"],
   input[type="submit"],
@@ -120,7 +120,7 @@
   a.rounded-lg,
   a.rounded-md,
   a.rounded-sm {
-    border-radius: 4px !important;
+    border-radius: 9999px !important;
   }
   
   a, span, div {
@@ -191,13 +191,13 @@
 
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 bg-[#B3262E] text-white font-bold rounded-lg transition-all duration-300 hover:bg-[#8E1E24] hover:shadow-md;
+    @apply px-8 py-4 bg-[#B3262E] text-white font-bold rounded-full transition-all duration-300 hover:bg-[#8E1E24] hover:shadow-md;
     font-family: var(--font-primary);
     font-weight: 600;
   }
   
   .btn-secondary {
-    @apply px-8 py-4 bg-white border-2 border-[#B3262E] text-[#B3262E] font-bold rounded-lg transition-all duration-300 hover:bg-[#B3262E] hover:text-white;
+    @apply px-8 py-4 bg-white border-2 border-[#B3262E] text-[#B3262E] font-bold rounded-full transition-all duration-300 hover:bg-[#B3262E] hover:text-white;
     font-family: var(--font-primary);
   }
   

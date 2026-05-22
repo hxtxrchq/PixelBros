@@ -51,9 +51,9 @@ const Apply = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       className="min-h-screen bg-transparent pt-32 pb-20"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,8 +75,9 @@ const Apply = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.97 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="bg-white/5 p-8 md:p-10 rounded-2xl border border-white/10"
         >

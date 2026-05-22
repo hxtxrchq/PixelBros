@@ -296,9 +296,9 @@ const Portfolio = () => {
 
   return (
     <motion.main
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.5 }}
       className="min-h-screen pt-28 pb-20"
     >
@@ -437,9 +437,9 @@ const Portfolio = () => {
               ))}
             </div>
           </div>
-        </section>
-      </div>
-    </motion.main>
+          </section>
+        </div>
+      </motion.main>
   );
 };
 

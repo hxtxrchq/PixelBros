@@ -157,9 +157,9 @@ const Services = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       className="min-h-screen bg-transparent pt-32 pb-24"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,8 +230,6 @@ const Services = () => {
               </motion.div>
             </div>
           </div>
-
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,7,26,0.84)_0%,rgba(6,7,26,0.56)_42%,rgba(6,7,26,0.64)_58%,rgba(6,7,26,0.9)_100%)]" />
 
           <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
             <h1 className="max-w-4xl text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.95] text-white">

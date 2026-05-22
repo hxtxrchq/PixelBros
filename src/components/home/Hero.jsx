@@ -35,8 +35,8 @@ const Hero = () => {
       <div className="relative z-10 flex min-h-screen flex-col justify-center px-4 pt-24 pb-10 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-6xl text-center">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.65 }}
             className="mx-auto max-w-[26ch] text-balance text-4xl font-bold uppercase leading-[1.1] text-white sm:text-5xl md:text-[5rem]"
           >
@@ -44,8 +44,8 @@ const Hero = () => {
           </motion.h1>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15, duration: 0.55 }}
             className="mt-8 flex justify-center"
           >
@@ -59,8 +59,8 @@ const Hero = () => {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.25, duration: 0.55 }}
           className="mx-auto mt-14 w-full max-w-6xl py-4"
         >
@@ -96,8 +96,8 @@ const Hero = () => {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.45, duration: 0.5 }}
         className="pointer-events-none absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
         aria-hidden="true"

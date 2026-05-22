@@ -28,8 +28,8 @@ const QuickAbout = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
             className="max-w-[12ch] text-4xl font-bold leading-[1.03] text-white sm:text-5xl"
@@ -37,15 +37,15 @@ const QuickAbout = () => {
             <span className="text-[#e73c50]">Rompemos</span> lo convencional.
           </motion.h2>
           <motion.p
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ duration: 0.55, delay: 0.05 }}
-  className="max-w-[54ch] text-base leading-relaxed text-neutral-300 sm:text-[1.25rem]"
->
-  Somos un estudio creativo que desafia los limites y transforma ideas en experiencias.
-  Nos apasiona construir campanas que dejan huella, conectando con audiencias de manera autentica y disruptiva.
-</motion.p>
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.05 }}
+            className="max-w-[54ch] text-base leading-relaxed text-neutral-300 sm:text-[1.25rem]"
+          >
+            Somos un estudio creativo que desafia los limites y transforma ideas en experiencias.
+            Nos apasiona construir campanas que dejan huella, conectando con audiencias de manera autentica y disruptiva.
+          </motion.p>
 
         </div>
 
@@ -53,8 +53,8 @@ const QuickAbout = () => {
           {METRICS.slice(0, 2).map((item, idx) => (
             <motion.article
               key={item.value}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.06 * idx }}
               className={`${item.bg} rounded-3xl p-6 text-white sm:p-8 lg:col-span-6`}
@@ -66,8 +66,8 @@ const QuickAbout = () => {
           ))}
 
           <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.12 }}
             className={`${METRICS[2].bg} rounded-3xl p-6 text-white sm:p-8 lg:col-span-7`}
@@ -78,8 +78,8 @@ const QuickAbout = () => {
           </motion.article>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.18 }}
             className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 lg:col-span-5 flex flex-col items-start justify-center"
@@ -89,7 +89,7 @@ const QuickAbout = () => {
               to="/contact"
               className="mt-6 inline-flex items-center gap-3 rounded-full bg-white px-7 py-3 text-base font-semibold text-[#070916] transition hover:bg-white/90"
             >
-              Cotiza con nosotros
+              Ver más sobre nosotros
               <span aria-hidden="true">↗</span>
             </Link>
           </motion.div>

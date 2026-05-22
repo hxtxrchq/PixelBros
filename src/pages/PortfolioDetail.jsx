@@ -561,9 +561,9 @@ const PortfolioDetail = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       className="min-h-screen bg-transparent"
     >
       <section className="pt-24 pb-10 border-b border-white/10">
@@ -592,8 +592,9 @@ const PortfolioDetail = () => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.45 }}
             className="flex flex-col gap-5"
           >

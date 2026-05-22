@@ -85,8 +85,8 @@ const TeamCard = ({ member, globalTick, index }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ delay: index * 0.07, duration: 0.55, ease: 'easeOut' }}
       className="group relative flex w-[260px] shrink-0 flex-col snap-start sm:w-[280px] lg:w-[300px]"
@@ -117,9 +117,7 @@ const TeamCard = ({ member, globalTick, index }) => {
             )}
           </motion.div>
         </AnimatePresence>
-
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_48%,rgba(0,0,0,0.35)_80%,rgba(0,0,0,0.55)_100%)]" />
-
       </div>
 
       <h3 className="text-lg font-bold text-white leading-tight">{member.name}</h3>
@@ -189,17 +187,17 @@ const About = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.9 }}
       className="min-h-screen bg-transparent"
     >
       {/* Hero */}
       <section className="pt-28 pb-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
             className="relative overflow-hidden rounded-[28px] bg-[linear-gradient(140deg,#0c0f20_0%,#06091b_100%)]"
           >

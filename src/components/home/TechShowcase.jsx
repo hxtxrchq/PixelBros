@@ -19,8 +19,8 @@ const TechShowcase = () => {
     <section className="bg-[#06071a] pt-4 pb-16 sm:pt-8 sm:pb-24">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
           className="mx-auto max-w-[22ch] text-center text-4xl font-bold leading-[1.1] text-white sm:text-5xl"
@@ -30,8 +30,8 @@ const TechShowcase = () => {
         </motion.h2>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.08 }}
           className="relative mx-auto mt-10 max-w-5xl"

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SectionZoom from './SectionZoom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -41,7 +42,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
 
         {/* CTA Section: Trabajemos juntos */}
-        <div className="w-full bg-transparent mb-40">
+        <SectionZoom className="w-full bg-transparent mb-40">
           <div className="max-w-3xl mx-auto text-center px-4">
             <p className="text-sm text-white/60 mb-2">¿Tienes una marca?</p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-3">
@@ -52,20 +53,21 @@ const Footer = () => {
               que sea fácil comenzar con soporte de diseño ilimitado y de alta calidad.
             </p>
             <div>
-              <Link to="/contact">
+              <Link to="/about">
                 <motion.button
-                  whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(93,76,197,0.18)' }}
+                  whileHover={{ scale: 1.03, boxShadow: '0 14px 32px rgba(255,255,255,0.14)' }}
                   whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#5d4cc5] text-white font-bold rounded-full text-sm hover:bg-[#4b3aa8] transition-colors"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-[#06071a] font-bold rounded-full text-sm hover:bg-white/90 transition-colors shadow-[0_10px_26px_rgba(255,255,255,0.12)]"
                 >
-                  Agenda con nosotros
+                  Ver más sobre nosotros
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </motion.button>
               </Link>
             </div>
           </div>
-        </div>
+        </SectionZoom>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+        <SectionZoom className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10" delay={0.08}>
           <div className="flex flex-col gap-5">
             <div>
               <h3 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight">
@@ -76,7 +78,7 @@ const Footer = () => {
               <motion.button
                 whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors shadow-[0_10px_26px_rgba(231,60,80,0.16)]"
               >
                 Agenda una reunión
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -145,7 +147,7 @@ const Footer = () => {
               ))}
             </div>
           </div>
-        </div>
+        </SectionZoom>
 
         <div className="border-t border-white/10 pt-6 text-center">
           <p className="text-white/40 text-xs sm:text-sm">

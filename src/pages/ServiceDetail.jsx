@@ -176,9 +176,9 @@ const ServiceDetail = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
       className="min-h-screen bg-transparent"
     >
       {/* Hero Section */}
@@ -210,7 +210,7 @@ const ServiceDetail = () => {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight mb-6 text-white">
               {service.title}
             </h1>
-            <p className="text-xl md:text-2xl text-white/65 max-w-3xl mx-auto">
+            <p className="text-xl text-white/65 max-w-3xl mx-auto">
               {service.description}
             </p>
           </motion.div>

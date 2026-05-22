@@ -72,8 +72,8 @@ const BrandsCascade = () => {
 
         {/* NO MODIFICADO: Mantiene las letras en 2 líneas exactamente igual */}
         <motion.div
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55 }}
           className="flex items-center justify-start lg:pl-10 relative z-10"
