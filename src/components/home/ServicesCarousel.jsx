@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const SERVICES = [
   {
@@ -97,31 +97,8 @@ const ServiceTile = ({ service, active, onHover }) => {
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,7,26,0.08)_0%,rgba(6,7,26,0.34)_38%,rgba(6,7,26,0.84)_100%)]" />
 
-      <div className="relative z-10 flex h-full flex-col justify-between">
-        <div>
-          <h3 className="max-w-[13ch] text-[1.05rem] font-semibold leading-tight text-white drop-shadow-[0_1px_10px_rgba(0,0,0,0.45)] sm:text-[1.1rem]">
-            {service.title}
-          </h3>
-
-          <AnimatePresence>
-            {active ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 6 }}
-                transition={{ duration: 0.25 }}
-                className="mt-3 max-w-[30ch]"
-              >
-                <p className="text-xs leading-relaxed text-white/80">{service.description}</p>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </div>
-
-        <div className="flex items-end justify-between">
-          <span className="text-[10px] uppercase tracking-[0.24em] text-white/60">Ver servicio</span>
-          <ArrowButton active={active} />
-        </div>
+      <div className="relative z-10 flex h-full items-end justify-end">
+        <ArrowButton active={active} />
       </div>
     </motion.article>
   );

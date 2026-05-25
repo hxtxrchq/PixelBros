@@ -5,10 +5,10 @@ import { getPortfolioAssets } from '../config/assets.js';
 import { listPublicContent } from '../services/publicContentClient';
 
 const CATEGORY_ORDER = [
-  'diseno-de-identidad-visual',
   'social-media',
   'audiovisual',
   'fotografia',
+  'diseno-de-identidad-visual',
   'menu-digital',
 ];
 
@@ -16,15 +16,15 @@ const CATEGORY_DISPLAY = {
   'diseno-de-identidad-visual': 'Branding',
   'social-media': 'Social Media',
   audiovisual: 'Audiovisual',
-  fotografia: 'Fotografia',
-  'menu-digital': 'Menu digital',
+  fotografia: 'Fotografía',
+  'menu-digital': 'Menú digital',
 };
 
 const SOCIAL_RUBROS = [
   { id: 'horeca', label: 'HORECA' },
   { id: 'salud', label: 'Salud' },
-  { id: 'construccion-inmobiliaria', label: 'Construccion e inmobiliaria' },
-  { id: 'educacion', label: 'Educacion' },
+  { id: 'construccion-inmobiliaria', label: 'Construcción e inmobiliaria' },
+  { id: 'educacion', label: 'Educación' },
   { id: 'comercio-retail', label: 'Comercio y Retail' },
 ];
 
@@ -240,7 +240,7 @@ const buildPortfolioIndexFromApi = (items) => {
 };
 
 const Portfolio = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('social-media');
   const [selectedSocialRubro, setSelectedSocialRubro] = useState('all');
   const [apiIndex, setApiIndex] = useState(null);
 
@@ -305,10 +305,10 @@ const Portfolio = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section>
           <div className="px-2 sm:px-4 lg:px-6 py-8">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-[#e73c50] font-semibold">Ideas en accion</p>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-[#e73c50] font-semibold">Ideas en acción</p>
             <h1 className="mt-2 text-5xl sm:text-6xl font-display font-bold text-white leading-[0.95]">PORTAFOLIO</h1>
             <p className="mt-5 max-w-2xl text-white/65 text-lg">
-              Exploramos branding, social media, audiovisual y fotografia con un enfoque estrategico y visual de alta calidad.
+              Exploramos branding, social media, audiovisual y fotografía con un enfoque estratégico y visual de alta calidad.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">

@@ -333,7 +333,7 @@ const ReferenceMediaTile = ({ item, onOpen, className = '', width = 620, fit = '
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className={`group relative w-full h-full overflow-hidden bg-[#12142b] ${className}`}
+      className={`group relative w-full h-full overflow-hidden bg-[#12142b] !rounded-none ${className}`}
     >
       {previewSrc && (
         <img
@@ -478,7 +478,7 @@ const BrandingTile = ({ item, onOpen }) => {
     <button
       type="button"
       onClick={() => onOpen(item)}
-      className="group relative block w-full overflow-hidden text-left"
+      className="group relative block w-full overflow-hidden text-left !rounded-none"
     >
       {previewSrc && (
         <img

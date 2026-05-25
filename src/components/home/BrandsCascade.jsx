@@ -17,7 +17,7 @@ const COLS = [
 ];
 
 const Bubble = ({ brand }) => (
-  <div className="mx-auto flex h-[132px] w-[132px] items-center justify-center rounded-full bg-[#f2f2f2] shadow-[0_8px_22px_rgba(0,0,0,0.28)]">
+  <div className="mx-auto flex h-[132px] w-[132px] items-center justify-center rounded-full bg-[#f2f2f2] shadow-[0_8px_22px_rgba(0,0,0,0.28)] sm:h-[132px] sm:w-[132px]">
     <img
       src={brand.src}
       alt={brand.name}
@@ -42,14 +42,14 @@ const BrandsCascade = () => {
         />
       </div>
 
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-8 lg:px-8 relative z-10">
-        
-        {/* Contenedor de la cascada izquierda */}
-        <div className="relative h-[520px] overflow-hidden">
+      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8 lg:px-8 relative z-10">
+
+        {/* Cascada animada: visible en móvil y desktop */}
+        <div className="relative order-1 h-[420px] overflow-hidden sm:h-[460px] lg:h-[520px] lg:order-1">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-16 bg-gradient-to-b from-[#06071a] to-transparent" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-16 bg-gradient-to-t from-[#06071a] to-transparent" />
 
-          <div className="grid h-full grid-cols-3 gap-4 px-5">
+          <div className="grid h-full grid-cols-3 gap-3 px-1 sm:gap-4 sm:px-4 lg:px-5">
             {COLS.map((col, i) => (
               <div key={`col-${i}`} className="relative overflow-hidden">
                 <div
@@ -60,7 +60,7 @@ const BrandsCascade = () => {
                   }}
                 >
                   {[...col, ...col].map((brand, idx) => (
-                    <div key={`${brand.name}-${idx}`} className="py-5">
+                    <div key={`${brand.name}-${idx}`} className="py-3 sm:py-5">
                       <Bubble brand={brand} />
                     </div>
                   ))}
@@ -70,15 +70,14 @@ const BrandsCascade = () => {
           </div>
         </div>
 
-        {/* NO MODIFICADO: Mantiene las letras en 2 líneas exactamente igual */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55 }}
-          className="flex items-center justify-start lg:pl-10 relative z-10"
+          className="order-2 flex items-center justify-start lg:order-2 lg:pl-10 relative z-10"
         >
-          <h2 className="max-w-none text-4xl font-semibold leading-[1.2] text-white sm:text-5xl lg:text-[2.85rem] tracking-tight">
+          <h2 className="max-w-none text-[2.45rem] font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[2.85rem] tracking-tight">
             Marcas que <span className="text-[#e73c50]">confiaron</span> <br className="hidden sm:inline" /> en nosotros
           </h2>
         </motion.div>
