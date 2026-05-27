@@ -164,7 +164,7 @@ const PortfolioSplitHero = () => {
             animate={inView ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            PIXEL
+            PORTA
           </motion.span>
         </div>
 
@@ -254,7 +254,7 @@ const PortfolioSplitHero = () => {
             animate={inView ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            BROS
+            FOLIO
           </motion.span>
         </div>
 

@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import SectionZoom from './SectionZoom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { pathname } = useLocation();
+  const showCtaSection = pathname !== '/contact';
 
   const socialLinks = [
     { 
@@ -41,49 +43,38 @@ const Footer = () => {
     <footer className="footer-root mt-16 bg-[#06071a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
 
-        {/* CTA Section: Trabajemos juntos */}
-        <SectionZoom className="w-full bg-transparent mb-40">
-          <div className="max-w-3xl mx-auto text-center px-4">
-            <p className="text-sm text-white/60 mb-2">¿Tienes una marca?</p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-3">
-              <span className="block">¡Trabajemos <span className="text-[#E73C50]">juntos!</span></span>
-            </h2>
-            <p className="text-sm text-white/50 mb-6">
-              ¿Listo para hacer realidad tu visión? Nuestro servicio de diseño ilimitado hace
-              que sea fácil comenzar con soporte de diseño ilimitado y de alta calidad.
-            </p>
-            <div>
-              <Link to="/about">
-                <motion.button
-                  whileHover={{ scale: 1.03, boxShadow: '0 14px 32px rgba(255,255,255,0.14)' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-[#06071a] font-bold rounded-full text-sm hover:bg-white/90 transition-colors shadow-[0_10px_26px_rgba(255,255,255,0.12)]"
-                >
-                  Ver más sobre nosotros
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </motion.button>
-              </Link>
+        {showCtaSection && (
+          /* CTA Section: Trabajemos juntos */
+          <SectionZoom className="w-full bg-transparent mb-40">
+            <div className="max-w-3xl mx-auto text-center px-4">
+              <p className="text-sm text-white/60 mb-2">¿Tienes una marca?</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white leading-tight mb-3">
+                <span className="block">¡Trabajemos <span className="text-[#E73C50]">juntos!</span></span>
+              </h2>
+              <div className="mt-6">
+                <Link to="/contact">
+                  <motion.button
+                    whileHover={{ scale: 1.03, boxShadow: '0 14px 32px rgba(231,60,80,0.22)' }}
+                    whileTap={{ scale: 0.98 }}
+                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors shadow-[0_10px_26px_rgba(231,60,80,0.16)]"
+                  >
+                    Agenda una reunión
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </motion.button>
+                </Link>
+              </div>
             </div>
-          </div>
-        </SectionZoom>
+          </SectionZoom>
+        )}
 
         <SectionZoom className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10" delay={0.08}>
           <div className="flex flex-col gap-5">
             <div>
-              <h3 className="text-xl md:text-2xl font-display font-bold text-white leading-tight">
-                Let&apos;s make<br /> a love mark
+              <h3 className="max-w-[12ch] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#e73c50] leading-[0.94] tracking-tight">
+                Let&apos;s make<br />
+                a love mark
               </h3>
             </div>
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(179, 38, 46, 0.2)' }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors shadow-[0_10px_26px_rgba(231,60,80,0.16)]"
-              >
-                Agenda una reunión
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </motion.button>
-            </Link>
           </div>
 
           <div>
