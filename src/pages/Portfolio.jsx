@@ -401,11 +401,6 @@ const Portfolio = () => {
                       {/* Always-visible content with stronger hover contrast */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 opacity-100 transition-transform duration-300 group-hover:scale-[1.01]">
                         <div className="text-center">
-                          <p className="text-[10px] uppercase tracking-[0.2em] text-white/80">Categoria</p>
-                          <h3 className="mt-2 text-white text-lg sm:text-xl font-display font-bold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-                            {CATEGORY_DISPLAY[project.categoryId] || project.categoryName}
-                          </h3>
-
                           {project.brand?.src ? (
                             <div className="mt-4 flex items-center justify-center">
                               <div className="flex flex-col items-center gap-2">
