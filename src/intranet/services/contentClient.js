@@ -46,7 +46,9 @@ export const contentClient = {
   async create(input) {
     const form = new FormData();
     form.append('companyName', input.companyName);
-    form.append('title', input.title || '');
+    if (input.title && input.title.trim()) {
+      form.append('title', input.title.trim());
+    }
     form.append('category', input.category);
     form.append('showOnHome', String(Boolean(input.showOnHome)));
     form.append('showOnPortfolio', String(Boolean(input.showOnPortfolio)));
@@ -85,7 +87,7 @@ export const contentClient = {
           body: (() => {
             const form = new FormData();
             if (input.companyName !== undefined) form.append('companyName', input.companyName);
-            if (input.title !== undefined) form.append('title', input.title);
+            if (input.title !== undefined && input.title.trim()) form.append('title', input.title.trim());
             if (input.category !== undefined) form.append('category', input.category);
             if (input.showOnHome !== undefined) form.append('showOnHome', String(Boolean(input.showOnHome)));
             if (input.showOnPortfolio !== undefined) form.append('showOnPortfolio', String(Boolean(input.showOnPortfolio)));
