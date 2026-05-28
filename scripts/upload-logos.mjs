@@ -1,6 +1,15 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { existsSync } from 'fs';
-cloudinary.config({ cloud_name:'dhhd92sgr', api_key:'111141791999478', api_secret:'9UIi8DvknejtixZG9V_oudW-qqw', secure:true });
+
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+const apiKey = process.env.CLOUDINARY_API_KEY;
+const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+if (!cloudName || !apiKey || !apiSecret) {
+  throw new Error('Faltan CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY o CLOUDINARY_API_SECRET');
+}
+
+cloudinary.config({ cloud_name: cloudName, api_key: apiKey, api_secret: apiSecret, secure: true });
 const files = [
   { path: 'src/images/LogoPixelBros.png', id: 'pixelbros/logos/LogoPixelBros' },
   { path: 'src/images/LogoIconPixel.png', id: 'pixelbros/logos/LogoIconPixel' },

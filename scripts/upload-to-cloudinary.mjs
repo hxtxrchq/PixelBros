@@ -13,10 +13,20 @@ const ROOT = join(__dirname, '..');
 const ASSETS_DIR = join(ROOT, 'src', 'assets');
 const MANIFEST_PATH = join(ROOT, 'src', 'config', 'cloudinaryManifest.json');
 
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+const apiKey = process.env.CLOUDINARY_API_KEY;
+const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+if (!cloudName || !apiKey || !apiSecret) {
+  throw new Error('Faltan CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY o CLOUDINARY_API_SECRET');
+}
+
+const forceReupload = process.argv.includes('--force') || process.env.CLOUDINARY_FORCE_REUPLOAD === 'true';
+
 cloudinary.config({
-  cloud_name: 'dhhd92sgr',
-  api_key: '111141791999478',
-  api_secret: '9UIi8DvknejtixZG9V_oudW-qqw',
+  cloud_name: cloudName,
+  api_key: apiKey,
+  api_secret: apiSecret,
   secure: true,
 });
 
@@ -80,6 +90,9 @@ const foldersToUpload = [
 const files = foldersToUpload.flatMap((dir) => (existsSync(dir) ? walk(dir) : []));
 
 console.log(`Found ${files.length} assets to process.\n`);
+if (forceReupload) {
+  console.log('Force reupload habilitado: se actualizaran entradas existentes del manifest.\n');
+}
 
 let uploaded = 0;
 let skipped = 0;
@@ -92,7 +105,7 @@ const uploadFile = async (file, i) => {
   const ext = extname(file).toLowerCase();
   const rType = resourceType(ext);
 
-  if (manifest[key]) {
+  if (manifest[key] && !forceReupload) {
     skipped++;
     console.log(`[${i + 1}/${files.length}] Skipped: ${key.split('/').pop()}`);
     return;
@@ -102,7 +115,7 @@ const uploadFile = async (file, i) => {
     const result = await cloudinary.uploader.upload(file, {
       public_id: publicId,
       resource_type: rType,
-      overwrite: false,
+      overwrite: forceReupload,
       unique_filename: false,
       use_filename: false,
     });
