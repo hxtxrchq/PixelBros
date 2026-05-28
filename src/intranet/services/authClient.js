@@ -23,6 +23,7 @@ const resolveApiBaseUrl = () => {
 
 const API_BASE_URL = resolveApiBaseUrl();
 const ACCESS_TOKEN_KEY = 'pixelbros_intranet_access_token';
+const AUTH_REFRESH_PATH = '/auth/refresh';
 
 const getAccessToken = () => window.localStorage.getItem(ACCESS_TOKEN_KEY);
 
@@ -35,23 +36,63 @@ const setAccessToken = (token) => {
   window.localStorage.setItem(ACCESS_TOKEN_KEY, token);
 };
 
+const refreshAccessToken = async () => {
+  const response = await fetch(`${API_BASE_URL}${AUTH_REFRESH_PATH}`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    setAccessToken(null);
+    return null;
+  }
+
+  const payload = await response.json().catch(() => ({}));
+  if (!payload.accessToken) {
+    setAccessToken(null);
+    return null;
+  }
+
+  setAccessToken(payload.accessToken);
+  return payload.accessToken;
+};
+
 const authFetch = async (path, options = {}) => {
-  const token = getAccessToken();
+  let token = getAccessToken();
   const isFormData = typeof FormData !== 'undefined' && options.body instanceof FormData;
   const headers = {
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...(options.headers ?? {}),
   };
 
+  if (!token && !path.startsWith('/auth/login') && !path.startsWith(AUTH_REFRESH_PATH)) {
+    token = await refreshAccessToken();
+  }
+
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-    credentials: 'include',
-  });
+  const performFetch = () =>
+    fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers,
+      credentials: 'include',
+    });
+
+  let response = await performFetch();
+
+  if (
+    response.status === 401 &&
+    !path.startsWith('/auth/login') &&
+    !path.startsWith(AUTH_REFRESH_PATH)
+  ) {
+    token = await refreshAccessToken();
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+      response = await performFetch();
+    }
+  }
 
   return response;
 };
