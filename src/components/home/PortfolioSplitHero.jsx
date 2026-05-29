@@ -7,15 +7,20 @@ import { listHomeContent } from '../../services/publicContentClient';
 const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
-const STRIP_PROJECT_PRIORITY = [
-  'Social Media/Frissagio',
-  'Social Media/Ginecofeme',
-  'Social Media/R&C Arquitectos',
-  'Diseño de Identidad Visual/Laboralis',
-  'Diseño de Identidad Visual/Entrepenauta',
-  'Fotografia/LA VIEJA TABERNA',
-  'Fotografia/DULCE CUIDADO',
-  'Social Media/DOCTORA YURIKO',
+const HIGH_IMPACT_IMAGE_PATHS = [
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.jpg',
+  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02914.jpg',
+  '/Portfolio/Social Media/Ginecofeme/GinecoFeme_Marzo_1.jpg',
+  '/Portfolio/Social Media/Ellos/reloj 1 1.png',
+  '/Portfolio/Social Media/R&C Arquitectos/5. Editable-01.jpg',
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC01395.jpg',
+  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02919.jpg',
+  '/Portfolio/Social Media/Ellos/Bolso1.png',
+  '/Portfolio/Social Media/R&C Arquitectos/5. Editable-05.jpg',
+  '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/5.jpg',
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03827-Mejorado-NR.jpg',
+  '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/8.jpg',
+  '/Portfolio/Diseño de Identidad Visual/Entrepenauta/4.jpg',
 ];
 
 const optimizeStripImage = (src) => {
@@ -28,32 +33,42 @@ const optimizeStripImage = (src) => {
 };
 
 /**
- * Returns one image URL per project (the first non-video asset found).
- * Groups by the category/project pair so every distinct project contributes one cover.
+ * Returns one image URL per project, prioritizing the high-impact curated list
+ * and excluding logo/brand asset files like Frissagio logos.
  */
 const extractCovers = (assets) => {
+  // 1. Get the prioritized list from our high-impact curated paths
+  const prioritized = HIGH_IMPACT_IMAGE_PATHS
+    .map((path) => assets[path])
+    .filter(Boolean);
+
+  const prioritizedSet = new Set(prioritized);
+
+  // 2. Build the fallback list of remaining projects, excluding any logos or Frissagio
   const firstCoverByProject = new Map();
-  // Sort keys so ordering is deterministic
   const keys = Object.keys(assets).sort();
   for (const path of keys) {
     const src = assets[path];
     if (isVideoSrc(src)) continue;
+
+    // Filter out Frissagio or any logo file
+    const normalizedPath = path.toLowerCase();
+    if (normalizedPath.includes('frissagio') || normalizedPath.includes('logo')) {
+      continue;
+    }
+
     const normalized = path.replace(/\\/g, '/');
-    // Match /Portfolio/<category>/<project>/...
     const match = normalized.match(/\/Portfolio\/([^/]+)\/([^/]+)\//);
     if (!match) continue;
     const key = `${match[1]}/${match[2]}`;
-    if (!firstCoverByProject.has(key)) firstCoverByProject.set(key, src);
+
+    if (!firstCoverByProject.has(key)) {
+      firstCoverByProject.set(key, src);
+    }
   }
 
-  const prioritySet = new Set(STRIP_PROJECT_PRIORITY);
-  const prioritized = STRIP_PROJECT_PRIORITY
-    .map((key) => firstCoverByProject.get(key))
-    .filter(Boolean);
-
-  const remaining = Array.from(firstCoverByProject.entries())
-    .filter(([projectKey]) => !prioritySet.has(projectKey))
-    .map(([, src]) => src);
+  const remaining = Array.from(firstCoverByProject.values())
+    .filter((src) => !prioritizedSet.has(src));
 
   return [...prioritized, ...remaining];
 };
@@ -64,6 +79,19 @@ const extractCoversFromApi = (items) => {
   for (const item of items) {
     const firstMedia = item.coverUrl || item.medias?.[0]?.url;
     if (!firstMedia || isVideoSrc(firstMedia)) continue;
+
+    // Exclude logo-centric names and paths
+    const title = (item.title || '').toLowerCase();
+    const url = firstMedia.toLowerCase();
+    if (
+      title.includes('frissagio') ||
+      title.includes('logo') ||
+      url.includes('frissagio') ||
+      url.includes('logo')
+    ) {
+      continue;
+    }
+
     covers.push(firstMedia);
   }
 
