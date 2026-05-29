@@ -112,7 +112,7 @@ export const authClient = {
 
     const payload = await response.json();
     if (!response.ok) {
-      throw new Error(payload.message ?? 'No se pudo iniciar sesion');
+      throw new Error(payload.message ?? 'No se pudo iniciar sesión');
     }
 
     setAccessToken(payload.accessToken);
@@ -182,7 +182,7 @@ export const authClient = {
 
     if (!response.ok) {
       const payload = await response.json().catch(() => ({}));
-      throw new Error(payload.message ?? 'No se pudo actualizar la contrasena');
+      throw new Error(payload.message ?? 'No se pudo actualizar la contraseña');
     }
   },
 

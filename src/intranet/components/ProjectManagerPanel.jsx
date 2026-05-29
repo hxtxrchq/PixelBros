@@ -6,7 +6,7 @@ const categories = [
   'Audiovisual',
   'Fotografia',
   'Menu digital',
-  'Diseno de identidad visual',
+  'Diseño de identidad visual',
   'Otro',
 ];
 
@@ -115,7 +115,7 @@ export default function ProjectManagerPanel() {
           <div>
             <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ff9eac]">Contenido web</p>
             <h3 className="intranet-heading text-2xl font-black text-white">Gestor de proyectos</h3>
-            <p className="mt-1 text-sm text-white/70">Carga portada y multiples archivos para cada empresa. Todo es frontend por ahora.</p>
+            <p className="mt-1 text-sm text-white/70">Carga portada y múltiples archivos para cada empresa. Todo es frontend por ahora.</p>
           </div>
 
           <div className="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-right">
@@ -139,7 +139,7 @@ export default function ProjectManagerPanel() {
             </label>
 
             <label className="space-y-1.5">
-              <span className="block text-sm font-bold uppercase tracking-[0.08em] text-white/85">Categoria</span>
+              <span className="block text-sm font-bold uppercase tracking-[0.08em] text-white/85">Categoría</span>
               <select
                 value={form.category}
                 onChange={(e) => onFormChange('category', e.target.value)}
@@ -166,7 +166,7 @@ export default function ProjectManagerPanel() {
             </label>
 
             <label className="space-y-1.5">
-              <span className="block text-sm font-bold uppercase tracking-[0.08em] text-white/85">Galeria de proyecto (multiples)</span>
+              <span className="block text-sm font-bold uppercase tracking-[0.08em] text-white/85">Galería de proyecto (múltiples)</span>
               <input
                 type="file"
                 multiple
@@ -215,7 +215,7 @@ export default function ProjectManagerPanel() {
 
           {galleryMedia.length > 0 && (
             <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-3">
-              <p className="mb-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#ff9eac]">Galeria cargada ({galleryMedia.length})</p>
+              <p className="mb-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#ff9eac]">Galería cargada ({galleryMedia.length})</p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                 {galleryMedia.map((item, index) => (
                   <div key={`${item.name}-${index}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-black/40">
@@ -262,14 +262,14 @@ export default function ProjectManagerPanel() {
       <article className="rounded-3xl border border-white/10 bg-[#0d1029]/75 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.34)] md:p-6">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff9eac]">Vista previa de configuracion</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#ff9eac]">Vista previa de configuración</p>
             <h3 className="intranet-heading text-2xl font-black text-white">Proyectos registrados</h3>
           </div>
           <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs font-bold text-white/75">Media total: {totalUploadedMedia}</span>
         </div>
 
         {projects.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-white/20 bg-white/[0.02] p-4 text-sm text-white/60">Aun no hay proyectos creados en la sesion.</p>
+          <p className="rounded-lg border border-dashed border-white/20 bg-white/[0.02] p-4 text-sm text-white/60">Aún no hay proyectos creados en la sesión.</p>
         ) : (
           <div className="grid gap-3">
             {projects.map((project) => (
@@ -282,10 +282,10 @@ export default function ProjectManagerPanel() {
 
                   <div className="flex flex-wrap gap-2 text-xs font-semibold">
                     <span className={`rounded-full px-2 py-1 ${project.showOnHome ? 'bg-[#e73c50]/20 text-[#ff9aa6]' : 'bg-white/10 text-white/65'}`}>
-                      Inicio: {project.showOnHome ? 'Si' : 'No'}
+                      Inicio: {project.showOnHome ? 'Sí' : 'No'}
                     </span>
                     <span className={`rounded-full px-2 py-1 ${project.showOnPortfolio ? 'bg-[#4f8cff]/20 text-[#8fb3ff]' : 'bg-white/10 text-white/65'}`}>
-                      Portafolio: {project.showOnPortfolio ? 'Si' : 'No'}
+                      Portafolio: {project.showOnPortfolio ? 'Sí' : 'No'}
                     </span>
                   </div>
                 </div>

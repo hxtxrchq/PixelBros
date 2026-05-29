@@ -22,8 +22,8 @@ const QuickAbout = () => {
             transition={{ duration: 0.55, delay: 0.05 }}
             className="max-w-[58ch] text-justify text-base leading-relaxed text-neutral-300 sm:text-[1.25rem] lg:col-span-7"
           >
-            Somos un estudio creativo que desafia los limites y transforma ideas en experiencias.
-            Con más de 6 años construyendo campanas que dejan huella, conectando con audiencias de manera autentica y disruptiva.
+            Somos un estudio creativo que desafía los límites y transforma ideas en experiencias.
+            Con más de 6 años construyendo campañas que dejan huella, conectando con audiencias de manera auténtica y disruptiva.
           </motion.p>
 
         </div>

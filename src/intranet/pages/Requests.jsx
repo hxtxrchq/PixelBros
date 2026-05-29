@@ -41,7 +41,7 @@ export default function Requests() {
           <input value={form.project} onChange={(e) => setForm((p) => ({ ...p, project: e.target.value }))} placeholder="Proyecto" className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" />
           <input value={form.client} onChange={(e) => setForm((p) => ({ ...p, client: e.target.value }))} placeholder="Cliente" className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" />
           <input value={form.requestType} onChange={(e) => setForm((p) => ({ ...p, requestType: e.target.value }))} placeholder="Tipo de requerimiento" className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" />
-          <textarea value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} placeholder="Descripcion" rows={2} className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none md:col-span-2" />
+          <textarea value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} placeholder="Descripción" rows={2} className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none md:col-span-2" />
           <input type="date" value={form.deadline} onChange={(e) => setForm((p) => ({ ...p, deadline: e.target.value }))} className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" />
           <input value={form.responsible} onChange={(e) => setForm((p) => ({ ...p, responsible: e.target.value }))} placeholder="Responsable" className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" />
           <button type="submit" className="rounded-xl bg-gradient-to-r from-[#c42b3c] to-[#e73c50] px-4 py-2 text-sm font-black text-white">Registrar solicitud</button>
@@ -56,7 +56,7 @@ export default function Requests() {
                 <th className="px-4 py-3">Proyecto</th>
                 <th className="px-4 py-3">Cliente</th>
                 <th className="px-4 py-3">Tipo</th>
-                <th className="px-4 py-3">Fecha limite</th>
+                <th className="px-4 py-3">Fecha límite</th>
                 <th className="px-4 py-3">Responsable</th>
                 <th className="px-4 py-3">Estado</th>
               </tr>

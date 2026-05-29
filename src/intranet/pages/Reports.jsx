@@ -88,7 +88,7 @@ export default function Reports() {
     const salesByService = Object.entries(
       visibleSales.reduce((m, s) => { m[s.service] = (m[s.service] || 0) + Number(s.monthlyAmount || 0); return m; }, {})
     ).sort((a, b) => b[1] - a[1]);
-    const pipelineByStage = ['Lead','Reunion','Negociacion','Cierre venta'].map((s) => ({
+    const pipelineByStage = ['Lead','Reunión','Negociación','Cierre venta'].map((s) => ({
       stage: s,
       count: pipelineDeals.filter((d) => d.stage === s).length,
       amount: pipelineDeals.filter((d) => d.stage === s).reduce((a, d) => a + Number(d.estimatedAmount || 0), 0),

@@ -11,7 +11,7 @@ export default function ChartMock() {
         </div>
 
         <div className="h-64 w-full">
-          <svg width="100%" height="100%" viewBox="0 0 640 260" role="img" aria-label="Grafico de ventas">
+          <svg width="100%" height="100%" viewBox="0 0 640 260" role="img" aria-label="Gráfico de ventas">
             <defs>
               <linearGradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="#e73c50" stopOpacity="0.95" />
@@ -32,10 +32,10 @@ export default function ChartMock() {
             <g fill="#ffffffa8" fontSize="12" fontWeight="600">
               <text x="40" y="245">Lun</text>
               <text x="130" y="245">Mar</text>
-              <text x="220" y="245">Mie</text>
+              <text x="220" y="245">Mié</text>
               <text x="310" y="245">Jue</text>
               <text x="400" y="245">Vie</text>
-              <text x="490" y="245">Sab</text>
+              <text x="490" y="245">Sáb</text>
               <text x="580" y="245">Dom</text>
             </g>
           </svg>
@@ -44,7 +44,7 @@ export default function ChartMock() {
 
       <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_12px_35px_rgba(0,0,0,0.28)]">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f38e9b]">Actividad</p>
-        <h3 className="mt-1 text-lg font-extrabold text-white">Ultimos mensajes</h3>
+        <h3 className="mt-1 text-lg font-extrabold text-white">Últimos mensajes</h3>
 
         <ul className="mt-5 space-y-3">
           <li className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
@@ -56,7 +56,7 @@ export default function ChartMock() {
             <p className="text-xs text-white/60">Hace 36 min</p>
           </li>
           <li className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
-            <p className="text-sm font-semibold text-white">Actualizacion de portafolio</p>
+            <p className="text-sm font-semibold text-white">Actualización de portafolio</p>
             <p className="text-xs text-white/60">Hace 1 h</p>
           </li>
         </ul>

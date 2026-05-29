@@ -14,7 +14,7 @@ export default function Quotes() {
       <section className={`rounded-2xl border px-5 py-4 ${isDark ? 'border-white/10 bg-[#0d122d]/70' : 'border-slate-200 bg-white'}`}>
         <h2 className={`intranet-heading text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>Cotizaciones</h2>
         <p className={`mt-1 text-sm ${isDark ? 'text-white/65' : 'text-slate-600'}`}>
-          Gestiona cotizaciones con estados, resumen comercial y acciones rapidas en un solo flujo.
+          Gestiona cotizaciones con estados, resumen comercial y acciones rápidas en un solo flujo.
         </p>
 
         <div className="mt-3 flex flex-wrap items-center gap-2">

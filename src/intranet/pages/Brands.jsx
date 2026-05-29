@@ -62,7 +62,7 @@ export default function Brands() {
     <div className="space-y-6">
       <section className="rounded-3xl border border-white/10 bg-[#0d1029]/75 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.32)]">
         <h2 className="intranet-heading text-3xl font-black text-white">Marcas / Cuentas</h2>
-        <p className="mt-2 text-sm text-white/70">Gestiona cada marca con informacion general, rendimiento y facturacion.</p>
+        <p className="mt-2 text-sm text-white/70">Gestiona cada marca con información general, rendimiento y facturación.</p>
       </section>
 
       <section className="rounded-3xl border border-white/10 bg-[#0d1029]/75 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.32)]">
@@ -98,7 +98,7 @@ export default function Brands() {
                 <th className="px-4 py-3">Servicios</th>
                 <th className="px-4 py-3">Monto</th>
                 <th className="px-4 py-3">KPI</th>
-                <th className="px-4 py-3">Facturacion</th>
+                <th className="px-4 py-3">Facturación</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/10">

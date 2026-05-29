@@ -28,7 +28,7 @@ export default function Login() {
       const destination = location.state?.from?.pathname ?? '/intranet/dashboard';
       navigate(destination, { replace: true });
     } catch (err) {
-      setError(err.message ?? 'No se pudo iniciar sesion');
+      setError(err.message ?? 'No se pudo iniciar sesión');
     } finally {
       setIsSubmitting(false);
     }
@@ -64,7 +64,7 @@ export default function Login() {
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-white/80">Contrasena</label>
+            <label className="mb-1.5 block text-sm font-semibold text-white/80">Contraseña</label>
             <input
               type="password"
               required

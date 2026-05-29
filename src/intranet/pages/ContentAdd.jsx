@@ -9,7 +9,7 @@ const categories = [
   'Audiovisual',
   'Fotografia',
   'Menu digital',
-  'Diseno de identidad visual',
+  'Diseño de identidad visual',
   'Otro',
 ];
 

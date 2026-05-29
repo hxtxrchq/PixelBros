@@ -3,7 +3,7 @@ import { useIntranet } from '../context/IntranetContext';
 
 const clientStatuses = ['Prospecto', 'Cliente activo', 'Cliente pausado', 'Cliente perdido'];
 const leadSources = ['Referido', 'Instagram', 'Web', 'Evento', 'Networking', 'Otro'];
-const serviceTypes = ['Social Media', 'Branding', 'Audiovisual', 'Fotografia', 'Menu digital', 'Otro'];
+const serviceTypes = ['Social Media', 'Branding', 'Audiovisual', 'Fotografía', 'Menú digital', 'Otro'];
 
 const emptyForm = {
   firstName: '',
@@ -76,7 +76,7 @@ export default function CRMProfile() {
           <label className="space-y-1.5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Nombre de la empresa</span><input value={form.companyName} onChange={(e) => setValue('companyName', e.target.value)} required className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none" /></label>
           <label className="space-y-1.5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Rubro</span><input value={form.businessSector} onChange={(e) => setValue('businessSector', e.target.value)} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none" /></label>
           <label className="space-y-1.5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Fecha aniversario empresa</span><input type="date" value={form.companyAnniversary} onChange={(e) => setValue('companyAnniversary', e.target.value)} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none" /></label>
-          <label className="space-y-1.5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Tamano de empresa (opcional)</span><input value={form.companySize} onChange={(e) => setValue('companySize', e.target.value)} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none" /></label>
+          <label className="space-y-1.5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Tamaño de empresa (opcional)</span><input value={form.companySize} onChange={(e) => setValue('companySize', e.target.value)} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none" /></label>
         </div>
 
         <div className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 md:grid-cols-2 xl:grid-cols-4">

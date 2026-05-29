@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useIntranet } from '../context/IntranetContext';
 
-const STAGES = ['Lead', 'Reunion', 'Negociacion', 'No desea', 'Desea luego', 'Sin respuestas', 'Cierre venta'];
+const STAGES = ['Lead', 'Reunión', 'Negociación', 'No desea', 'Desea luego', 'Sin respuestas', 'Cierre venta'];
 const INTEREST_OPTIONS = ['Alta', 'Media', 'Baja'];
 const LEAD_SOURCES = ['Referido', 'Instagram', 'Web', 'Evento', 'Networking', 'Otro'];
 
 const STAGE_GROUP = {
   Lead: 'Pendiente',
-  Reunion: 'En curso',
-  Negociacion: 'En curso',
+  'Reunión': 'En curso',
+  'Negociación': 'En curso',
   'No desea': 'Completado',
   'Desea luego': 'Completado',
   'Sin respuestas': 'Completado',
@@ -17,8 +17,8 @@ const STAGE_GROUP = {
 
 const STAGE_TONE = {
   Lead: 'bg-[#f472b6]/20 text-[#fbcfe8] border-[#f472b6]/40',
-  Reunion: 'bg-[#60a5fa]/20 text-[#bfdbfe] border-[#60a5fa]/40',
-  Negociacion: 'bg-[#c084fc]/20 text-[#e9d5ff] border-[#c084fc]/40',
+  'Reunión': 'bg-[#60a5fa]/20 text-[#bfdbfe] border-[#60a5fa]/40',
+  'Negociación': 'bg-[#c084fc]/20 text-[#e9d5ff] border-[#c084fc]/40',
   'No desea': 'bg-white/15 text-white/80 border-white/20',
   'Desea luego': 'bg-[#fb923c]/20 text-[#fed7aa] border-[#fb923c]/40',
   'Sin respuestas': 'bg-[#f87171]/20 text-[#fecaca] border-[#f87171]/40',
@@ -105,7 +105,7 @@ export default function Pipeline() {
 
   const summary = useMemo(() => {
     const totalAmount = pipelineDeals.reduce((acc, item) => acc + (Number(item.estimatedAmount) || 0), 0);
-    const active = (dealsByStage.Reunion?.length || 0) + (dealsByStage.Negociacion?.length || 0);
+    const active = (dealsByStage['Reunión']?.length || 0) + (dealsByStage['Negociación']?.length || 0);
 
     return {
       totalDeals: pipelineDeals.length,
@@ -247,7 +247,7 @@ export default function Pipeline() {
             <div>
               <h2 className={`intranet-heading text-2xl font-black ${titleClass}`}>Kanban comercial</h2>
               <p className={`mt-1 text-sm ${captionClass}`}>
-                Agregado y Ultimo contacto se registran automaticamente al crear o editar cada lead.
+                Agregado y Último contacto se registran automáticamente al crear o editar cada lead.
               </p>
             </div>
             <button
@@ -311,7 +311,7 @@ export default function Pipeline() {
                         <p><strong className={isDark ? 'text-white/90' : 'text-slate-900'}>Responsable:</strong> {deal.responsible || '-'}</p>
                         <p><strong className={isDark ? 'text-white/90' : 'text-slate-900'}>Origen:</strong> {deal.leadSource || '-'}</p>
                         <p><strong className={isDark ? 'text-white/90' : 'text-slate-900'}>Agregado:</strong> {toDateTime(deal.createdAt)}</p>
-                        <p><strong className={isDark ? 'text-white/90' : 'text-slate-900'}>Ultimo contacto:</strong> {toDateTime(deal.lastContactAt || deal.updatedAt)}</p>
+                        <p><strong className={isDark ? 'text-white/90' : 'text-slate-900'}>Último contacto:</strong> {toDateTime(deal.lastContactAt || deal.updatedAt)}</p>
                         <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>{toMoney(deal.estimatedAmount)}</p>
                       </div>
 
@@ -375,7 +375,7 @@ export default function Pipeline() {
             <div className="max-h-[calc(92vh-73px)] overflow-y-auto p-5 md:p-6">
               {crmRecords.length === 0 ? (
                 <div className={`mb-4 rounded-2xl border border-dashed p-3 text-sm ${isDark ? 'border-white/20 bg-white/[0.02] text-white/75' : 'border-slate-300 bg-slate-50 text-slate-700'}`}>
-                  No hay clientes cargados en CRM. Puedes crear uno y volver para seleccionarlo desde aqui.
+                  No hay clientes cargados en CRM. Puedes crear uno y volver para seleccionarlo desde aquí.
                 </div>
               ) : null}
 
@@ -406,16 +406,16 @@ export default function Pipeline() {
                 <input type="number" min="0" value={form.estimatedAmount} onChange={(e) => setForm((prev) => ({ ...prev, estimatedAmount: e.target.value }))} placeholder="Monto estimado" className={fieldClass} />
 
                 <input value={form.email} onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))} placeholder="Email" className={fieldClass} />
-                <input value={form.phone} onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))} placeholder="Telefono" className={fieldClass} />
+                <input value={form.phone} onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))} placeholder="Teléfono" className={fieldClass} />
                 <select value={form.leadSource} onChange={(e) => setForm((prev) => ({ ...prev, leadSource: e.target.value }))} className={fieldClass}>
                   {LEAD_SOURCES.map((source) => (
                     <option key={source} value={source}>{source}</option>
                   ))}
                 </select>
 
-                <input value={form.address} onChange={(e) => setForm((prev) => ({ ...prev, address: e.target.value }))} placeholder="Direccion" className={fieldClass} />
+                <input value={form.address} onChange={(e) => setForm((prev) => ({ ...prev, address: e.target.value }))} placeholder="Dirección" className={fieldClass} />
                 <input value={form.socialHandle} onChange={(e) => setForm((prev) => ({ ...prev, socialHandle: e.target.value }))} placeholder="IG / FB" className={fieldClass} />
-                <input value={form.quoteReference} onChange={(e) => setForm((prev) => ({ ...prev, quoteReference: e.target.value }))} placeholder="Cotizacion" className={fieldClass} />
+                <input value={form.quoteReference} onChange={(e) => setForm((prev) => ({ ...prev, quoteReference: e.target.value }))} placeholder="Cotización" className={fieldClass} />
                 <input value={form.requirement} onChange={(e) => setForm((prev) => ({ ...prev, requirement: e.target.value }))} placeholder="Requerimiento" className={fieldClass} />
 
                 <div className="xl:col-span-4 flex flex-wrap gap-2 pt-1">
@@ -445,7 +445,7 @@ export default function Pipeline() {
                   onClick={() => {
                     // confirmation before delete
                     // eslint-disable-next-line no-alert
-                    if (window.confirm('Eliminar lead? Esta accion no se puede deshacer.')) {
+                    if (window.confirm('¿Eliminar lead? Esta acción no se puede deshacer.')) {
                       deletePipelineDeal(selectedDeal.id);
                       closeDealDetail();
                     }
@@ -488,7 +488,7 @@ export default function Pipeline() {
                         </select>
                       </label>
                       <label className="space-y-1.5">
-                        <span className={`text-[11px] font-black uppercase tracking-[0.12em] ${captionClass}`}>Interes</span>
+                        <span className={`text-[11px] font-black uppercase tracking-[0.12em] ${captionClass}`}>Interés</span>
                         <select value={selectedDeal.interest || 'Media'} onChange={(e) => updatePipelineDeal(selectedDeal.id, { interest: e.target.value })} className={fieldClass}>
                           {INTEREST_OPTIONS.map((option) => (
                             <option key={option} value={option}>{option}</option>
@@ -512,7 +512,7 @@ export default function Pipeline() {
                           onBlur={(e) => updatePipelineDeal(selectedDeal.id, { requirement: e.target.value.trim() })}
                           rows={4}
                           className={`${fieldClass} min-h-[110px] w-full resize-y`}
-                          placeholder="Describe aqui lo que necesita el cliente"
+                          placeholder="Describe aquí lo que necesita el cliente"
                         />
                       </label>
                     </div>
@@ -533,7 +533,7 @@ export default function Pipeline() {
                     <div className="mt-4 space-y-3">
                       {(selectedDeal.attachments || []).length === 0 ? (
                         <p className={`rounded-xl border border-dashed px-3 py-4 text-sm ${isDark ? 'border-white/15 text-white/50' : 'border-slate-300 text-slate-500'}`}>
-                          Aun no hay archivos adjuntos en este lead.
+                          Aún no hay archivos adjuntos en este lead.
                         </p>
                       ) : (
                         (selectedDeal.attachments || []).map((attachment) => (
@@ -571,13 +571,13 @@ export default function Pipeline() {
                     <div className="mt-3 space-y-2 text-sm">
                       <p><strong className={titleClass}>Empresa:</strong> <span className={captionClass}>{selectedDeal.company || '-'}</span></p>
                       <p><strong className={titleClass}>Contacto:</strong> <span className={captionClass}>{selectedDeal.contact || '-'}</span></p>
-                      <p><strong className={titleClass}>Telefono:</strong> <span className={captionClass}>{selectedDeal.phone || '-'}</span></p>
+                      <p><strong className={titleClass}>Teléfono:</strong> <span className={captionClass}>{selectedDeal.phone || '-'}</span></p>
                       <p><strong className={titleClass}>Email:</strong> <span className={captionClass}>{selectedDeal.email || '-'}</span></p>
                       <p><strong className={titleClass}>Origen:</strong> <span className={captionClass}>{selectedDeal.leadSource || '-'}</span></p>
-                      <p><strong className={titleClass}>Cotizacion:</strong> <span className={captionClass}>{selectedDeal.quoteReference || '-'}</span></p>
-                      <p><strong className={titleClass}>Direccion:</strong> <span className={captionClass}>{selectedDeal.address || '-'}</span></p>
+                      <p><strong className={titleClass}>Cotización:</strong> <span className={captionClass}>{selectedDeal.quoteReference || '-'}</span></p>
+                      <p><strong className={titleClass}>Dirección:</strong> <span className={captionClass}>{selectedDeal.address || '-'}</span></p>
                       <p><strong className={titleClass}>Agregado:</strong> <span className={captionClass}>{toDateTime(selectedDeal.createdAt)}</span></p>
-                      <p><strong className={titleClass}>Ultimo contacto:</strong> <span className={captionClass}>{toDateTime(selectedDeal.lastContactAt || selectedDeal.updatedAt)}</span></p>
+                      <p><strong className={titleClass}>Último contacto:</strong> <span className={captionClass}>{toDateTime(selectedDeal.lastContactAt || selectedDeal.updatedAt)}</span></p>
                     </div>
                   </div>
 
@@ -585,7 +585,7 @@ export default function Pipeline() {
                     <p className={`text-[11px] font-black uppercase tracking-[0.18em] ${captionClass}`}>Notas de trabajo</p>
                     <div className="mt-3 space-y-2 text-sm">
                       <p className={captionClass}>Usa este detalle para asignar seguimiento, revisar archivos y descargar documentos cuando el cliente los necesite.</p>
-                      <p className={captionClass}>Si agregas cotizaciones o documentos al lead, quedaran visibles aqui para descarga rapida durante la gestion.</p>
+                      <p className={captionClass}>Si agregas cotizaciones o documentos al lead, quedarán visibles aquí para descarga rápida durante la gestión.</p>
                     </div>
                   </div>
                 </aside>

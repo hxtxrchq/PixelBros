@@ -32,7 +32,7 @@ export const quotesClient = {
 
   async getById(quoteId) {
     const response = await authRequest(`/quotes/${quoteId}`);
-    const payload = await parsePayload(response, 'No se pudo cargar la cotizacion');
+    const payload = await parsePayload(response, 'No se pudo cargar la cotización');
     return payload.item;
   },
 
@@ -42,7 +42,7 @@ export const quotesClient = {
       body: JSON.stringify(input),
     });
 
-    const payload = await parsePayload(response, 'No se pudo crear la cotizacion');
+    const payload = await parsePayload(response, 'No se pudo crear la cotización');
     return payload.item;
   },
 
@@ -52,7 +52,7 @@ export const quotesClient = {
       body: JSON.stringify({ status }),
     });
 
-    const payload = await parsePayload(response, 'No se pudo actualizar el estado de la cotizacion');
+    const payload = await parsePayload(response, 'No se pudo actualizar el estado de la cotización');
     return payload.item;
   },
 
@@ -63,7 +63,7 @@ export const quotesClient = {
 
     if (!response.ok) {
       const payload = await response.json().catch(() => ({}));
-      throw new Error(payload.message ?? 'No se pudo eliminar la cotizacion');
+      throw new Error(payload.message ?? 'No se pudo eliminar la cotización');
     }
   },
 };

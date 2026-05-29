@@ -299,10 +299,14 @@ En PixelBros trabajamos ideas, contenido y estrategia para ayudar a las marcas a
 className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] origin-center transform-gpu ${
   (brand.name === 'Corte87')
     ? 'scale-[2.9]'
-    : (brand.name === 'LaViejaTaberna' || brand.name === 'GMS' || brand.name === 'Design Market' || brand.name === 'Kanagawa Nikkei' || brand.name === 'RYC arquitectos')
+    : (brand.name === 'LaViejaTaberna')
+    ? 'scale-[2.5]'
+    : (brand.name === 'GMS' || brand.name === 'Design Market' || brand.name === 'Kanagawa Nikkei')
     ? 'scale-[1.8]'
     : brand.name === 'DGary'
     ? 'scale-[0.7]'
+    : brand.name === 'RYC arquitectos'
+    ? 'scale-[1.0]'
     : ''
 }`}                        loading="lazy"
                         decoding="async"

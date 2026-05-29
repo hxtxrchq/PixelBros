@@ -59,7 +59,7 @@ const buildPortfolioIndex = (assets) => {
     const groupKey = subprojectName ? slugify(subprojectName) : 'default';
     if (!project.groups.has(groupKey)) {
       project.groups.set(groupKey, {
-        name: subprojectName || 'Galeria',
+        name: subprojectName || 'Galería',
         items: [],
       });
     }

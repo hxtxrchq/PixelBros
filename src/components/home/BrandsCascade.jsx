@@ -22,8 +22,11 @@ const COLS = [
 ];
 
 const getLogoScaleClass = (brandName) => {
-  if (brandName === 'Corte87' || brandName === 'Ginecofeme' || brandName === 'LaViejaTaberna') {
+  if (brandName === 'Corte87' || brandName === 'Ginecofeme') {
     return 'scale-[1.5]';
+  }
+  if (brandName === 'LaViejaTaberna') {
+    return 'scale-[1.9]';
   }
 
   return '';

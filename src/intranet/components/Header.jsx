@@ -117,7 +117,7 @@ export default function Header({ onMenuClick }) {
                     isDark ? 'text-[#ffb8c3] hover:bg-[#e73c50]/20' : 'text-[#b3262e] hover:bg-[#ffe9ed]'
                   }`}
                 >
-                  Cerrar sesion
+                  Cerrar sesión
                 </button>
               </div>
             )}

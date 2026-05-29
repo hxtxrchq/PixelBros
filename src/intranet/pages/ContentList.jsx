@@ -9,7 +9,7 @@ const categories = [
   'Audiovisual',
   'Fotografia',
   'Menu digital',
-  'Diseno de identidad visual',
+  'Diseño de identidad visual',
   'Otro',
 ];
 
@@ -108,7 +108,7 @@ export default function ContentList() {
       {isLoading ? (
         <p className="mt-4 rounded-xl border border-dashed border-white/20 bg-white/[0.02] p-4 text-sm text-white/65">Cargando contenido...</p>
       ) : records.length === 0 ? (
-        <p className="mt-4 rounded-xl border border-dashed border-white/20 bg-white/[0.02] p-4 text-sm text-white/65">No hay registros de contenido todavia.</p>
+        <p className="mt-4 rounded-xl border border-dashed border-white/20 bg-white/[0.02] p-4 text-sm text-white/65">No hay registros de contenido todavía.</p>
       ) : (
         <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {records.map((item) => {
@@ -173,10 +173,10 @@ export default function ContentList() {
 
                   <div className="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[0.08em]">
                     <span className={`rounded-full px-2 py-1 ${item.showOnHome ? 'bg-[#e73c50]/20 text-[#ffadb8]' : 'bg-white/10 text-white/55'}`}>
-                      Inicio: {item.showOnHome ? 'Si' : 'No'}
+                      Inicio: {item.showOnHome ? 'Sí' : 'No'}
                     </span>
                     <span className={`rounded-full px-2 py-1 ${item.showOnPortfolio ? 'bg-[#4f8cff]/20 text-[#a8c5ff]' : 'bg-white/10 text-white/55'}`}>
-                      Portafolio: {item.showOnPortfolio ? 'Si' : 'No'}
+                      Portafolio: {item.showOnPortfolio ? 'Sí' : 'No'}
                     </span>
                   </div>
 

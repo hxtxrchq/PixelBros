@@ -20,13 +20,13 @@ const Contact = () => {
 
   const SERVICES = [
     'Contenido para Redes',
-    'Fotografia profesional',
+    'Fotografía profesional',
     'Producción audiovisual',
     'Branding',
     'Publicidad digital',
     'Activaciones BTL',
     'Estrategia comercial',
-    'No estoy seguro / necesito guia',
+    'No estoy seguro / necesito guía',
   ];
 
   const toggleService = (service) => {
@@ -65,24 +65,24 @@ const Contact = () => {
       setScheduleModalOpen(true);
       setTimeout(() => setSchedulePhase('ready'), 1200);
     } catch (error) {
-      setSubmitError('No pudimos enviar tu informacion. Intentalo nuevamente.');
+      setSubmitError('No pudimos enviar tu información. Inténtalo nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const contactMethods = [
-    { 
-      title: 'Email', 
-      value: 'pixelbrosperu@outlook.com', 
-      link: 'mailto:pixelbrosperu@outlook.com',
+    {
+      title: 'Email',
+      value: 'proyectos@pixelbros.pe',
+      link: 'mailto:proyectos@pixelbros.pe',
       iconPath: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M20 6l-8 5-8-5',
       iconType: 'stroke',
     },
-    
-    { 
-      title: 'Linkedin', 
-      value: 'PixelBros', 
+
+    {
+      title: 'Linkedin',
+      value: 'PixelBros',
       link: 'https://www.linkedin.com/company/pixelbrospublicidad/?originalSubdomain=pe',
       iconPath: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
       iconType: 'fill',
@@ -121,7 +121,7 @@ const Contact = () => {
             className="lg:col-span-2"
           >
             <div className="bg-[#0d0e24] p-8 rounded-2xl">
-              
+
 
               <form
                 onSubmit={handleSubmit}
@@ -137,108 +137,108 @@ const Contact = () => {
 
                   <div className={step === 1 ? 'space-y-6' : 'hidden'}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="fullName" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Nombre completo *
-                      </label>
-                      <input
-                        type="text"
-                        id="fullName"
-                        name="Nombre completo"
-                        required
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                        placeholder="Juan Perez"
-                      />
-                    </div>
+                      <div>
+                        <label htmlFor="fullName" className="block text-sm font-semibold text-[#111111] mb-2">
+                          Nombre completo *
+                        </label>
+                        <input
+                          type="text"
+                          id="fullName"
+                          name="Nombre completo"
+                          required
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          placeholder="Juan Perez"
+                        />
+                      </div>
 
-                    <div>
-                      <label htmlFor="companyName" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Nombre de la empresa o marca *
-                      </label>
-                      <input
-                        type="text"
-                        id="companyName"
-                        name="Empresa o marca"
-                        required
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                        placeholder="Mi Empresa SAC"
-                      />
-                    </div>
-                  </div>
-
-                    <div className="mt-6">
-                    <label className="block text-sm font-semibold text-[#111111] mb-2">
-                      Cargo / rol dentro de la empresa *
-                    </label>
-                    <div className="relative">
-                      <select
-                        name="Rol"
-                        required
-                        onChange={(e) => setRolOtro(e.target.value === 'Otro')}
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
-                      >
-                        <option value="">Selecciona tu cargo...</option>
-                        {['Dueño(a) / Fundador(a)', 'Gerencia / Dirección', 'Marketing / Comunicación', 'Ventas / Comercial', 'Otro'].map((role) => (
-                          <option key={role} value={role}>{role}</option>
-                        ))}
-                      </select>
-                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                        <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                      <div>
+                        <label htmlFor="companyName" className="block text-sm font-semibold text-[#111111] mb-2">
+                          Nombre de la empresa o marca *
+                        </label>
+                        <input
+                          type="text"
+                          id="companyName"
+                          name="Empresa o marca"
+                          required
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          placeholder="Mi Empresa SAC"
+                        />
                       </div>
                     </div>
-                    {rolOtro && (
-                      <input
-                        type="text"
-                        name="Rol - Otro"
-                        placeholder="Especifica tu cargo"
-                        className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                      />
-                    )}
-                  </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                      <label htmlFor="whatsapp" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Número de contacto (WhatsApp) *
-                      </label>
-                      <input
-                        type="tel"
-                        id="whatsapp"
-                        name="WhatsApp"
-                        required
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                        placeholder="+51 999 555 444"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-semibold text-[#111111] mb-2">
-                        Correo electrónico *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="Correo"
-                        required
-                        onChange={(event) => setReplyTo(event.target.value)}
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                        placeholder="juan@empresa.com"
-                      />
-                    </div>
-                  </div>
 
                     <div className="mt-6">
-                    <label htmlFor="location" className="block text-sm font-semibold text-[#111111] mb-2">
-                      Ciudad / pais *
-                    </label>
-                    <input
-                      type="text"
-                      id="location"
-                      name="Ciudad / pais"
-                      required
-                      className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
-                      placeholder="Lima, Peru"
-                    />
-                  </div>
+                      <label className="block text-sm font-semibold text-[#111111] mb-2">
+                        Cargo / rol dentro de la empresa *
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="Rol"
+                          required
+                          onChange={(e) => setRolOtro(e.target.value === 'Otro')}
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                        >
+                          <option value="">Selecciona tu cargo...</option>
+                          {['Dueño(a) / Fundador(a)', 'Gerencia / Dirección', 'Marketing / Comunicación', 'Ventas / Comercial', 'Otro'].map((role) => (
+                            <option key={role} value={role}>{role}</option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                        </div>
+                      </div>
+                      {rolOtro && (
+                        <input
+                          type="text"
+                          name="Rol - Otro"
+                          placeholder="Especifica tu cargo"
+                          className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                        />
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                      <div>
+                        <label htmlFor="whatsapp" className="block text-sm font-semibold text-[#111111] mb-2">
+                          Número de contacto (WhatsApp) *
+                        </label>
+                        <input
+                          type="tel"
+                          id="whatsapp"
+                          name="WhatsApp"
+                          required
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          placeholder="+51 999 555 444"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-semibold text-[#111111] mb-2">
+                          Correo electrónico *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="Correo"
+                          required
+                          onChange={(event) => setReplyTo(event.target.value)}
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          placeholder="juan@empresa.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mt-6">
+                      <label htmlFor="location" className="block text-sm font-semibold text-[#111111] mb-2">
+                        Ciudad / país *
+                      </label>
+                      <input
+                        type="text"
+                        id="location"
+                        name="Ciudad / país"
+                        required
+                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                        placeholder="Lima, Perú"
+                      />
+                    </div>
                     <div className="flex justify-end">
                       <motion.button
                         type="button"
@@ -255,107 +255,106 @@ const Contact = () => {
                   <div className={step === 2 ? 'space-y-6' : 'hidden'}>
                     <h3 className="text-lg font-display font-bold text-white mb-4">Tu Proyecto</h3>
                     <div className="space-y-6">
-                    <div>
-                      <label htmlFor="why" className="block text-sm font-semibold text-[#111111] mb-2">
-                        ¿Por qué estás recurriendo a nuestra agencia? Cuéntanos para asesorarte *
-                      </label>
-                      <textarea
-                        id="why"
-                        name="Motivo"
-                        required
-                        rows="4"
-                        className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
-                        placeholder="Cuéntanos lo que necesitas lograr..."
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-2">
-                        ¿Qué tamaño tiene tu empresa actualmente? *
-                      </label>
-                      <div className="relative">
-                        <select
-                          name="Tamano de empresa"
+                      <div>
+                        <label htmlFor="why" className="block text-sm font-semibold text-[#111111] mb-2">
+                          ¿Por qué estás recurriendo a nuestra agencia? Cuéntanos para asesorarte *
+                        </label>
+                        <textarea
+                          id="why"
+                          name="Motivo"
                           required
-                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
-                        >
-                          <option value="">Selecciona el tamaño...</option>
-                          {['Marca personal', '1-5 personas', '6-20 personas', '21-50 personas', '+50 personas'].map((size) => (
-                            <option key={size} value={size}>{size}</option>
-                          ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                          <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-2">
-                        ¿Qué servicios estás buscando? (puedes elegir varios) *
-                      </label>
-                      <input type="hidden" name="Servicios" value={selectedServices.join(', ')} />
-                      <div className="flex flex-wrap gap-2">
-                        {SERVICES.map((service) => {
-                          const active = selectedServices.includes(service);
-                          return (
-                            <button
-                              type="button"
-                              key={service}
-                              onClick={() => toggleService(service)}
-                              className={`px-3 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer select-none ${
-                                active
-                                  ? 'bg-[#e73c50] border-[#e73c50] text-white'
-                                  : 'bg-white border-[#F0E6E8] text-[#1F1F1F] hover:border-[#e73c50] hover:text-[#e73c50]'
-                              }`}
-                            >
-                              {active && <span className="mr-1">✓</span>}{service}
-                            </button>
-                          );
-                        })}
-                      </div>
-                      {selectedServices.length === 0 && (
-                        <p className="mt-2 text-[10px] text-[#4A4A4A]">Toca los servicios que necesitas para seleccionarlos.</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-[#111111] mb-2">
-                        ¿Qué objetivo principal quieres lograr? *
-                      </label>
-                      <div className="relative">
-                        <select
-                          name="Objetivo principal"
-                          required
-                          onChange={(e) => setObjetivoOtro(e.target.value === 'Otro')}
-                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
-                        >
-                          <option value="">Selecciona un objetivo...</option>
-                          {[
-                            'Aumentar ventas',
-                            'Mejorar imagen de marca',
-                            'Generar mas clientes potenciales',
-                            'Lanzamiento de producto/servicio',
-                            'Ordenar estrategia comercial y comunicacion',
-                            'Escalar mi negocio',
-                            'Otro',
-                          ].map((goal) => (
-                            <option key={goal} value={goal}>{goal}</option>
-                          ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                          <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
-                        </div>
-                      </div>
-                      {objetivoOtro && (
-                        <input
-                          type="text"
-                          name="Objetivo - Otro"
-                          placeholder="Describe tu objetivo"
-                          className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          rows="4"
+                          className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
+                          placeholder="Cuéntanos lo que necesitas lograr..."
                         />
-                      )}
-                    </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-[#111111] mb-2">
+                          ¿Qué tamaño tiene tu empresa actualmente? *
+                        </label>
+                        <div className="relative">
+                          <select
+                            name="Tamano de empresa"
+                            required
+                            className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                          >
+                            <option value="">Selecciona el tamaño...</option>
+                            {['Marca personal', '1-5 personas', '6-20 personas', '21-50 personas', '+50 personas'].map((size) => (
+                              <option key={size} value={size}>{size}</option>
+                            ))}
+                          </select>
+                          <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                            <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-[#111111] mb-2">
+                          ¿Qué servicios estás buscando? (puedes elegir varios) *
+                        </label>
+                        <input type="hidden" name="Servicios" value={selectedServices.join(', ')} />
+                        <div className="flex flex-wrap gap-2">
+                          {SERVICES.map((service) => {
+                            const active = selectedServices.includes(service);
+                            return (
+                              <button
+                                type="button"
+                                key={service}
+                                onClick={() => toggleService(service)}
+                                className={`px-3 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer select-none ${active
+                                    ? 'bg-[#e73c50] border-[#e73c50] text-white'
+                                    : 'bg-white border-[#F0E6E8] text-[#1F1F1F] hover:border-[#e73c50] hover:text-[#e73c50]'
+                                  }`}
+                              >
+                                {active && <span className="mr-1">✓</span>}{service}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {selectedServices.length === 0 && (
+                          <p className="mt-2 text-[10px] text-[#4A4A4A]">Toca los servicios que necesitas para seleccionarlos.</p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-[#111111] mb-2">
+                          ¿Qué objetivo principal quieres lograr? *
+                        </label>
+                        <div className="relative">
+                          <select
+                            name="Objetivo principal"
+                            required
+                            onChange={(e) => setObjetivoOtro(e.target.value === 'Otro')}
+                            className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] appearance-none cursor-pointer"
+                          >
+                            <option value="">Selecciona un objetivo...</option>
+                            {[
+                              'Aumentar ventas',
+                              'Mejorar imagen de marca',
+                              'Generar más clientes potenciales',
+                              'Lanzamiento de producto/servicio',
+                              'Ordenar estrategia comercial y comunicación',
+                              'Escalar mi negocio',
+                              'Otro',
+                            ].map((goal) => (
+                              <option key={goal} value={goal}>{goal}</option>
+                            ))}
+                          </select>
+                          <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                            <svg className="w-4 h-4 text-[#4A4A4A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
+                          </div>
+                        </div>
+                        {objetivoOtro && (
+                          <input
+                            type="text"
+                            name="Objetivo - Otro"
+                            placeholder="Describe tu objetivo"
+                            className="mt-2 w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                          />
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 justify-between">
@@ -375,7 +374,7 @@ const Contact = () => {
                         disabled={isSubmitting}
                         className="px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors disabled:opacity-60"
                       >
-                        {isSubmitting ? 'Enviando...' : 'Enviar informacion'}
+                        {isSubmitting ? 'Enviando...' : 'Enviar información'}
                       </motion.button>
                     </div>
                   </div>
@@ -415,7 +414,7 @@ const Contact = () => {
                     className="flex items-start p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group"
                   >
                     <div className="w-12 h-12 flex-shrink-0 rounded-lg bg-[#e73c50]/10 flex items-center justify-center mr-4 group-hover:bg-[#e73c50]/20 transition-all">
-                      <SvgIcon 
+                      <SvgIcon
                         path={method.iconPath}
                         className="w-6 h-6 text-[#e73c50]"
                         variant={method.iconType}
@@ -432,14 +431,14 @@ const Contact = () => {
               </div>
             </div>
 
-          
+
 
             {/* Quick CTA */}
-              <div className="bg-[#0d0e24] p-8 rounded-2xl text-center">
+            <div className="bg-[#0d0e24] p-8 rounded-2xl text-center">
               <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-[#e73c50]/10 flex items-center justify-center">
-                <svg 
-                  className="w-6 h-6 text-[#e73c50]" 
-                  viewBox="0 0 24 24" 
+                <svg
+                  className="w-6 h-6 text-[#e73c50]"
+                  viewBox="0 0 24 24"
                   fill="currentColor"
                 >
                   <path d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -449,7 +448,7 @@ const Contact = () => {
                 ¿Necesitas una respuesta rápida?
               </h3>
               <p className="text-white/60 mb-4 text-sm">
-Escribenos por WhatsApp y recibe una atención inmediata 
+                Escríbenos por WhatsApp y recibe una atención inmediata
               </p>
               <a
                 href="https://wa.me/51959212496"
@@ -474,7 +473,7 @@ Escribenos por WhatsApp y recibe una atención inmediata
           <div className="relative w-full max-w-2xl rounded-2xl bg-[#0d0e24] overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <div className="text-lg font-display font-bold text-white">
-                Agendar reunion inicial
+                Agendar reunión inicial
               </div>
               <button
                 type="button"
@@ -488,12 +487,12 @@ Escribenos por WhatsApp y recibe una atención inmediata
               {schedulePhase === 'loading' ? (
                 <div className="flex flex-col items-center text-center gap-4">
                   <div className="w-12 h-12 rounded-full border-4 border-white/10 border-t-[#e73c50] animate-spin" />
-                  <div className="text-white/70">Procesando tu informacion...</div>
+                  <div className="text-white/70">Procesando tu información...</div>
                 </div>
               ) : (
                 <div className="text-center">
                   <p className="text-white/70 mb-6">
-Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo, si quieres agendar una reunion haz click en este botón                  </p>
+                    Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo. Si quieres agendar una reunión, haz clic en este botón                  </p>
                   <motion.button
                     type="button"
                     whileHover={{ scale: 1.02, boxShadow: '0 12px 24px rgba(179, 38, 46, 0.2)' }}
@@ -504,7 +503,7 @@ Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo, 
                     }}
                     className="w-full px-6 py-3 bg-[#e73c50] text-white font-bold rounded-full text-sm hover:bg-[#c82d40] transition-colors"
                   >
-                    📆 Agendar reunion 
+                    📆 Agendar reunión
                   </motion.button>
                 </div>
               )}
@@ -518,7 +517,7 @@ Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo, 
           <div className="relative w-full max-w-4xl rounded-2xl bg-[#0d0e24] overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
               <div className="text-lg font-display font-bold text-white">
-                Agendar reunion inicial
+                Agendar reunión inicial
               </div>
               <button
                 type="button"
@@ -550,7 +549,7 @@ Estás a un paso de cambiar tu marca, pronto nos estaremos contactando contigo, 
               Gracias por completar el formulario
             </h3>
             <p className="text-white/65 mb-6">
-              Nos pondremos en contacto contigo. 
+              Nos pondremos en contacto contigo.
             </p>
             <motion.button
               type="button"

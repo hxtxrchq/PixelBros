@@ -131,7 +131,7 @@ export default function QuotesList() {
                   <span className={isDark ? 'text-white/55' : 'text-slate-500'}>Servicio:</span> {quote.detail || quote.serviceType}
                 </p>
                 <p className={isDark ? 'text-white/80' : 'text-slate-700'}>
-                  <span className={isDark ? 'text-white/55' : 'text-slate-500'}>Duracion:</span> {quote.duration}
+                  <span className={isDark ? 'text-white/55' : 'text-slate-500'}>Duración:</span> {quote.duration}
                 </p>
                 <p className={isDark ? 'text-white/80' : 'text-slate-700'}>
                   <span className={isDark ? 'text-white/55' : 'text-slate-500'}>Monto:</span>{' '}
@@ -185,14 +185,14 @@ export default function QuotesList() {
                     try {
                       await deleteQuote(quote.id);
                     } catch (error) {
-                      setActionError(error instanceof Error ? error.message : 'No se pudo eliminar la cotizacion.');
+                      setActionError(error instanceof Error ? error.message : 'No se pudo eliminar la cotización.');
                     } finally {
                       setPendingActionId('');
                     }
                   }}
                   className="w-full rounded-lg border border-[#e73c50]/45 px-2 py-1.5 text-xs font-bold text-[#d12d43] transition hover:bg-[#ffeef1]"
                 >
-                  {pendingActionId === quote.id ? 'Procesando...' : 'Eliminar cotizacion'}
+                  {pendingActionId === quote.id ? 'Procesando...' : 'Eliminar cotización'}
                 </button>
               </div>
             </article>

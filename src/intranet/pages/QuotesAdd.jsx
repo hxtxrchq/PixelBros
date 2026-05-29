@@ -15,32 +15,32 @@ const TEAM_OPTIONS = TEAM_PROFILES.map((member) => ({
 
 const DEFAULT_BUDGET_BLOCKS = [
   {
-    title: 'Investigacion y Branding',
+    title: 'Investigación y Branding',
     hours: 7,
     cost: 1000,
     slots: [
-      { title: 'Brief / Entrevista', description: 'Levantamiento de informacion y objetivos.' },
-      { title: 'Bocetos / Exploracion', description: 'Ideas visuales y caminos de concepto.' },
+      { title: 'Brief / Entrevista', description: 'Levantamiento de información y objetivos.' },
+      { title: 'Bocetos / Exploración', description: 'Ideas visuales y caminos de concepto.' },
       { title: 'Manual de identidad', description: 'Lineamientos visuales y de uso.' },
     ],
   },
   {
-    title: 'Diseno y Programacion',
+    title: 'Diseño y Programación',
     hours: 17,
     cost: 10000,
     slots: [
       { title: 'Prototipo', description: 'Vista previa y estructura inicial.' },
-      { title: 'Pruebas', description: 'Validacion y ajustes de calidad.' },
-      { title: 'Programacion', description: 'Desarrollo e integracion final.' },
+      { title: 'Pruebas', description: 'Validación y ajustes de calidad.' },
+      { title: 'Programación', description: 'Desarrollo e integración final.' },
     ],
   },
   {
-    title: 'Lanzamiento de Campana',
+    title: 'Lanzamiento de Campaña',
     hours: 7,
     cost: 5000,
     slots: [
-      { title: 'SEO inicial', description: 'Configuracion y optimizacion base.' },
-      { title: 'Anuncios', description: 'Ejecucion de campañas y pauta.' },
+      { title: 'SEO inicial', description: 'Configuración y optimización base.' },
+      { title: 'Anuncios', description: 'Ejecución de campañas y pauta.' },
     ],
   },
 ];
@@ -190,7 +190,7 @@ export default function QuotesAdd() {
         client: form.client,
         company: form.company,
         serviceType: 'Propuesta integral',
-        detail: 'Cotizacion por bloques',
+        detail: 'Cotización por bloques',
         durationMonths: Number(form.durationMonths) || 1,
         duration: `${form.durationMonths} meses`,
         basePrice: finalPrice,
@@ -239,7 +239,7 @@ export default function QuotesAdd() {
       setForm(blankForm());
       setBudgetBlocks(blankBudgetBlocks());
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : 'No se pudo guardar la cotizacion');
+      setSubmitError(error instanceof Error ? error.message : 'No se pudo guardar la cotización');
     } finally {
       setIsSubmitting(false);
     }
@@ -249,11 +249,11 @@ export default function QuotesAdd() {
     <section className={`rounded-3xl border p-5 ${panelClass}`}>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h3 className={`intranet-heading text-lg font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>Agregar cotizacion</h3>
+          <h3 className={`intranet-heading text-lg font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>Agregar cotización</h3>
           <p className={`mt-1 text-sm ${isDark ? 'text-white/55' : 'text-slate-500'}`}>Completa solo los datos que van a salir en la propuesta.</p>
         </div>
         <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.1em] ${isDark ? 'bg-[#4f8cff]/15 text-[#cfe0ff]' : 'bg-slate-100 text-slate-600'}`}>
-          Cotizacion editable por bloques
+          Cotización de bloques
         </span>
       </div>
 
@@ -266,7 +266,7 @@ export default function QuotesAdd() {
       {createdQuote ? (
         <div className={`mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-3 py-2.5 ${isDark ? 'border-[#35c98f]/40 bg-[#35c98f]/12' : 'border-[#9ee7cb] bg-[#ecfff6]'}`}>
           <p className={`text-sm ${isDark ? 'text-[#d4ffe9]' : 'text-[#0f5132]'}`}>
-            Cotizacion creada: <span className="font-black">{createdQuote.quoteNumber}</span>
+            Cotización creada: <span className="font-black">{createdQuote.quoteNumber}</span>
           </p>
           <button
             type="button"
@@ -274,7 +274,7 @@ export default function QuotesAdd() {
               try {
                 viewQuoteVoucher(createdQuote);
               } catch (error) {
-                setSubmitError(error instanceof Error ? error.message : 'No se pudo abrir la cotizacion.');
+                setSubmitError(error instanceof Error ? error.message : 'No se pudo abrir la cotización.');
               }
             }}
             className="rounded-lg bg-[#0f766e] px-3 py-1.5 text-xs font-bold text-white"
@@ -287,7 +287,7 @@ export default function QuotesAdd() {
               try {
                 printVoucherDirect(createdQuote);
               } catch (error) {
-                setSubmitError(error instanceof Error ? error.message : 'No se pudo imprimir la cotizacion.');
+                setSubmitError(error instanceof Error ? error.message : 'No se pudo imprimir la cotización.');
               }
             }}
             className="rounded-lg border border-[#0f766e]/40 px-3 py-1.5 text-xs font-bold text-[#0f766e]"
@@ -306,12 +306,12 @@ export default function QuotesAdd() {
             </label>
             <label className="space-y-1.5">
               <span className={labelClass}>Empresa</span>
-              <input value={form.company} onChange={(e) => setForm((prev) => ({ ...prev, company: e.target.value }))} placeholder="Razon social" className={fieldClass} />
+              <input value={form.company} onChange={(e) => setForm((prev) => ({ ...prev, company: e.target.value }))} placeholder="Razón social" className={fieldClass} />
             </label>
           </div>
 
           <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
-            <p className={`text-xs font-bold uppercase tracking-[0.14em] ${isDark ? 'text-white/70' : 'text-slate-600'}`}>Datos de cotizacion</p>
+            <p className={`text-xs font-bold uppercase tracking-[0.14em] ${isDark ? 'text-white/70' : 'text-slate-600'}`}>Datos de cotización</p>
             <div className="mt-3 grid gap-3 md:grid-cols-2">
               <label className="space-y-1.5">
                 <span className={labelClass}>Fecha</span>
@@ -334,10 +334,10 @@ export default function QuotesAdd() {
           </div>
 
           <div className={`rounded-3xl border p-4 ${softPanelClass}`}>
-            <p className={`text-xs font-bold uppercase tracking-[0.14em] ${isDark ? 'text-white/70' : 'text-slate-600'}`}>Contenido de la cotizacion</p>
+            <p className={`text-xs font-bold uppercase tracking-[0.14em] ${isDark ? 'text-white/70' : 'text-slate-600'}`}>Contenido de la cotización</p>
             <div className="mt-3 grid gap-3 md:grid-cols-3">
               <label className="space-y-1.5">
-                <span className={labelClass}>Duracion</span>
+                <span className={labelClass}>Duración</span>
                 <input type="number" min="1" value={form.durationMonths} onChange={(e) => setForm((prev) => ({ ...prev, durationMonths: Number(e.target.value) || 1 }))} className={fieldClass} />
               </label>
               <label className="space-y-1.5">
@@ -356,7 +356,7 @@ export default function QuotesAdd() {
                 <input value={form.newClients} onChange={(e) => setForm((prev) => ({ ...prev, newClients: e.target.value }))} placeholder="Ej. 1000" className={fieldClass} />
               </label>
               <label className="space-y-1.5">
-                <span className={labelClass}>La solucion</span>
+                <span className={labelClass}>La solución</span>
                 <input value={form.solution} onChange={(e) => setForm((prev) => ({ ...prev, solution: e.target.value }))} placeholder="Resumen corto" className={fieldClass} />
               </label>
             </div>
@@ -367,7 +367,7 @@ export default function QuotesAdd() {
                 <textarea value={form.challenge} onChange={(e) => setForm((prev) => ({ ...prev, challenge: e.target.value }))} rows={3} className={textareaClass} />
               </label>
               <label className="space-y-1.5">
-                <span className={labelClass}>Quienes somos</span>
+                <span className={labelClass}>Quiénes somos</span>
                 <textarea value={form.whoWeAre} onChange={(e) => setForm((prev) => ({ ...prev, whoWeAre: e.target.value }))} rows={3} className={textareaClass} />
               </label>
             </div>
@@ -412,7 +412,7 @@ export default function QuotesAdd() {
 
           {budgetBlocks.map((block, index) => (
             <div key={`${block.title}-${index}`} className={`space-y-3 rounded-2xl border p-3 ${isDark ? 'border-white/10 bg-[#0b1027]' : 'border-slate-200 bg-white'}`}>
-                <input value={block.title} onChange={(e) => updateBudgetBlock(index, { title: e.target.value })} placeholder="Titulo del bloque" className={fieldClass} />
+                <input value={block.title} onChange={(e) => updateBudgetBlock(index, { title: e.target.value })} placeholder="Título del bloque" className={fieldClass} />
               <div className="grid grid-cols-2 gap-2">
                   <input type="number" value={block.hours} onChange={(e) => updateBudgetBlock(index, { hours: Number(e.target.value) || 0 })} placeholder="Horas" className={fieldClass} />
                   <input type="number" value={block.cost} onChange={(e) => updateBudgetBlock(index, { cost: Number(e.target.value) || 0 })} placeholder="Costo" className={fieldClass} />
@@ -434,8 +434,8 @@ export default function QuotesAdd() {
                         </button>
                       </div>
                       <div className="mt-2 grid gap-2 md:grid-cols-[0.9fr_1.1fr]">
-                        <input value={slot.title} onChange={(e) => updateBudgetSlot(index, slotIndex, { title: e.target.value })} placeholder="Titulo del slot" className={fieldClass} />
-                        <input value={slot.description} onChange={(e) => updateBudgetSlot(index, slotIndex, { description: e.target.value })} placeholder="Descripcion breve" className={fieldClass} />
+                        <input value={slot.title} onChange={(e) => updateBudgetSlot(index, slotIndex, { title: e.target.value })} placeholder="Título del slot" className={fieldClass} />
+                        <input value={slot.description} onChange={(e) => updateBudgetSlot(index, slotIndex, { description: e.target.value })} placeholder="Descripción breve" className={fieldClass} />
                       </div>
                     </div>
                   ))}
@@ -458,13 +458,13 @@ export default function QuotesAdd() {
 
           <div className={`space-y-2 rounded-2xl border p-3 ${isDark ? 'border-white/10 bg-[#0b1027]' : 'border-slate-200 bg-white'}`}>
             <p className={`text-xs font-bold uppercase tracking-[0.12em] ${isDark ? 'text-white/60' : 'text-slate-500'}`}>Footer</p>
-            <input value={form.footerPhone} onChange={(e) => setForm((prev) => ({ ...prev, footerPhone: e.target.value }))} placeholder="Telefono" className={fieldClass} />
+            <input value={form.footerPhone} onChange={(e) => setForm((prev) => ({ ...prev, footerPhone: e.target.value }))} placeholder="Teléfono" className={fieldClass} />
             <input value={form.footerWeb} onChange={(e) => setForm((prev) => ({ ...prev, footerWeb: e.target.value }))} placeholder="Web" className={fieldClass} />
             <input value={form.footerEmail} onChange={(e) => setForm((prev) => ({ ...prev, footerEmail: e.target.value }))} placeholder="Email" className={fieldClass} />
           </div>
 
           <button type="submit" disabled={isSubmitting} className="w-full rounded-2xl bg-gradient-to-r from-[#c42b3c] to-[#e73c50] px-4 py-2.5 text-sm font-black text-white shadow-[0_10px_22px_rgba(199,43,60,0.25)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-45">
-            {isSubmitting ? 'Guardando...' : 'Guardar cotizacion'}
+            {isSubmitting ? 'Guardando...' : 'Guardar cotización'}
           </button>
         </aside>
       </form>

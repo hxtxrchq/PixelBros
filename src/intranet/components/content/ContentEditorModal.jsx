@@ -225,8 +225,8 @@ export default function ContentEditorModal({
     });
   };
 
-  const topLabel = mode === 'create' ? 'Nuevo contenido' : 'Edicion de contenido';
-  const titleText = mode === 'create' ? 'Agregar proyecto con vista previa interactiva' : 'Editar proyecto con portada y galeria';
+  const topLabel = mode === 'create' ? 'Nuevo contenido' : 'Edición de contenido';
+  const titleText = mode === 'create' ? 'Agregar proyecto con vista previa interactiva' : 'Editar proyecto con portada y galería';
 
   const editorSection = (
     <motion.section
@@ -237,7 +237,7 @@ export default function ContentEditorModal({
         <div>
           <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ff9eac]">{topLabel}</p>
           <h3 className="intranet-heading mt-1 text-2xl font-black text-white md:text-[2rem]">{titleText}</h3>
-          <p className="mt-1 text-sm text-white/65">Selecciona archivos y haz click en una miniatura para abrir el preview completo.</p>
+          <p className="mt-1 text-sm text-white/65">Selecciona archivos y haz clic en una miniatura para abrir el preview completo.</p>
         </div>
 
         {!inline && (
@@ -264,7 +264,7 @@ export default function ContentEditorModal({
           </label>
 
           <label className="space-y-1.5 md:col-span-2">
-            <span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Titulo</span>
+            <span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Título</span>
             <input
               value={form.title}
               onChange={(event) => onChange('title', event.target.value)}
@@ -274,7 +274,7 @@ export default function ContentEditorModal({
           </label>
 
           <label className="space-y-1.5 md:col-span-2">
-            <span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Categoria</span>
+            <span className="text-xs font-bold uppercase tracking-[0.12em] text-white/70">Categoría</span>
             <select
               value={form.category}
               onChange={(event) => onChange('category', event.target.value)}
@@ -380,10 +380,10 @@ export default function ContentEditorModal({
             </div>
 
             {removeCover && !coverFilePreview && (
-              <p className="mt-2 text-xs font-bold text-[#ffc1cb]">Se eliminara la portada al guardar.</p>
+              <p className="mt-2 text-xs font-bold text-[#ffc1cb]">Se eliminará la portada al guardar.</p>
             )}
 
-            {!existingCover && !coverFilePreview && <p className="text-xs text-white/55">Aun no hay portada seleccionada.</p>}
+            {!existingCover && !coverFilePreview && <p className="text-xs text-white/55">Aún no hay portada seleccionada.</p>}
           </article>
 
           <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
@@ -406,7 +406,7 @@ export default function ContentEditorModal({
                 placeholder="Ej: Barbarian Bar"
                 className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none transition focus:border-[#7ba7ff]/70 focus:ring-2 focus:ring-[#7ba7ff]/25"
               />
-              <p className="text-[11px] text-white/45">Deja vacio si el logo ya tiene texto.</p>
+              <p className="text-[11px] text-white/45">Deja vacío si el logo ya tiene texto.</p>
             </label>
 
             {mode === 'edit' && existingLogo && !logoFilePreview && (
@@ -467,20 +467,20 @@ export default function ContentEditorModal({
             </div>
 
             {removeLogo && !logoFilePreview && (
-              <p className="mt-2 text-xs font-bold text-[#bfd8ff]">Se eliminara el logo al guardar.</p>
+              <p className="mt-2 text-xs font-bold text-[#bfd8ff]">Se eliminará el logo al guardar.</p>
             )}
 
-            {!existingLogo && !logoFilePreview && <p className="text-xs text-white/55">Aun no hay logo seleccionado.</p>}
+            {!existingLogo && !logoFilePreview && <p className="text-xs text-white/55">Aún no hay logo seleccionado.</p>}
           </article>
 
           <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#9bc2ff]">Galeria</p>
-              <span className="rounded-full border border-[#9bc2ff]/35 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#bfd8ff]">{mode === 'edit' ? 'Gestion individual' : 'Multiples archivos'}</span>
+              <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#9bc2ff]">Galería</p>
+              <span className="rounded-full border border-[#9bc2ff]/35 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#bfd8ff]">{mode === 'edit' ? 'Gestión individual' : 'Múltiples archivos'}</span>
             </div>
 
             <label className="mb-3 flex cursor-pointer items-center justify-between rounded-xl border border-dashed border-white/25 bg-[#090c22] px-3 py-2.5 text-xs text-white/80 transition hover:border-[#7ba7ff]/65">
-              <span>{mode === 'edit' ? 'Agregar nueva galeria' : 'Agregar archivos a galeria'}</span>
+              <span>{mode === 'edit' ? 'Agregar nueva galería' : 'Agregar archivos a galería'}</span>
               <input type="file" accept="image/*,video/*" multiple onChange={onGalleryChange} className="hidden" />
               <span className="rounded-lg border border-white/20 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em]">Elegir archivos</span>
             </label>
@@ -488,13 +488,13 @@ export default function ContentEditorModal({
             <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
               {mode === 'edit' && existingGallery.length > 0 && (
                 <div>
-                  <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white/50">Galeria actual ({existingGallery.length})</p>
+                  <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white/50">Galería actual ({existingGallery.length})</p>
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
                     {existingGallery.map((media) => {
                       const isMarked = removedExistingMediaIds.includes(media.id);
                       return (
                         <div key={media.id} className={`group relative overflow-hidden rounded-lg border bg-black/30 ${isMarked ? 'border-[#e73c50]/60 opacity-60' : 'border-white/10'}`}>
-                          <button type="button" onClick={() => openPreview(media, 'Galeria actual')} className="block w-full">
+                          <button type="button" onClick={() => openPreview(media, 'Galería actual')} className="block w-full">
                             {isVideoType(media.type, media.url) ? (
                               <div className="flex h-20 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-white/65">
                                 Video
@@ -523,17 +523,17 @@ export default function ContentEditorModal({
                       );
                     })}
                   </div>
-                  {removedExistingMediaIds.length > 0 && <p className="mt-1 text-[11px] text-[#ffb1bc]">{removedExistingMediaIds.length} archivo(s) se eliminaran al guardar.</p>}
+                  {removedExistingMediaIds.length > 0 && <p className="mt-1 text-[11px] text-[#ffb1bc]">{removedExistingMediaIds.length} archivo(s) se eliminarán al guardar.</p>}
                 </div>
               )}
 
               {galleryFilePreviews.length > 0 && (
                 <div>
-                  <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9bc2ff]">Nueva galeria ({galleryFilePreviews.length})</p>
+                  <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9bc2ff]">Nueva galería ({galleryFilePreviews.length})</p>
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
                     {galleryFilePreviews.map((media) => (
                       <div key={media.id} className="group relative overflow-hidden rounded-lg border border-[#7ba7ff]/35 bg-black/30">
-                        <button type="button" onClick={() => openPreview(media, 'Nueva galeria')} className="block w-full">
+                        <button type="button" onClick={() => openPreview(media, 'Nueva galería')} className="block w-full">
                           {isVideoType(media.type, media.url) ? (
                             <div className="flex h-20 w-full items-center justify-center bg-black/55 text-[10px] font-black uppercase tracking-[0.14em] text-[#bfd8ff]">
                               Video
@@ -564,7 +564,7 @@ export default function ContentEditorModal({
                 </div>
               )}
 
-              {existingGallery.length === 0 && galleryFilePreviews.length === 0 && <p className="text-xs text-white/55">Aun no hay archivos en la galeria.</p>}
+              {existingGallery.length === 0 && galleryFilePreviews.length === 0 && <p className="text-xs text-white/55">Aún no hay archivos en la galería.</p>}
             </div>
           </article>
         </div>

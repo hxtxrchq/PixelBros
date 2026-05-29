@@ -133,7 +133,7 @@ const Apply = () => {
 
             <div>
               <label className="block text-sm font-semibold text-[#111111] mb-3">
-                1. A que puesto(s) deseas postular? *
+                ¿A qué puesto(s) deseas postular? *
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
@@ -215,7 +215,7 @@ const Apply = () => {
               <input
                 type="text"
                 id="salary"
-                name="Expectativa economica"
+                name="Expectativa económica"
                 className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                 placeholder="S/ 0"
               />

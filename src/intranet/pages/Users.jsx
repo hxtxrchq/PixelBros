@@ -181,8 +181,8 @@ export default function Users() {
       {/* Header */}
       <article className="rounded-3xl border border-white/10 bg-gradient-to-r from-[#0f1230] to-[#151c49] p-6 shadow-[0_20px_56px_rgba(0,0,0,0.35)]">
         <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ff9eac]">Usuarios</p>
-        <h3 className="intranet-heading mt-2 text-3xl font-black text-white">Gestion de equipo</h3>
-        <p className="mt-2 text-sm text-white/70">Visualiza roles y estado de cada integrante con una vista clara y rapida.</p>
+        <h3 className="intranet-heading mt-2 text-3xl font-black text-white">Gestión de equipo</h3>
+        <p className="mt-2 text-sm text-white/70">Visualiza roles y estado de cada integrante con una vista clara y rápida.</p>
       </article>
 
       {/* Stats */}
@@ -224,7 +224,7 @@ export default function Users() {
         {error && <p className="mt-4 rounded-xl border border-[#e73c50]/40 bg-[#e73c50]/10 px-3 py-2 text-sm text-[#ffd2d8]">{error}</p>}
         {tempPassword && (
           <p className="mt-4 rounded-xl border border-[#35c98f]/40 bg-[#35c98f]/10 px-3 py-2 text-sm text-[#bff6e2]">
-            Contrasena temporal creada: <span className="font-semibold">{tempPassword}</span>
+            Contraseña temporal creada: <span className="font-semibold">{tempPassword}</span>
           </p>
         )}
 
@@ -269,7 +269,7 @@ export default function Users() {
               </label>
               {!editingId && (
                 <div className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white/75">
-                  Contrasena temporal: <span className="font-semibold text-white">{buildTempPassword(form.fullName || form.email)}</span>
+                  Contraseña temporal: <span className="font-semibold text-white">{buildTempPassword(form.fullName || form.email)}</span>
                 </div>
               )}
             </div>

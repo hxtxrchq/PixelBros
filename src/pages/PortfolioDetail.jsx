@@ -98,7 +98,7 @@ const buildPortfolioIndex = (assets) => {
     if (!project.groups.has(groupKey)) {
       project.groups.set(groupKey, {
         id: groupKey,
-        name: subprojectName || 'Galeria',
+        name: subprojectName || 'Galería',
         items: [],
       });
     }
@@ -219,7 +219,7 @@ const buildPortfolioIndexFromApi = (items) => {
       if (!project.groups.has(defaultGroupKey)) {
         project.groups.set(defaultGroupKey, {
           id: defaultGroupKey,
-          name: 'Galeria',
+          name: 'Galería',
           items: [],
         });
       }
@@ -253,7 +253,7 @@ const buildPortfolioIndexFromApi = (items) => {
       if (!project.groups.has(groupKey)) {
         project.groups.set(groupKey, {
           id: groupKey,
-          name: subprojectName || 'Galeria',
+          name: subprojectName || 'Galería',
           items: [],
         });
       }

@@ -53,7 +53,7 @@ const items = [
       <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1v5h5" />
     ),
     children: [
-      { label: 'Agregar cotizacion', to: '/intranet/dashboard/cotizaciones/agregar' },
+      { label: 'Agregar cotización', to: '/intranet/dashboard/cotizaciones/agregar' },
       { label: 'Lista de cotizaciones', to: '/intranet/dashboard/cotizaciones/lista' },
     ],
   },

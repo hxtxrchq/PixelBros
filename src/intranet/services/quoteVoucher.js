@@ -11,32 +11,32 @@ const defaultTeam = TEAM_PROFILES.map((member) => ({
 
 const defaultBudgetBlocks = [
   {
-    title: 'Investigacion y Branding',
+    title: 'Investigación y Branding',
     hours: 7,
     cost: 1000,
     slots: [
-      { title: 'Brief / Entrevista', description: 'Levantamiento de informacion y objetivos.' },
-      { title: 'Bocetos / Exploracion', description: 'Ideas visuales y caminos de concepto.' },
+      { title: 'Brief / Entrevista', description: 'Levantamiento de información y objetivos.' },
+      { title: 'Bocetos / Exploración', description: 'Ideas visuales y caminos de concepto.' },
       { title: 'Manual de identidad', description: 'Lineamientos visuales y de uso.' },
     ],
   },
   {
-    title: 'Diseno y Programacion',
+    title: 'Diseño y Programación',
     hours: 17,
     cost: 10000,
     slots: [
       { title: 'Prototipo', description: 'Vista previa y estructura inicial.' },
-      { title: 'Pruebas', description: 'Validacion y ajustes de calidad.' },
-      { title: 'Programacion', description: 'Desarrollo e integracion final.' },
+      { title: 'Pruebas', description: 'Validación y ajustes de calidad.' },
+      { title: 'Programación', description: 'Desarrollo e integración final.' },
     ],
   },
   {
-    title: 'Lanzamiento de Campana',
+    title: 'Lanzamiento de Campaña',
     hours: 7,
     cost: 5000,
     slots: [
-      { title: 'SEO inicial', description: 'Configuracion y optimizacion base.' },
-      { title: 'Anuncios', description: 'Ejecucion de campañas y pauta.' },
+      { title: 'SEO inicial', description: 'Configuración y optimización base.' },
+      { title: 'Anuncios', description: 'Ejecución de campañas y pauta.' },
     ],
   },
 ];
@@ -152,16 +152,16 @@ const buildQuoteModel = (quote) => {
       'Somos PixelBros, una agencia enfocada en resultados comerciales, posicionamiento y experiencias digitales de alto impacto.',
     teamIntro:
       localMeta.teamIntro ||
-      'Equipo multidisciplinario especializado en branding, marketing digital y ejecucion creativa.',
+      'Equipo multidisciplinario especializado en branding, marketing digital y ejecución creativa.',
     methodologyIntro:
       localMeta.methodologyIntro ||
-      'Nuestra metodologia combina diagnostico, ejecucion iterativa y optimizacion continua para garantizar resultados.',
+      'Nuestra metodología combina diagnóstico, ejecución iterativa y optimización continua para garantizar resultados.',
     methodologySteps: Array.isArray(localMeta.methodologySteps) && localMeta.methodologySteps.length > 0
       ? localMeta.methodologySteps
       : [
-          'Diagnostico y descubrimiento de oportunidades con enfoque comercial.',
-          'Implementacion creativa con objetivos claros por fase.',
-          'Medicion, mejora continua y escalamiento de acciones.',
+          'Diagnóstico y descubrimiento de oportunidades con enfoque comercial.',
+          'Implementación creativa con objetivos claros por fase.',
+          'Medición, mejora continua y escalamiento de acciones.',
         ],
     team: (Array.isArray(localMeta.team) && localMeta.team.length > 0 ? localMeta.team : defaultTeam).map(
       (member) => ({
@@ -186,7 +186,7 @@ const buildQuoteVoucherHtml = (quote) => {
   <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Cotizacion ${escapeHtml(data.quoteNumber)}</title>
+    <title>Cotización ${escapeHtml(data.quoteNumber)}</title>
     <style>
       :root {
         --paper: #f6f7fb;
@@ -549,11 +549,11 @@ const buildQuoteVoucherHtml = (quote) => {
     <section class="sheet">
       <div class="section-title">
         <span class="arrow">→</span>
-        <h2>INTRODUCCION</h2>
+        <h2>INTRODUCCIÓN</h2>
       </div>
 
       <div class="section-mini">
-        <h3>QUIENES SOMOS</h3>
+        <h3>QUIÉNES SOMOS</h3>
         <p>${escapeHtml(data.whoWeAre)}</p>
       </div>
 
@@ -589,7 +589,7 @@ const buildQuoteVoucherHtml = (quote) => {
     <section class="sheet">
       <div class="section-title">
         <span class="arrow">→</span>
-        <h2>METODOLOGIA</h2>
+        <h2>METODOLOGÍA</h2>
       </div>
 
       <div class="method-intro">
@@ -622,9 +622,9 @@ const buildQuoteVoucherHtml = (quote) => {
       </div>
 
       <div class="section-mini budget-summary">
-        <p><strong>Duracion:</strong> ${escapeHtml(data.duration)} · <strong>ROI:</strong> ${escapeHtml(data.roi)} · <strong>Tasa:</strong> ${escapeHtml(data.conversionRate)} · <strong>Clientes nuevos:</strong> ${escapeHtml(data.newClients)}</p>
+        <p><strong>Duración:</strong> ${escapeHtml(data.duration)} · <strong>ROI:</strong> ${escapeHtml(data.roi)} · <strong>Tasa:</strong> ${escapeHtml(data.conversionRate)} · <strong>Clientes nuevos:</strong> ${escapeHtml(data.newClients)}</p>
         <p style="margin-top:6px;"><strong>El reto:</strong> ${escapeHtml(data.challenge)}</p>
-        <p style="margin-top:4px;"><strong>La solucion:</strong> ${escapeHtml(data.solution)}</p>
+        <p style="margin-top:4px;"><strong>La solución:</strong> ${escapeHtml(data.solution)}</p>
       </div>
 
       <div class="budget-table">
@@ -643,7 +643,7 @@ const buildQuoteVoucherHtml = (quote) => {
                       (slot, index) => `
                         <div class="budget-slot">
                           <p class="budget-slot-title">Slot ${index + 1} · ${escapeHtml(slot.title || 'Sin titulo')}</p>
-                          <p class="budget-slot-desc">${escapeHtml(slot.description || 'Sin descripcion.')}</p>
+                          <p class="budget-slot-desc">${escapeHtml(slot.description || 'Sin descripción.')}</p>
                         </div>
                       `,
                     )
@@ -681,7 +681,7 @@ const openVoucherTab = (html) => {
 
   if (!tab) {
     URL.revokeObjectURL(blobUrl);
-    throw new Error('No se pudo abrir la cotizacion en una nueva pestaña. Habilita pop-ups para continuar.');
+    throw new Error('No se pudo abrir la cotización en una nueva pestaña. Habilita pop-ups para continuar.');
   }
 
   tab.addEventListener('load', () => {

@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 
 const baseServices = [
-  { name: 'Gestion redes sociales', price: 1500 },
+  { name: 'Gestión redes sociales', price: 1500 },
   { name: 'Branding', price: 3000 },
-  { name: 'Campana Ads', price: 1200 },
-  { name: 'Produccion audiovisual', price: 2500 },
+  { name: 'Campaña Ads', price: 1200 },
+  { name: 'Producción audiovisual', price: 2500 },
 ];
 
 const toMoney = (value) => `S/ ${Number(value || 0).toLocaleString('es-PE')}`;
@@ -57,15 +57,15 @@ export default function Pricing() {
             <label className="space-y-1"><span className="text-xs text-white/65">Precio base</span><input type="number" value={calc.basePrice} onChange={(e) => setCalc((p) => ({ ...p, basePrice: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
             <label className="space-y-1"><span className="text-xs text-white/65">Servicios adicionales</span><input type="number" value={calc.additional} onChange={(e) => setCalc((p) => ({ ...p, additional: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
             <label className="space-y-1"><span className="text-xs text-white/65">Descuento aplicado (%)</span><input type="number" value={calc.discount} onChange={(e) => setCalc((p) => ({ ...p, discount: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
-            <label className="space-y-1"><span className="text-xs text-white/65">Descuento maximo permitido (%)</span><input type="number" value={calc.maxDiscount} onChange={(e) => setCalc((p) => ({ ...p, maxDiscount: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
-            <label className="space-y-1 md:col-span-2"><span className="text-xs text-white/65">Margen minimo (%)</span><input type="number" value={calc.minMargin} onChange={(e) => setCalc((p) => ({ ...p, minMargin: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
+            <label className="space-y-1"><span className="text-xs text-white/65">Descuento máximo permitido (%)</span><input type="number" value={calc.maxDiscount} onChange={(e) => setCalc((p) => ({ ...p, maxDiscount: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
+            <label className="space-y-1 md:col-span-2"><span className="text-xs text-white/65">Margen mínimo (%)</span><input type="number" value={calc.minMargin} onChange={(e) => setCalc((p) => ({ ...p, minMargin: Number(e.target.value) || 0 }))} className="w-full rounded-xl border border-white/15 bg-[#090c22] px-3 py-2 text-sm text-white outline-none" /></label>
           </div>
 
           <div className="mt-5 space-y-2 rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm">
             <p className="text-white/75">Subtotal: <span className="font-bold text-white">{toMoney(result.subtotal)}</span></p>
             <p className="text-white/75">Descuento: <span className="font-bold text-white">-{toMoney(result.discountAmount)}</span></p>
             <p className="text-white/75">Precio final: <span className="font-black text-[#90f0cb]">{toMoney(result.finalPrice)}</span></p>
-            <p className="text-xs text-white/60">Control: descuento maximo {calc.maxDiscount}% | margen minimo {calc.minMargin}%</p>
+            <p className="text-xs text-white/60">Control: descuento máximo {calc.maxDiscount}% | margen mínimo {calc.minMargin}%</p>
           </div>
         </article>
       </section>

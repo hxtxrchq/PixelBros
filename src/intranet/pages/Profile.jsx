@@ -60,17 +60,17 @@ export default function Profile() {
     setPasswordError('');
 
     if (!passwordForm.currentPassword || !passwordForm.newPassword) {
-      setPasswordError('Completa todos los campos de contrasena.');
+      setPasswordError('Completa todos los campos de contraseña.');
       return;
     }
 
     if (passwordForm.newPassword.length < 8) {
-      setPasswordError('La nueva contrasena debe tener al menos 8 caracteres.');
+      setPasswordError('La nueva contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setPasswordError('La confirmacion no coincide.');
+      setPasswordError('La confirmación no coincide.');
       return;
     }
 
@@ -80,10 +80,10 @@ export default function Profile() {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
-      setPasswordMessage('Contrasena actualizada.');
+      setPasswordMessage('Contraseña actualizada.');
       setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
-      setPasswordError(error.message || 'No se pudo actualizar la contrasena.');
+      setPasswordError(error.message || 'No se pudo actualizar la contraseña.');
     } finally {
       setPasswordSaving(false);
     }
@@ -94,7 +94,7 @@ export default function Profile() {
       <article className="rounded-3xl border border-white/10 bg-gradient-to-r from-[#0f1230] to-[#151c49] p-6 shadow-[0_20px_56px_rgba(0,0,0,0.35)]">
         <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ff9eac]">Mi perfil</p>
         <h3 className="intranet-heading mt-2 text-3xl font-black text-white">Actualiza tus datos</h3>
-        <p className="mt-2 text-sm text-white/70">Modifica tu informacion y cambia tu contrasena cuando lo necesites.</p>
+        <p className="mt-2 text-sm text-white/70">Modifica tu información y cambia tu contraseña cuando lo necesites.</p>
       </article>
 
       <article className="grid gap-6 lg:grid-cols-2">
@@ -133,7 +133,7 @@ export default function Profile() {
         </div>
 
         <div className="rounded-2xl border border-white/10 bg-[#0d1029]/75 p-5">
-          <h4 className="text-lg font-bold text-white">Cambiar contrasena</h4>
+          <h4 className="text-lg font-bold text-white">Cambiar contraseña</h4>
           <p className="mt-1 text-sm text-white/65">Recomendado al primer ingreso.</p>
 
           {passwordError && (
@@ -148,21 +148,21 @@ export default function Profile() {
               type="password"
               value={passwordForm.currentPassword}
               onChange={(e) => setPasswordForm((prev) => ({ ...prev, currentPassword: e.target.value }))}
-              placeholder="Contrasena actual"
+              placeholder="Contraseña actual"
               className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none"
             />
             <input
               type="password"
               value={passwordForm.newPassword}
               onChange={(e) => setPasswordForm((prev) => ({ ...prev, newPassword: e.target.value }))}
-              placeholder="Nueva contrasena"
+              placeholder="Nueva contraseña"
               className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none"
             />
             <input
               type="password"
               value={passwordForm.confirmPassword}
               onChange={(e) => setPasswordForm((prev) => ({ ...prev, confirmPassword: e.target.value }))}
-              placeholder="Confirmar nueva contrasena"
+              placeholder="Confirmar nueva contraseña"
               className="rounded-xl border border-white/15 bg-[#090c22] px-3 py-2.5 text-sm text-white outline-none"
             />
             <button
@@ -170,7 +170,7 @@ export default function Profile() {
               disabled={passwordSaving}
               className="rounded-xl bg-white/10 px-4 py-2.5 text-sm font-bold text-white hover:bg-white/20 disabled:opacity-60"
             >
-              {passwordSaving ? 'Guardando...' : 'Actualizar contrasena'}
+              {passwordSaving ? 'Guardando...' : 'Actualizar contraseña'}
             </button>
           </form>
         </div>

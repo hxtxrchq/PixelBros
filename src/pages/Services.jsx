@@ -76,7 +76,7 @@ const SERVICES = [
   },
   {
     id: 4,
-    title: 'FOTOGRAFIA PROFESIONAL',
+    title: 'FOTOGRAFÍA PROFESIONAL',
     slug: 'fotografia-profesional',
     cardImage: '/services/cards/fotografia-profesional',
   },
@@ -88,7 +88,7 @@ const SERVICES = [
   },
   {
     id: 6,
-    title: 'PRODUCCION AUDIOVISUAL',
+    title: 'PRODUCCIÓN AUDIOVISUAL',
     slug: 'produccion-audiovisual',
     cardImage: '/services/cards/produccion-audiovisual',
   },
@@ -284,7 +284,7 @@ const Services = () => {
 
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex justify-center px-5 pb-5 pt-12 bg-gradient-to-t from-[#080b24]/78 via-[#080b24]/36 to-transparent">
                       <span className="inline-flex items-center justify-center rounded-md border border-[#e73c50]/70 bg-transparent px-6 py-2 text-sm font-semibold text-[#ff5f70] transition-all duration-300 group-hover:bg-[#e73c50] group-hover:text-white group-hover:shadow-[0_12px_28px_rgba(231,60,80,0.35)]">
-                        Ver mas
+                        Ver más
                       </span>
                     </div>
                   </Link>
@@ -350,7 +350,7 @@ const Services = () => {
               no aparecen por casualidad.
             </p>
             <p className="text-[#888] mb-8 max-w-xl mx-auto text-sm sm:text-base">
-              Cuéntanos tu idea y veamos hasta donde puede llegar.
+              Cuéntanos tu idea y veamos hasta dónde puede llegar.
             </p>
             <Link to="/contact">
               <motion.button
