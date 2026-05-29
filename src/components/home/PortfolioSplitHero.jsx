@@ -246,50 +246,52 @@ const PortfolioSplitHero = () => {
         </motion.div>
 
         {/* RIGHT — BROS */}
-        <div className="flex-1 flex flex-col justify-center items-start pl-3 sm:pl-10 lg:pl-16 overflow-hidden">
-          <motion.span
-            className="text-[#e73c50] font-black select-none leading-[0.9] whitespace-nowrap"
-            style={textStyle}
-            initial={{ x: 100, opacity: 0 }}
-            animate={inView ? { x: 0, opacity: 1 } : {}}
-            transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            FOLIO
-          </motion.span>
-
-          {/* CTA — positioned close to FOLIO */}
-          <motion.div
-            className="mt-3 sm:mt-4 pl-1 sm:pl-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.8 }}
-          >
-            <Link
-              to="/portfolio"
-              className="group inline-flex items-center gap-3
-                text-white/35 hover:text-white
-                transition-colors duration-400"
+        <div className="flex-1 flex items-center justify-start pl-3 sm:pl-10 lg:pl-16 overflow-visible relative">
+          <div className="relative">
+            <motion.span
+              className="text-[#e73c50] font-black select-none leading-[0.9] whitespace-nowrap block"
+              style={textStyle}
+              initial={{ x: 100, opacity: 0 }}
+              animate={inView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 1.05, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span
-                className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.28em]"
+              FOLIO
+            </motion.span>
+
+            {/* CTA — positioned close to FOLIO but absolutely so it doesn't elevate the text */}
+            <motion.div
+              className="absolute left-1 sm:left-2 top-[102%] z-20"
+              initial={{ opacity: 0, y: 10 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.8 }}
+            >
+              <Link
+                to="/portfolio"
+                className="group inline-flex items-center gap-3
+                  text-white/35 hover:text-white
+                  transition-colors duration-400"
               >
-                Ver más
-              </span>
-              <span
-                className="flex items-center justify-center w-7 h-7 rounded-full
-                  border border-white/15 group-hover:border-white/50
-                  transition-all duration-400"
-              >
-                <svg width="10" height="10" viewBox="0 0 20 20" fill="none" aria-hidden="true"
-                  className="translate-x-0 group-hover:translate-x-[2px] transition-transform duration-300"
+                <span
+                  className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.28em]"
                 >
-                  <path d="M4 10h12m0 0l-4-4m4 4l-4 4"
-                    stroke="currentColor" strokeWidth="2.5"
-                    strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </Link>
-          </motion.div>
+                  Ver más
+                </span>
+                <span
+                  className="flex items-center justify-center w-7 h-7 rounded-full
+                    border border-white/15 group-hover:border-white/50
+                    transition-all duration-400"
+                >
+                  <svg width="10" height="10" viewBox="0 0 20 20" fill="none" aria-hidden="true"
+                    className="translate-x-0 group-hover:translate-x-[2px] transition-transform duration-300"
+                  >
+                    <path d="M4 10h12m0 0l-4-4m4 4l-4 4"
+                      stroke="currentColor" strokeWidth="2.5"
+                      strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </Link>
+            </motion.div>
+          </div>
         </div>
 
       </div>
