@@ -11,7 +11,7 @@ const Hero = () => {
         playsInline
         preload="metadata"
       >
-        <source src="/services/hero/video-1.mp4" type="video/mp4" />
+        <source src="/services/hero/video-2.mp4" type="video/mp4" />
       </video>
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.56)_0%,rgba(0,0,0,0.66)_54%,rgba(0,0,0,0.9)_100%)]" />
