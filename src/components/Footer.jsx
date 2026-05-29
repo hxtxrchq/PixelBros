@@ -73,9 +73,9 @@ const Footer = () => {
         <SectionZoom className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10" delay={0.08}>
           <div className="flex flex-col gap-5">
             <div>
-              <h3 className="max-w-[12ch] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#e73c50] leading-[0.94] tracking-tight">
+              <h3 className="max-w-[12ch] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white leading-[0.94] tracking-tight">
                 Let&apos;s make<br />
-                a love mark
+                a <span className="text-[#e73c50]">lovemark</span>
               </h3>
             </div>
           </div>
