@@ -57,6 +57,38 @@ const getSocialRubro = (title) => {
   return null;
 };
 
+const getLocalBrand = (slug, title) => {
+  const key = slugify(slug || title || '');
+  if (key.includes('elevaria')) return { src: '/logos/Elevaria Logo.png', label: 'Elevaria cafe' };
+  if (key.includes('barbarian')) return { src: '/logos/Barbarian Bar.png', label: 'Barbarian Bar' };
+  if (key.includes('design-market')) return { src: '/logos/Design Market.png', label: 'Design Market' };
+  if (key.includes('gms')) return { src: '/logos/GMS.png', label: 'GMS' };
+  if (key.includes('kanagawa')) return { src: '/logos/Kanagawa Nikkei.png', label: 'Kanagawa Nikkei' };
+  if (key.includes('corte87') || key.includes('corte-87')) return { src: '/logos/Corte87.png', label: 'Corte87' };
+  if (key.includes('dgary')) return { src: '/logos/DGary.png', label: 'DGary' };
+  if (key.includes('yuriko')) return { src: '/logos/DRA_YURIKO.png', label: 'DRA_YURIKO' };
+  if (key.includes('ryc') || key.includes('r-c-arquitectos')) return { src: '/logos/RYC arquitectos.png', label: 'RYC arquitectos' };
+  if (key.includes('vieja-taberna') || key.includes('lvt')) return { src: '/logos/LaViejaTaberna.png', label: 'LaViejaTaberna' };
+  if (key.includes('smashboy')) return { src: '/logos/smashboyburger.png', label: 'smashboyburger' };
+  if (key.includes('ginecofeme')) return { src: '/logos/Ginecofeme.png', label: 'ginecofeme' };
+  if (key.includes('frissagio')) return { src: '/logos/Frissagio.png', label: 'Frissagio' };
+  return { src: null, label: null, caption: null };
+};
+
+const getLogoScaleClass = (brandLabel) => {
+  if (!brandLabel) return '';
+  const name = brandLabel.trim();
+  if (name === 'Corte87') return 'scale-[2.9]';
+  if (name === 'LaViejaTaberna' || name === 'La Vieja Taberna') return 'scale-[2.5]';
+  if (name === 'Barbarian Bar' || name === 'Barbarian') return 'scale-[1.5]';
+  if (name === 'smashboyburger' || name === 'Smashboy') return 'scale-[1.6]';
+  if (name === 'GMS' || name === 'Design Market' || name === 'Kanagawa Nikkei' || name === 'DRA_YURIKO' || name === 'Yuriko') return 'scale-[1.8]';
+  if (name === 'ginecofeme' || name === 'Ginecofeme') return 'scale-[1.1]';
+  if (name === 'DGary') return 'scale-[0.7]';
+  if (name === 'RYC arquitectos' || name === 'R&C Arquitectos') return 'scale-[1.0]';
+  return '';
+};
+
 
 const getOrderFromName = (fileName) => {
   const m = fileName.match(/(\d+)/);
@@ -148,7 +180,15 @@ const buildPortfolioIndex = (assets) => {
       const projects = Array.from(category.projects.values())
         .map((project) => {
           const sorted = [...project.media].sort((a, b) => a.order - b.order || a.fileName.localeCompare(b.fileName));
-          const cover = sorted[0]?.src || null;
+          let cover = sorted[0]?.src || null;
+
+          // Override cover images/videos
+          if (project.slug.includes('frissagio')) {
+            cover = 'https://res.cloudinary.com/drbiifrto/image/upload/v1780628131/pixelbros/Portfolio/Social_Media/7_Frissagio/2_Social_Media/1_Feed/2026/1_Enero/1._Que_incluye_un_taller_Frissagio/Que_incluye_un_taller_Frissagio_Mesa_de_trabajo_1.png';
+          } else if (project.slug.includes('design-market')) {
+            cover = 'https://res.cloudinary.com/drbiifrto/video/upload/v1780628196/pixelbros/Portfolio/Social_Media/Design_Market/DM_TENDENCIAS_1.mp4';
+          }
+
           const thumb = getThumbVariants(cover);
           return {
             ...project,
@@ -158,7 +198,7 @@ const buildPortfolioIndex = (assets) => {
             coverSrc: thumb.src,
             coverSrcSet: thumb.srcSet,
             socialRubro: project.categoryId === 'social-media' ? getSocialRubro(project.title) : null,
-            brand: { src: null, label: null, caption: null },
+            brand: getLocalBrand(project.slug, project.title),
           };
         })
         .sort((a, b) => a.title.localeCompare(b.title));
@@ -189,7 +229,13 @@ const buildPortfolioIndexFromApi = (items) => {
     const mediaPool = [item.coverUrl, ...(item.medias ?? []).map((media) => media.url)].filter(Boolean);
     const uniqueMedia = Array.from(new Set(mediaPool));
 
-    const cover = uniqueMedia[0] || null;
+    let cover = uniqueMedia[0] || null;
+    if (slug.includes('frissagio')) {
+      cover = 'https://res.cloudinary.com/drbiifrto/image/upload/v1780628131/pixelbros/Portfolio/Social_Media/7_Frissagio/2_Social_Media/1_Feed/2026/1_Enero/1._Que_incluye_un_taller_Frissagio/Que_incluye_un_taller_Frissagio_Mesa_de_trabajo_1.png';
+    } else if (slug.includes('design-market')) {
+      cover = 'https://res.cloudinary.com/drbiifrto/video/upload/v1780628196/pixelbros/Portfolio/Social_Media/Design_Market/DM_TENDENCIAS_1.mp4';
+    }
+
     const thumb = getThumbVariants(cover);
 
     if (!categoriesMap.has(categoryId)) {
@@ -218,7 +264,7 @@ const buildPortfolioIndexFromApi = (items) => {
             label: item.logoLabel || item.companyName || title,
             caption: item.logoLabel || null,
           }
-        : { src: null, label: null, caption: null },
+        : getLocalBrand(slug, title),
     });
   }
 
@@ -410,7 +456,7 @@ const Portfolio = () => {
                                     alt={project.brand.label || 'Logo'}
                                     loading="eager"
                                     decoding="async"
-                                    className="max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-90 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] transition-transform duration-300 group-hover:scale-[1.02]"
+                                    className={`max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-90 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] transition-transform duration-300 origin-center transform-gpu ${getLogoScaleClass(project.brand.label)}`}
                                     onError={(event) => {
                                       event.currentTarget.style.display = 'none';
                                     }}
