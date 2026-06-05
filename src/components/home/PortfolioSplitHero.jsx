@@ -8,21 +8,21 @@ const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
 const HIGH_IMPACT_IMAGE_PATHS = [
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.webp',
-  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02914.webp',
-  '/Portfolio/Social Media/9_Ginecofeme/1 (11).webp',
-  '/Portfolio/Social Media/11_Ellos/02_RELOJ_Mesa_de_trabajo_1.webp',
-  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-01.webp',
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC01395.webp',
-  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02919.webp',
-  '/Portfolio/Social Media/11_Ellos/03_POST-bolso-01.webp',
-  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-03.webp',
-  '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/5.jpg',
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03827-Mejorado-NR.webp',
-  '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/8.jpg',
-  '/Portfolio/Diseño de Identidad Visual/Entrepenauta/4.jpg',
   '/Portfolio/Social Media/Design Market/02 (5).webp',
+  '/Portfolio/Social Media/Ellos/02_RELOJ_Mesa_de_trabajo_1.webp',
+  '/Portfolio/Social Media/Ginecofeme/1 (11).webp',
   '/Portfolio/Social Media/GMS Perú/Fotos de arquitectos en planta-01.webp',
+  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-01.webp',
+  '/Portfolio/Social Media/Design Market/02 (6).webp',
+  '/Portfolio/Social Media/Ellos/03_POST-bolso-01.webp',
+  '/Portfolio/Social Media/Ginecofeme/2 (15).webp',
+  '/Portfolio/Social Media/GMS Perú/Fotos de arquitectos en planta-02.webp',
+  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-02.webp',
+  '/Portfolio/Social Media/Design Market/03 (5).webp',
+  '/Portfolio/Social Media/Ellos/RELOJ-02.webp',
+  '/Portfolio/Social Media/Ginecofeme/333 (1).webp',
+  '/Portfolio/Social Media/GMS Perú/espacio GMS taller (1).webp',
+  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-03.webp',
 ];
 
 const optimizeStripImage = (src) => {
@@ -36,43 +36,12 @@ const optimizeStripImage = (src) => {
 
 /**
  * Returns one image URL per project, prioritizing the high-impact curated list
- * and excluding logo/brand asset files like Frissagio logos.
+ * of the 5 requested brands.
  */
 const extractCovers = (assets) => {
-  // 1. Get the prioritized list from our high-impact curated paths
-  const prioritized = HIGH_IMPACT_IMAGE_PATHS
+  return HIGH_IMPACT_IMAGE_PATHS
     .map((path) => assets[path])
     .filter(Boolean);
-
-  const prioritizedSet = new Set(prioritized);
-
-  // 2. Build the fallback list of remaining projects, excluding any logos or Frissagio
-  const firstCoverByProject = new Map();
-  const keys = Object.keys(assets).sort();
-  for (const path of keys) {
-    const src = assets[path];
-    if (isVideoSrc(src)) continue;
-
-    // Filter out Frissagio or any logo file
-    const normalizedPath = path.toLowerCase();
-    if (normalizedPath.includes('frissagio') || normalizedPath.includes('logo')) {
-      continue;
-    }
-
-    const normalized = path.replace(/\\/g, '/');
-    const match = normalized.match(/\/Portfolio\/([^/]+)\/([^/]+)\//);
-    if (!match) continue;
-    const key = `${match[1]}/${match[2]}`;
-
-    if (!firstCoverByProject.has(key)) {
-      firstCoverByProject.set(key, src);
-    }
-  }
-
-  const remaining = Array.from(firstCoverByProject.values())
-    .filter((src) => !prioritizedSet.has(src));
-
-  return [...prioritized, ...remaining];
 };
 
 const extractCoversFromApi = (items) => {
