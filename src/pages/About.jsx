@@ -303,7 +303,7 @@ className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert
     : (brand.name === 'LaViejaTaberna')
     ? 'scale-[2.5]'
     : (brand.name === 'Barbarian Bar')
-    ? 'scale-[2.2]'
+    ? 'scale-[1.5]'
     : (brand.name === 'smashboyburger')
     ? 'scale-[1.6]'
     : (brand.name === 'GMS' || brand.name === 'Design Market' || brand.name === 'Kanagawa Nikkei' || brand.name === 'DRA_YURIKO')

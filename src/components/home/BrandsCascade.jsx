@@ -30,7 +30,7 @@ const getLogoScaleClass = (brandName) => {
     return 'scale-[1.9]';
   }
   if (brandName === 'Barbarian Bar') {
-    return 'scale-[2.1]';
+    return 'scale-[0.9]';
   }
   if (brandName === 'GMS' || brandName === 'Design Market' || brandName === 'Kanagawa Nikkei' || brandName === 'DRA_YURIKO') {
     return 'scale-[1.4]';
