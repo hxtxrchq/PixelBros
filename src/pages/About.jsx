@@ -19,10 +19,11 @@ const BRAND_LOGOS = [
   { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
   { name: 'Corte87', src: '/logos/Corte87.png' },
   { name: 'DGary', src: '/logos/DGary.png' },
-  { name: 'Ginecofeme', src: '/logos/Ginecofeme.png' },
+  { name: 'DRA_YURIKO', src: '/logos/DRA_YURIKO.png' },
   { name: 'RYC arquitectos', src: '/logos/RYC arquitectos.png' },
   { name: 'LaViejaTaberna', src: '/logos/LaViejaTaberna.png' },
   { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
+  { name: 'ginecofeme', src: '/logos/Ginecofeme.png' },
 ];
 
 const BRAND_LOGOS_WITH_LABEL = new Set([]);
@@ -301,15 +302,21 @@ className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert
     ? 'scale-[2.9]'
     : (brand.name === 'LaViejaTaberna')
     ? 'scale-[2.5]'
-    : (brand.name === 'GMS' || brand.name === 'Design Market' || brand.name === 'Kanagawa Nikkei')
+    : (brand.name === 'Barbarian Bar')
+    ? 'scale-[2.2]'
+    : (brand.name === 'smashboyburger')
+    ? 'scale-[1.6]'
+    : (brand.name === 'GMS' || brand.name === 'Design Market' || brand.name === 'Kanagawa Nikkei' || brand.name === 'DRA_YURIKO')
     ? 'scale-[1.8]'
+    : (brand.name === 'ginecofeme')
+    ? 'scale-[1.1]'
     : brand.name === 'DGary'
     ? 'scale-[0.7]'
     : brand.name === 'RYC arquitectos'
     ? 'scale-[1.0]'
     : ''
-}`}                        loading="lazy"
-                        decoding="async"
+}`}                        loading="eager"
+                        fetchpriority="high"
                       />
                     </div>
 

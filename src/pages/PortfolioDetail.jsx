@@ -515,6 +515,7 @@ const PortfolioDetail = () => {
   const { slug } = useParams();
   const [activeGroupIndex, setActiveGroupIndex] = useState(0);
   const [activeMedia, setActiveMedia] = useState(null);
+  const [isMediaLoading, setIsMediaLoading] = useState(true);
   const [apiIndex, setApiIndex] = useState(null);
 
   const portfolioAssets = getPortfolioAssets();
@@ -556,16 +557,23 @@ const PortfolioDetail = () => {
     setActiveMedia(null);
   }, [project?.slug]);
 
+  useEffect(() => {
+    if (activeMedia) {
+      setIsMediaLoading(true);
+    }
+  }, [activeMedia]);
+
   const visibleItems = activeItems;
   const isBranding = isBrandingCategory(project);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.97 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      className="min-h-screen bg-transparent"
-    >
+    <>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        className="min-h-screen bg-transparent"
+      >
       <section className="pt-24 pb-10 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -678,6 +686,8 @@ const PortfolioDetail = () => {
         </div>
       </section>
 
+      </motion.div>
+
       <AnimatePresence>
         {activeMedia && (
           <motion.div
@@ -704,29 +714,38 @@ const PortfolioDetail = () => {
                   Cerrar
                 </button>
 
-                <div className="p-4 sm:p-6 flex items-center justify-center max-h-[92vh]">
-                  {activeMedia.type === 'video' ? (
-                    <video
-                      src={optimizeVideoSrc(activeMedia.src, 1280)}
-                      className="max-h-[84vh] max-w-full object-contain"
-                      controls
-                      preload="metadata"
-                      playsInline
-                    />
-                  ) : (
-                    <img
-                      src={optimizeImageSrc(activeMedia.src, 1700)}
-                      alt={activeMedia.alt}
-                      className="max-h-[84vh] max-w-full object-contain"
-                    />
-                  )}
-                </div>
+                 <div className="p-4 sm:p-6 flex items-center justify-center max-h-[92vh] relative min-h-[220px]">
+                   {isMediaLoading && (
+                     <div className="absolute inset-0 flex items-center justify-center bg-[#0b0d22] z-20">
+                       <div className="w-10 h-10 border-4 border-[#e73c50] border-t-transparent rounded-full animate-spin" />
+                     </div>
+                   )}
+                   {activeMedia.type === 'video' ? (
+                     <video
+                       src={optimizeVideoSrc(activeMedia.src, 1280)}
+                       className="max-h-[84vh] max-w-full object-contain"
+                       controls
+                       preload="metadata"
+                       playsInline
+                       onLoadedData={() => setIsMediaLoading(false)}
+                       onError={() => setIsMediaLoading(false)}
+                     />
+                   ) : (
+                     <img
+                       src={optimizeImageSrc(activeMedia.src, 1700)}
+                       alt={activeMedia.alt}
+                       className="max-h-[84vh] max-w-full object-contain"
+                       onLoad={() => setIsMediaLoading(false)}
+                       onError={() => setIsMediaLoading(false)}
+                     />
+                   )}
+                 </div>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </>
   );
 };
 

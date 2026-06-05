@@ -8,19 +8,21 @@ const isVideoSrc = (src) =>
   typeof src === 'string' && /\.(mp4|webm)$/i.test(src);
 
 const HIGH_IMPACT_IMAGE_PATHS = [
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.jpg',
-  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02914.jpg',
-  '/Portfolio/Social Media/Ginecofeme/GinecoFeme_Marzo_1.jpg',
-  '/Portfolio/Social Media/Ellos/reloj 1 1.png',
-  '/Portfolio/Social Media/R&C Arquitectos/5. Editable-01.jpg',
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC01395.jpg',
-  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02919.jpg',
-  '/Portfolio/Social Media/Ellos/Bolso1.png',
-  '/Portfolio/Social Media/R&C Arquitectos/5. Editable-05.jpg',
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03047-Mejorado-NR.webp',
+  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02914.webp',
+  '/Portfolio/Social Media/9_Ginecofeme/1 (11).webp',
+  '/Portfolio/Social Media/11_Ellos/02_RELOJ_Mesa_de_trabajo_1.webp',
+  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-01.webp',
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC01395.webp',
+  '/Portfolio/Fotografia/DULCE CUIDADO/DSC02919.webp',
+  '/Portfolio/Social Media/11_Ellos/03_POST-bolso-01.webp',
+  '/Portfolio/Social Media/R&C Arquitectos/POST FEB-03.webp',
   '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/5.jpg',
-  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03827-Mejorado-NR.jpg',
+  '/Portfolio/Fotografia/LA VIEJA TABERNA/DSC03827-Mejorado-NR.webp',
   '/Portfolio/Diseño de Identidad Visual/Dulce Cuidado/8.jpg',
   '/Portfolio/Diseño de Identidad Visual/Entrepenauta/4.jpg',
+  '/Portfolio/Social Media/Design Market/02 (5).webp',
+  '/Portfolio/Social Media/GMS Perú/Fotos de arquitectos en planta-01.webp',
 ];
 
 const optimizeStripImage = (src) => {

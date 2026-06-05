@@ -10,6 +10,23 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
+
+// Load environment variables from .env file if it exists
+const envPath = join(ROOT, '.env');
+if (existsSync(envPath)) {
+  const envContent = readFileSync(envPath, 'utf-8');
+  for (const line of envContent.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx !== -1) {
+      const key = trimmed.slice(0, eqIdx).trim();
+      const val = trimmed.slice(eqIdx + 1).trim().replace(/^['"]|['"]$/g, '');
+      process.env[key] = val;
+    }
+  }
+}
+
 const ASSETS_DIR = join(ROOT, 'src', 'assets');
 const MANIFEST_PATH = join(ROOT, 'src', 'config', 'cloudinaryManifest.json');
 
@@ -30,7 +47,7 @@ cloudinary.config({
   secure: true,
 });
 
-const ALLOWED_EXT = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg', '.mp4', '.webm', '.mov']);
+const ALLOWED_EXT = new Set(['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.mp4', '.webm', '.mov']);
 
 /** Normalize a path segment for use as Cloudinary public_id */
 const normalizeSegment = (str) =>

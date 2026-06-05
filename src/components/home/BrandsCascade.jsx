@@ -9,10 +9,11 @@ const BRAND_BUBBLES = [
   { name: 'RYC arquitectos', src: '/logos/RYC arquitectos.png' },
   { name: 'Frissagio', src: '/logos/Frissagio.png' },
   { name: 'GMS', src: '/logos/GMS.png' },
-  { name: 'Ginecofeme', src: '/logos/Ginecofeme.png' },
+  { name: 'DRA_YURIKO', src: '/logos/DRA_YURIKO.png' },
   { name: 'LaViejaTaberna', src: '/logos/LaViejaTaberna.png' },
   { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
   { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
+  { name: 'ginecofeme', src: '/logos/ginecofeme.png' },
 ];
 
 const COLS = [
@@ -22,11 +23,26 @@ const COLS = [
 ];
 
 const getLogoScaleClass = (brandName) => {
-  if (brandName === 'Corte87' || brandName === 'Ginecofeme') {
-    return 'scale-[1.5]';
+  if (brandName === 'Corte87') {
+    return 'scale-[1.8]';
   }
   if (brandName === 'LaViejaTaberna') {
     return 'scale-[1.9]';
+  }
+  if (brandName === 'Barbarian Bar') {
+    return 'scale-[2.1]';
+  }
+  if (brandName === 'GMS' || brandName === 'Design Market' || brandName === 'Kanagawa Nikkei' || brandName === 'DRA_YURIKO') {
+    return 'scale-[1.4]';
+  }
+  if (brandName === 'DGary') {
+    return 'scale-[0.85]';
+  }
+  if (brandName === 'smashboyburger') {
+    return 'scale-[1.6]';
+  }
+  if (brandName === 'ginecofeme') {
+    return 'scale-[0.6]';
   }
 
   return '';
@@ -38,8 +54,8 @@ const Bubble = ({ brand }) => (
       src={brand.src}
       alt={brand.name}
       className={`h-[58%] w-[58%] object-contain [filter:grayscale(1)_brightness(0.2)] ${getLogoScaleClass(brand.name)}`}
-      loading="lazy"
-      decoding="async"
+      loading="eager"
+      fetchpriority="high"
     />
   </div>
 );
