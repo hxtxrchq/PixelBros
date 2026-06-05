@@ -132,13 +132,13 @@ const PortfolioSplitHero = () => {
   }, []);
 
   const covers = useMemo(() => {
-    const raw = apiCovers.length > 0 ? apiCovers : extractCovers(assets);
+    const raw = extractCovers(assets);
     if (raw.length === 0) return [];
     // Ensure ≥ 10 items so the loop looks full
     const padded = [...raw];
     while (padded.length < 10) padded.push(...raw);
     return padded.slice(0, 14);
-  }, [apiCovers, assets]);
+  }, [assets]);
 
   // Double the list → seamless loop: animation goes from 0 to -50%
   const track = [...covers, ...covers];
