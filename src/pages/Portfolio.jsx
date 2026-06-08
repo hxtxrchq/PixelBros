@@ -161,7 +161,7 @@ const buildPortfolioIndex = (assets) => {
     if (!category.projects.has(slug)) {
       category.projects.set(slug, {
         slug,
-        title: projectName,
+        title: slug === 'fotografia-doctora-yuriko' ? 'Dra. Yuriko Cruz' : projectName,
         categoryId,
         categoryName,
         media: [],

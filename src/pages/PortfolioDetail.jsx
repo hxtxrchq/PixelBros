@@ -85,7 +85,7 @@ const buildPortfolioIndex = (assets) => {
     if (!category.projects.has(slug)) {
       category.projects.set(slug, {
         slug,
-        title: projectName,
+        title: slug === 'fotografia-doctora-yuriko' ? 'Dra. Yuriko Cruz' : projectName,
         categoryId: categorySlug,
         categoryName,
         groups: new Map(),
@@ -202,7 +202,7 @@ const buildPortfolioIndexFromApi = (items) => {
     if (!category.projects.has(slug)) {
       category.projects.set(slug, {
         slug,
-        title: projectName,
+        title: item.title || item.companyName || projectName,
         categoryId: categorySlug,
         categoryName,
         groups: new Map(),
