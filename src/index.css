@@ -1,5 +1,112 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo Expanded';
+  src: url('/tipografia/Archivo_Expanded-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
 
 /* Portfolio split-hero scroll animation */
 @keyframes pbScrollUp {
@@ -53,11 +160,12 @@
 @tailwind utilities;
 
 :root {
-  --font-primary: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  --font-secondary: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  --font-display: 'Montserrat', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  --font-intranet: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-primary: 'Archivo Expanded', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-secondary: 'Archivo Expanded', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Archivo Expanded', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-intranet: 'Archivo Expanded', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 }
+
 
 @layer base {
   * {
@@ -191,15 +299,21 @@
 
 @layer components {
   .btn-primary {
-    @apply px-8 py-4 bg-[#B3262E] text-white font-bold rounded-full transition-all duration-300 hover:bg-[#8E1E24] hover:shadow-md;
+    @apply px-8 py-4 bg-[#e7394e] text-white font-bold rounded-full transition-all duration-300 hover:bg-[#c62c3e] hover:shadow-md;
     font-family: var(--font-primary);
     font-weight: 600;
   }
   
   .btn-secondary {
-    @apply px-8 py-4 bg-white border-2 border-[#B3262E] text-[#B3262E] font-bold rounded-full transition-all duration-300 hover:bg-[#B3262E] hover:text-white;
+    @apply px-8 py-4 bg-[#443d81] text-white font-bold rounded-full transition-all duration-300 hover:bg-[#342f63] hover:shadow-md;
     font-family: var(--font-primary);
   }
+
+  .btn-outline-red {
+    @apply px-8 py-4 bg-white border-2 border-[#e7394e] text-[#e7394e] font-bold rounded-full transition-all duration-300 hover:bg-[#e7394e] hover:text-white;
+    font-family: var(--font-primary);
+  }
+
   
   .section-title {
     @apply text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[#171A2A];
@@ -218,7 +332,7 @@
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-[#B3262E] to-[#B3262E] bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#e7394e] to-[#e7394e] bg-clip-text text-transparent;
   }
   
   .glow-primary {
@@ -359,11 +473,11 @@ label[class*="text-[#1F1F1F]"] {
 }
 
 /* Contact method icon bg override */
-div[class*="bg-[#B3262E]/10"] {
+div[class*="bg-[#e7394e]/10"] {
   background: rgba(231, 60, 80, 0.12) !important;
 }
-div[class*="bg-[#B3262E]/10"]:hover,
-div[class*="bg-[#B3262E]/20"] {
+div[class*="bg-[#e7394e]/10"]:hover,
+div[class*="bg-[#e7394e]/20"] {
   background: rgba(231, 60, 80, 0.20) !important;
 }
 

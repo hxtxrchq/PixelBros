@@ -9,15 +9,15 @@ export default {
       colors: {
         /* Paleta oficial manual de marca Pixel Bros */
         brand: {
-          purple:  '#474192', /* 45% – principal */
-          red:     '#e73c50', /* 30% – acento rojo */
+          purple:  '#443d81', /* 45% – principal lila */
+          red:     '#e7394e', /* 30% – acento rojo */
           blue:    '#4357a2', /* azul medio */
           navy:    '#1d3e8c', /* azul marino */
           coral:   '#eb5a44', /* coral/naranja */
           sky:     '#5ab3e5', /* azul cielo */
           teal:    '#61bfc0', /* teal */
         },
-        primary: '#e73c50',
+        primary: '#e7394e',
         bg: '#06071a',
         surface: '#0d0e24',
         text: {
@@ -27,9 +27,9 @@ export default {
         border: '#E6E6EA',
       },
       fontFamily: {
-        display: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        bodoni: ['Bodoni Moda', 'Georgia', 'ui-serif', 'serif'],
+        display: ['Archivo Expanded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Archivo Expanded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        bodoni: ['Archivo Expanded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in',

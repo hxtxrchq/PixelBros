@@ -63,11 +63,11 @@ const Apply = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e73c50] mb-4">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e7394e] mb-4">
             Únete a nuestro equipo
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-4 text-white">
-            Formulario de <span className="text-[#e73c50]">Postulación</span>
+            Formulario de <span className="text-[#e7394e]">Postulación</span>
           </h1>
           <p className="text-lg text-white/65 max-w-3xl mx-auto">
             Queremos conocerte. Completa el formulario y cuéntanos sobre tu experiencia y proyectos.
@@ -98,7 +98,7 @@ const Apply = () => {
                   id="fullName"
                   name="Nombre completo"
                   required
-                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   placeholder="Tu nombre y apellido"
                 />
               </div>
@@ -112,7 +112,7 @@ const Apply = () => {
                   name="Correo"
                   required
                   onChange={(event) => setReplyTo(event.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   placeholder="correo@ejemplo.com"
                 />
               </div>
@@ -125,7 +125,7 @@ const Apply = () => {
                   id="phone"
                   name="Telefono"
                   required
-                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                  className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   placeholder="+51 999 555 444"
                 />
               </div>
@@ -146,7 +146,7 @@ const Apply = () => {
                       type="checkbox"
                       name="Puestos"
                       value={role}
-                      className="text-[#B3262E]"
+                      className="text-[#e7394e]"
                     />
                     <span className="text-sm text-[#1F1F1F]">{role}</span>
                   </label>
@@ -156,7 +156,7 @@ const Apply = () => {
                     type="checkbox"
                     name="Puestos"
                     value="Otro"
-                    className="text-[#B3262E]"
+                    className="text-[#e7394e]"
                   />
                   <span className="text-sm text-[#1F1F1F]">Otro</span>
                   <input
@@ -178,7 +178,7 @@ const Apply = () => {
                 name="Experiencia"
                 required
                 rows="4"
-                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
+                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] resize-none placeholder-[#4A4A4A]"
                 placeholder="Describe tu experiencia relevante"
               />
             </div>
@@ -200,7 +200,7 @@ const Apply = () => {
                       name="Modalidad"
                       value={option}
                       required
-                      className="text-[#B3262E]"
+                      className="text-[#e7394e]"
                     />
                     <span className="text-sm text-[#1F1F1F]">{option}</span>
                   </label>
@@ -216,7 +216,7 @@ const Apply = () => {
                 type="text"
                 id="salary"
                 name="Expectativa económica"
-                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                 placeholder="S/ 0"
               />
             </div>
@@ -227,13 +227,13 @@ const Apply = () => {
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <p className="text-xs text-[#4A4A4A] mb-1.5">CV <span className="text-[#B3262E]">*</span></p>
+                  <p className="text-xs text-[#4A4A4A] mb-1.5">CV <span className="text-[#e7394e]">*</span></p>
                   <input
                     type="url"
                     name="CV"
                     required
                     placeholder="https://drive.google.com/file/d/..."
-                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   />
                 </div>
                 <div>
@@ -242,7 +242,7 @@ const Apply = () => {
                     type="url"
                     name="Portafolio"
                     placeholder="https://behance.net/tuusuario"
-                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#B3262E] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
+                    className="w-full px-4 py-3 bg-white border border-[#F0E6E8] rounded-lg focus:border-[#e7394e] focus:outline-none transition-colors text-[#1F1F1F] placeholder-[#4A4A4A]"
                   />
                 </div>
               </div>
@@ -259,10 +259,10 @@ const Apply = () => {
               ) : null}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02, boxShadow: '0 15px 40px rgba(179, 38, 46, 0.2)' }}
+                whileHover={{ scale: 1.02, boxShadow: '0 15px 40px rgba(231, 57, 78, 0.2)' }}
                 whileTap={{ scale: 0.98 }}
                 disabled={isSubmitting}
-                className="ml-auto px-6 py-3 bg-[#B3262E] text-white font-bold rounded-lg text-sm shadow-md hover:shadow-lg transition-all disabled:opacity-60"
+                className="ml-auto px-6 py-3 bg-[#e7394e] text-white font-bold rounded-lg text-sm shadow-md hover:shadow-lg transition-all disabled:opacity-60"
               >
                 {isSubmitting ? 'Enviando...' : 'Enviar postulación'}
               </motion.button>

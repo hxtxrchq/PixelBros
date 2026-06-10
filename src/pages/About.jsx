@@ -209,7 +209,7 @@ const About = () => {
                 <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-[0.92] text-white max-w-[12ch]">
                   Somos <span className="text-[#e73c50]">PixelBros</span>
                 </h1>
-                <p className="mt-6 max-w-2xl text-base sm:text-lg text-white/80 leading-relaxed">
+                <p className="mt-6 max-w-2xl text-base sm:text-lg text-white/80 leading-relaxed text-justify">
 Una agencia de marketing digital donde la estrategia, la creatividad y el negocio se combinan para construir marcas que crecen.                </p>
               </div>
 
@@ -254,7 +254,7 @@ Una agencia de marketing digital donde la estrategia, la creatividad y el negoci
                 
               </div>
 
-              <div className="space-y-4 text-white/95 text-base sm:text-lg leading-relaxed lg:pt-7">
+              <div className="space-y-4 text-white/95 text-base sm:text-lg leading-relaxed lg:pt-7 text-justify">
                 <p>
 PixelBros nace en 2020 como una agencia creativa de contenido, con la idea de que muchas veces las grandes ideas empiezan desde lo más pequeño. De ahí viene Pixel, la unidad mínima que, al juntarse con otras, puede construir algo mucho más grande.                </p>
                 <p>
