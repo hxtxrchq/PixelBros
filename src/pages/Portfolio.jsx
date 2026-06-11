@@ -75,22 +75,22 @@ const getLocalBrand = (slug, title) => {
   return { src: null, label: null, caption: null };
 };
 
+
+
+
 const getLogoScaleClass = (brandLabel) => {
-  if (!brandLabel) return '';
+  if (!brandLabel) return 'scale-[1.8]';
   const name = brandLabel.trim();
-  if (name === 'Corte87') return 'scale-[2.9]';
-  if (name === 'LaViejaTaberna' || name === 'La Vieja Taberna') return 'scale-[2.5]';
-  if (name === 'Barbarian Bar' || name === 'Barbarian') return 'scale-[1.5]';
-  if (name === 'smashboyburger' || name === 'Smashboy') return 'scale-[1.6]';
-  if (name === 'GMS' || name === 'Design Market' || name === 'Kanagawa Nikkei' || name === 'DRA_YURIKO' || name === 'Yuriko') return 'scale-[1.8]';
-  if (name === 'ginecofeme' || name === 'Ginecofeme') return 'scale-[1.1]';
-  if (name === 'DGary') return 'scale-[0.7]';
+  if (name === 'Barbarian Bar' || name === 'Barbarian') return 'scale-[1.44]';
   if (name === 'RYC arquitectos' || name === 'R&C Arquitectos') return 'scale-[1.0]';
-  return '';
+  if (name === 'Frissagio') return 'scale-[0.79]';
+  if (name === 'ginecofeme' || name === 'Ginecofeme') return 'scale-[0.9]';
+  if (name === 'GMS') return 'scale-[1.58]';
+  return 'scale-[1.8]';
 };
 
-
 const getOrderFromName = (fileName) => {
+
   const m = fileName.match(/(\d+)/);
   return m ? Number.parseInt(m[1], 10) : Number.MAX_SAFE_INTEGER;
 };
@@ -456,7 +456,7 @@ const Portfolio = () => {
                                     alt={project.brand.label || 'Logo'}
                                     loading="eager"
                                     decoding="async"
-                                    className={`max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-90 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] transition-transform duration-300 origin-center transform-gpu ${getLogoScaleClass(project.brand.label)}`}
+                                    className={`max-h-[80px] sm:max-h-[96px] w-auto max-w-[280px] object-contain opacity-90 [filter:brightness(0)_invert(1)] drop-shadow-[0_4px_14px_rgba(255,255,255,0.2)] origin-center transform-gpu ${getLogoScaleClass(project.brand.label)}`}
                                     onError={(event) => {
                                       event.currentTarget.style.display = 'none';
                                     }}

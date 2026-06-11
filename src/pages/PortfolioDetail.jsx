@@ -513,7 +513,6 @@ const BrandingComposition = ({ items, onOpen }) => {
 
 const PortfolioDetail = () => {
   const { slug } = useParams();
-  const [activeGroupIndex, setActiveGroupIndex] = useState(0);
   const [activeMedia, setActiveMedia] = useState(null);
   const [isMediaLoading, setIsMediaLoading] = useState(true);
   const [apiIndex, setApiIndex] = useState(null);
@@ -549,11 +548,14 @@ const PortfolioDetail = () => {
   }, []);
 
   const project = portfolioIndex.projectsBySlug[slug] || portfolioIndex.projects[0];
-  const activeGroup = project?.groups?.[activeGroupIndex] || null;
-  const activeItems = activeGroup?.items || [];
+
+  // Merge all groups into a single flat list, ordered by group then by item order
+  const allItems = useMemo(() => {
+    if (!project?.groups) return [];
+    return project.groups.flatMap((group) => group.items);
+  }, [project?.groups]);
 
   useEffect(() => {
-    setActiveGroupIndex(0);
     setActiveMedia(null);
   }, [project?.slug]);
 
@@ -563,7 +565,7 @@ const PortfolioDetail = () => {
     }
   }, [activeMedia]);
 
-  const visibleItems = activeItems;
+  const visibleItems = allItems;
   const isBranding = isBrandingCategory(project);
 
   return (
@@ -613,28 +615,9 @@ const PortfolioDetail = () => {
               {project?.title}
             </h1>
             <p className="text-white/65 text-sm uppercase tracking-[0.16em]">
-              {activeItems.length} elemento{activeItems.length === 1 ? '' : 's'}
+              {allItems.length} elemento{allItems.length === 1 ? '' : 's'}
             </p>
           </motion.div>
-
-          {project?.groups?.length > 1 && (
-            <div className="mt-8 flex flex-wrap gap-2">
-              {project.groups.map((group, index) => (
-                <button
-                  key={group.id}
-                  type="button"
-                  onClick={() => setActiveGroupIndex(index)}
-                  className={`px-4 py-2 text-xs uppercase tracking-[0.14em] border transition-colors ${
-                    index === activeGroupIndex
-                      ? 'border-[#e73c50] bg-[#e73c50] text-white'
-                      : 'border-white/15 text-white/70 hover:border-white/35'
-                  }`}
-                >
-                  {group.name}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
