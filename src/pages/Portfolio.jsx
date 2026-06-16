@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { getPortfolioAssets } from '../config/assets.js';
@@ -100,11 +100,45 @@ const optimizeImage = (src, width = 700) => {
   return src.replace('/image/upload/', `/image/upload/f_auto,q_auto:eco,w_${width},c_fill,ar_4:5,g_auto/`);
 };
 
+const optimizeVideoSrc = (src, width = 480) => {
+  if (!src || !src.includes('/video/upload/')) return src;
+  return src.replace('/video/upload/', `/video/upload/f_auto,q_auto:eco,w_${width}/`);
+};
+
 const videoPoster = (src, width = 700) => {
   if (!src || !src.includes('/video/upload/')) return src;
   return src
-    .replace('/video/upload/', `/video/upload/so_1,f_jpg,q_auto:eco,w_${width},c_fill,ar_4:5,g_auto/`)
+    .replace('/video/upload/', `/video/upload/so_1,f_jpg,q_auto:eco,w_${width}/`)
     .replace(/\.(mp4|webm)$/i, '.jpg');
+};
+
+const LazyGridVideo = ({ src, poster, className }) => {
+  const videoRef = useRef(null);
+
+  // Force .play() when the video element mounts
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.play().catch(() => {
+      // autoplay blocked — silently ignore
+    });
+  }, []);
+
+  return (
+    <div className="h-full w-full">
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster || undefined}
+        muted
+        loop
+        autoPlay
+        playsInline
+        preload="auto"
+        className={className}
+      />
+    </div>
+  );
 };
 
 const isVideoSrc = (src) => /\.(mp4|webm)$/i.test(src || '');
@@ -413,14 +447,9 @@ const Portfolio = () => {
                   <Link to={`/portfolio/${project.slug}`} className="group block">
                     <article className="relative aspect-[4/5] overflow-hidden bg-[#13183d]">
                       {project.coverIsVideo && project.coverMedia ? (
-                        <video
-                          src={project.coverMedia}
+                        <LazyGridVideo
+                          src={optimizeVideoSrc(project.coverMedia, 480)}
                           poster={project.coverVideoPoster || undefined}
-                          muted
-                          loop
-                          autoPlay
-                          playsInline
-                          preload="metadata"
                           className="h-full w-full object-cover opacity-70 transition-all duration-700 group-hover:opacity-95 group-hover:scale-105"
                         />
                       ) : project.coverSrc ? (

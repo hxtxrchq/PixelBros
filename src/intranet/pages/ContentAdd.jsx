@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import ContentEditorModal from '../components/content/ContentEditorModal';
 import { contentClient } from '../services/contentClient';
+import { clearPublicContentCache } from '../../services/publicContentClient';
 
 const categories = [
   'Social Media',
@@ -52,6 +53,7 @@ export default function ContentAdd() {
         galleryFiles: payload.galleryFiles,
       });
 
+      clearPublicContentCache();
       setRecords((prev) => [toSummaryRecord(item), ...prev]);
     } catch (submitError) {
       setError(submitError.message || 'No se pudo guardar el contenido');

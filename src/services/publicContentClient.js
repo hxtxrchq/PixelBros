@@ -31,48 +31,79 @@ const toAbsoluteUrl = (url) => {
   return `${API_BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
+let publicContentCache = null;
+let homeContentCache = null;
+
+export const clearPublicContentCache = () => {
+  publicContentCache = null;
+  homeContentCache = null;
+};
+
 export const listPublicContent = async () => {
-  const response = await fetch(`${API_BASE_URL}/public/content`, {
-    credentials: 'include',
+  if (publicContentCache) return publicContentCache;
+
+  const run = async () => {
+    const response = await fetch(`${API_BASE_URL}/public/content`, {
+      credentials: 'include',
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(payload.message ?? 'No se pudo cargar contenido publico');
+    }
+
+    return (payload.items ?? []).map((item) => ({
+      ...item,
+      coverUrl: toAbsoluteUrl(item.coverUrl),
+      logoUrl: toAbsoluteUrl(item.logoUrl),
+      medias: Array.isArray(item.medias)
+        ? item.medias.map((media) => ({
+            ...media,
+            url: toAbsoluteUrl(media.url),
+          }))
+        : [],
+    }));
+  };
+
+  publicContentCache = run().catch((err) => {
+    publicContentCache = null;
+    throw err;
   });
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(payload.message ?? 'No se pudo cargar contenido publico');
-  }
-
-  return (payload.items ?? []).map((item) => ({
-    ...item,
-    coverUrl: toAbsoluteUrl(item.coverUrl),
-    logoUrl: toAbsoluteUrl(item.logoUrl),
-    medias: Array.isArray(item.medias)
-      ? item.medias.map((media) => ({
-          ...media,
-          url: toAbsoluteUrl(media.url),
-        }))
-      : [],
-  }));
+  return publicContentCache;
 };
 
 export const listHomeContent = async () => {
-  const response = await fetch(`${API_BASE_URL}/public/content/home`, {
-    credentials: 'include',
+  if (homeContentCache) return homeContentCache;
+
+  const run = async () => {
+    const response = await fetch(`${API_BASE_URL}/public/content/home`, {
+      credentials: 'include',
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(payload.message ?? 'No se pudo cargar contenido publico');
+    }
+
+    return (payload.items ?? []).map((item) => ({
+      ...item,
+      coverUrl: toAbsoluteUrl(item.coverUrl),
+      logoUrl: toAbsoluteUrl(item.logoUrl),
+      medias: Array.isArray(item.medias)
+        ? item.medias.map((media) => ({
+            ...media,
+            url: toAbsoluteUrl(media.url),
+          }))
+        : [],
+    }));
+  };
+
+  homeContentCache = run().catch((err) => {
+    homeContentCache = null;
+    throw err;
   });
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(payload.message ?? 'No se pudo cargar contenido publico');
-  }
-
-  return (payload.items ?? []).map((item) => ({
-    ...item,
-    coverUrl: toAbsoluteUrl(item.coverUrl),
-    logoUrl: toAbsoluteUrl(item.logoUrl),
-    medias: Array.isArray(item.medias)
-      ? item.medias.map((media) => ({
-          ...media,
-          url: toAbsoluteUrl(media.url),
-        }))
-      : [],
-  }));
+  return homeContentCache;
 };
+

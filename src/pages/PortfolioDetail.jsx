@@ -34,7 +34,7 @@ const optimizeImageSrc = (src, width = 800) => {
 
 const optimizeVideoSrc = (src, width = 1280) => {
   if (!src || !src.includes('/video/upload/')) return src;
-  return src.replace('/video/upload/', `/video/upload/f_auto,q_auto,w_${width},c_limit/`);
+  return src.replace('/video/upload/', `/video/upload/f_auto,q_auto:eco,w_${width},c_limit/`);
 };
 
 const derivePoster = (src, width = 800) => {
