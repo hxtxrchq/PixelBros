@@ -26,13 +26,14 @@ const API_BASE_URL = resolveApiBaseUrl();
 const toAbsoluteUrl = (url) => {
   if (!url) return null;
   if (/^https?:\/\//i.test(url)) return url;
+  if (url.startsWith('/logos/')) return url;
   // Keep the API prefix so uploaded assets can be served from `${API_BASE}/uploads/...`
   // (useful behind reverse proxies that only expose the API prefix).
   return `${API_BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
-let publicContentCache = null;
-let homeContentCache = null;
+let publicContentCache = null; // cached items
+let homeContentCache = null; // cached home items
 
 export const clearPublicContentCache = () => {
   publicContentCache = null;

@@ -72,9 +72,12 @@ const getLocalBrand = (slug, title) => {
   if (key.includes('smashboy')) return { src: '/logos/smashboyburger.png', label: 'smashboyburger' };
   if (key.includes('ginecofeme')) return { src: '/logos/Ginecofeme.png', label: 'ginecofeme' };
   if (key.includes('frissagio')) return { src: '/logos/Frissagio.png', label: 'Frissagio' };
+  if (key.includes('upn')) return { src: '/logos/upn.png', label: 'UPN' };
+  if (key.includes('daniel') || key.includes('rodriguez')) return { src: '/logos/ArquitectoDanielRodriguez.png', label: 'Arq. Daniel Rodriguez' };
+  if (key.includes('pascual') || key.includes('presutti')) return { src: '/logos/Pascual_Pressuti.png', label: 'Pascual Presutti' };
+  if (key.includes('ellos')) return { src: '/logos/Ellos.png', label: 'Ellos' };
   return { src: null, label: null, caption: null };
 };
-
 
 
 
@@ -86,6 +89,11 @@ const getLogoScaleClass = (brandLabel) => {
   if (name === 'Frissagio') return 'scale-[0.79]';
   if (name === 'ginecofeme' || name === 'Ginecofeme') return 'scale-[0.9]';
   if (name === 'GMS') return 'scale-[1.58]';
+  if (name === 'Elevaria cafe' || name === 'Elevaria') return 'scale-[1.26]';
+  if (name === 'UPN') return 'scale-[1.12]';
+  if (name === 'Arq. Daniel Rodriguez') return 'scale-[1.3]';
+  if (name === 'Pascual Presutti') return 'scale-[0.91]';
+  if (name === 'Ellos') return 'scale-[1.02]';
   return 'scale-[1.8]';
 };
 
@@ -213,15 +221,14 @@ const buildPortfolioIndex = (assets) => {
     .map((category) => {
       const projects = Array.from(category.projects.values())
         .map((project) => {
-          const sorted = [...project.media].sort((a, b) => a.order - b.order || a.fileName.localeCompare(b.fileName));
+          const sorted = [...project.media].sort((a, b) => {
+            const aIsVideo = isVideoSrc(a.src);
+            const bIsVideo = isVideoSrc(b.src);
+            if (aIsVideo && !bIsVideo) return -1;
+            if (!aIsVideo && bIsVideo) return 1;
+            return a.order - b.order || a.fileName.localeCompare(b.fileName);
+          });
           let cover = sorted[0]?.src || null;
-
-          // Override cover images/videos
-          if (project.slug.includes('frissagio')) {
-            cover = 'https://res.cloudinary.com/drbiifrto/image/upload/v1780628131/pixelbros/Portfolio/Social_Media/7_Frissagio/2_Social_Media/1_Feed/2026/1_Enero/1._Que_incluye_un_taller_Frissagio/Que_incluye_un_taller_Frissagio_Mesa_de_trabajo_1.png';
-          } else if (project.slug.includes('design-market')) {
-            cover = 'https://res.cloudinary.com/drbiifrto/video/upload/v1780628196/pixelbros/Portfolio/Social_Media/Design_Market/DM_TENDENCIAS_1.mp4';
-          }
 
           const thumb = getThumbVariants(cover);
           return {
@@ -264,11 +271,6 @@ const buildPortfolioIndexFromApi = (items) => {
     const uniqueMedia = Array.from(new Set(mediaPool));
 
     let cover = uniqueMedia[0] || null;
-    if (slug.includes('frissagio')) {
-      cover = 'https://res.cloudinary.com/drbiifrto/image/upload/v1780628131/pixelbros/Portfolio/Social_Media/7_Frissagio/2_Social_Media/1_Feed/2026/1_Enero/1._Que_incluye_un_taller_Frissagio/Que_incluye_un_taller_Frissagio_Mesa_de_trabajo_1.png';
-    } else if (slug.includes('design-market')) {
-      cover = 'https://res.cloudinary.com/drbiifrto/video/upload/v1780628196/pixelbros/Portfolio/Social_Media/Design_Market/DM_TENDENCIAS_1.mp4';
-    }
 
     const thumb = getThumbVariants(cover);
 

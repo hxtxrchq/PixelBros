@@ -24,6 +24,10 @@ const BRAND_LOGOS = [
   { name: 'LaViejaTaberna', src: '/logos/LaViejaTaberna.png' },
   { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
   { name: 'ginecofeme', src: '/logos/Ginecofeme.png' },
+  { name: 'upn', src: '/logos/upn.png' },
+  { name: 'Arq. Daniel Rodriguez', src: '/logos/ArquitectoDanielRodriguez.png' },
+  { name: 'Pascual Presutti', src: '/logos/Pascual_Pressuti.png' },
+  { name: 'Ellos', src: '/logos/Ellos.png' },
 ];
 
 const BRAND_LOGOS_WITH_LABEL = new Set([]);
@@ -314,6 +318,16 @@ className={`h-full w-full object-contain opacity-95 [filter:brightness(0)_invert
     ? 'scale-[0.7]'
     : brand.name === 'RYC arquitectos'
     ? 'scale-[1.0]'
+    : brand.name === 'Elevaria cafe'
+    ? 'scale-[0.7]'
+    : brand.name === 'upn'
+    ? 'scale-[1.05]'
+    : brand.name === 'Arq. Daniel Rodriguez'
+    ? 'scale-[1.2]'
+    : brand.name === 'Pascual Presutti'
+    ? 'scale-[0.84]'
+    : brand.name === 'Ellos'
+    ? 'scale-[1.02]'
     : ''
 }`}                        loading="eager"
                         fetchpriority="high"

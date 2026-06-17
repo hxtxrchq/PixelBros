@@ -14,12 +14,16 @@ const BRAND_BUBBLES = [
   { name: 'Kanagawa Nikkei', src: '/logos/Kanagawa Nikkei.png' },
   { name: 'smashboyburger', src: '/logos/smashboyburger.png' },
   { name: 'ginecofeme', src: '/logos/ginecofeme.png' },
+  { name: 'upn', src: '/logos/upn.png' },
+  { name: 'Arq. Daniel Rodriguez', src: '/logos/ArquitectoDanielRodriguez.png' },
+  { name: 'Pascual Presutti', src: '/logos/Pascual_Pressuti.png' },
+  { name: 'Ellos', src: '/logos/Ellos.png' },
 ];
 
 const COLS = [
-  BRAND_BUBBLES.slice(0, 4),
-  BRAND_BUBBLES.slice(4, 8),
-  BRAND_BUBBLES.slice(8, 12),
+  BRAND_BUBBLES.slice(0, 6),
+  BRAND_BUBBLES.slice(6, 12),
+  BRAND_BUBBLES.slice(12, 17),
 ];
 
 const getLogoScaleClass = (brandName) => {
@@ -43,6 +47,21 @@ const getLogoScaleClass = (brandName) => {
   }
   if (brandName === 'ginecofeme') {
     return 'scale-[0.6]';
+  }
+  if (brandName === 'Elevaria cafe') {
+    return 'scale-[0.7]';
+  }
+  if (brandName === 'upn') {
+    return 'scale-[0.84]';
+  }
+  if (brandName === 'Arq. Daniel Rodriguez') {
+    return 'scale-[1.1]';
+  }
+  if (brandName === 'Pascual Presutti') {
+    return 'scale-[0.84]';
+  }
+  if (brandName === 'Ellos') {
+    return 'scale-[0.93]';
   }
 
   return '';
