@@ -95,7 +95,7 @@ const getLogoScaleClass = (brandLabel) => {
   if (name === 'UPN') return 'scale-[1.12]';
   if (name === 'Arq. Daniel Rodriguez') return 'scale-[1.3]';
   if (name === 'Pascual Presutti') return 'scale-[0.91]';
-  if (name === 'Ellos') return 'scale-[1.02]';
+  if (name === 'Ellos') return 'scale-[0.82]';
   if (name === 'FOF Trujillo') return 'scale-[1.2]';
   if (name === 'Dulce Cuidado') return 'scale-[1.54]';
   if (name === 'Entrepenauta') return 'scale-[0.44]';
