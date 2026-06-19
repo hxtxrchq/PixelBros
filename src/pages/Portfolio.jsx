@@ -76,10 +76,12 @@ const getLocalBrand = (slug, title) => {
   if (key.includes('daniel') || key.includes('rodriguez')) return { src: '/logos/ArquitectoDanielRodriguez.png', label: 'Arq. Daniel Rodriguez' };
   if (key.includes('pascual') || key.includes('presutti')) return { src: '/logos/Pascual_Pressuti.png', label: 'Pascual Presutti' };
   if (key.includes('ellos')) return { src: '/logos/Ellos.png', label: 'Ellos' };
+  if (key.includes('fof') || key.includes('fof-trujillo')) return { src: '/logos/FoF.png', label: 'FOF Trujillo' };
+  if (key.includes('dulce-cuidado')) return { src: '/logos/DulceCuidado.png', label: 'Dulce Cuidado' };
+  if (key.includes('entrepenauta') || key.includes('entepenauta')) return { src: '/logos/entepenauta.png', label: 'Entrepenauta' };
+  if (key.includes('laboralis')) return { src: '/logos/Laboralis.png', label: 'Laboralis' };
   return { src: null, label: null, caption: null };
 };
-
-
 
 const getLogoScaleClass = (brandLabel) => {
   if (!brandLabel) return 'scale-[1.8]';
@@ -94,6 +96,10 @@ const getLogoScaleClass = (brandLabel) => {
   if (name === 'Arq. Daniel Rodriguez') return 'scale-[1.3]';
   if (name === 'Pascual Presutti') return 'scale-[0.91]';
   if (name === 'Ellos') return 'scale-[1.02]';
+  if (name === 'FOF Trujillo') return 'scale-[1.2]';
+  if (name === 'Dulce Cuidado') return 'scale-[1.54]';
+  if (name === 'Entrepenauta') return 'scale-[0.44]';
+  if (name === 'Laboralis') return 'scale-[1.15]';
   return 'scale-[1.8]';
 };
 
@@ -150,9 +156,17 @@ const LazyGridVideo = ({ src, poster, className }) => {
 };
 
 const isVideoSrc = (src) => /\.(mp4|webm)$/i.test(src || '');
+const isGifSrc = (src) => /\.gif$/i.test(src || '');
 
 const getThumbVariants = (src) => {
   if (!src) return { src: null, srcSet: null };
+
+  if (isGifSrc(src)) {
+    return {
+      src,
+      srcSet: null,
+    };
+  }
 
   if (isVideoSrc(src)) {
     const s420 = videoPoster(src, 420);
@@ -222,6 +236,18 @@ const buildPortfolioIndex = (assets) => {
       const projects = Array.from(category.projects.values())
         .map((project) => {
           const sorted = [...project.media].sort((a, b) => {
+            if (project.categoryId === 'diseno-de-identidad-visual') {
+              if (project.slug === 'diseno-de-identidad-visual-entrepenauta') {
+                const aIsEight = a.src.includes('8.gif');
+                const bIsEight = b.src.includes('8.gif');
+                if (aIsEight && !bIsEight) return -1;
+                if (!aIsEight && bIsEight) return 1;
+              }
+              const aIsGif = isGifSrc(a.src);
+              const bIsGif = isGifSrc(b.src);
+              if (aIsGif && !bIsGif) return -1;
+              if (!aIsGif && bIsGif) return 1;
+            }
             const aIsVideo = isVideoSrc(a.src);
             const bIsVideo = isVideoSrc(b.src);
             if (aIsVideo && !bIsVideo) return -1;
@@ -271,6 +297,17 @@ const buildPortfolioIndexFromApi = (items) => {
     const uniqueMedia = Array.from(new Set(mediaPool));
 
     let cover = uniqueMedia[0] || null;
+    if (categoryId === 'diseno-de-identidad-visual') {
+      let gifMedia;
+      if (slug === 'diseno-de-identidad-visual-entrepenauta') {
+        gifMedia = uniqueMedia.find((src) => src.includes('8.gif')) || uniqueMedia.find((src) => isGifSrc(src));
+      } else {
+        gifMedia = uniqueMedia.find((src) => isGifSrc(src));
+      }
+      if (gifMedia) {
+        cover = gifMedia;
+      }
+    }
 
     const thumb = getThumbVariants(cover);
 

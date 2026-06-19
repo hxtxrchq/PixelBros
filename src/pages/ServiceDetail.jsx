@@ -174,6 +174,276 @@ const ServiceDetail = () => {
     );
   }
 
+  if (slug === 'activaciones-btl') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen bg-transparent"
+      >
+        {/* Hero Section */}
+        <section className="pt-32 pb-16 bg-transparent border-b border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-6 text-left">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-black leading-[0.9] tracking-tighter text-white uppercase select-none">
+                  Activaciones<br />
+                  <span className="text-[#e73c50] font-bodoni italic font-normal normal-case">BTL</span>
+                </h1>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-full max-w-2xl mt-4"
+              >
+                <div className="border-l-2 border-[#e73c50] pl-6 py-2">
+                  <p className="text-lg md:text-xl text-white/70 font-normal leading-relaxed">
+                    Diseñamos experiencias de marca fuera del entorno digital. Eventos, lanzamientos o intervenciones que generan interacción directa y recordación en tu público.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bento Grid de Servicios */}
+        <section className="py-20 lg:py-28 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              
+              {/* 1. ACTIVACIONES DE MARCA */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -16, 0], x: [-5, 5, -5], scale: [1, 1.01, 1], rotate: [-1, 1, -1] }}
+                transition={{ 
+                  y: { duration: 5.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  x: { duration: 4.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  scale: { duration: 5.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  rotate: { duration: 5.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="md:col-span-8 bg-[#0f34d1] rounded-3xl p-8 md:p-12 flex flex-col justify-between min-h-[380px] relative overflow-hidden group shadow-2xl"
+              >
+                <div className="absolute right-0 bottom-0 text-[12rem] font-display font-black text-white/5 leading-none select-none translate-x-10 translate-y-10">
+                  BTL
+                </div>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div className="flex justify-end items-start">
+                    <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white font-bold text-sm">
+                      ★
+                    </div>
+                  </div>
+                  <div className="mt-20">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter mb-4 leading-none">
+                      Activaciones de marca
+                    </h3>
+                    <p className="text-lg text-white/90 max-w-xl font-normal leading-relaxed">
+                      Generamos experiencias memorables para conectar con tu audiencia.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 2. FERIAS Y EVENTOS */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -20, 0], x: [7, -7, 7], scale: [1, 0.99, 1], rotate: [1.5, -1.5, 1.5] }}
+                transition={{ 
+                  y: { duration: 5.8, delay: 0.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  x: { duration: 5.4, delay: 0.15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  scale: { duration: 6, delay: 0.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  rotate: { duration: 5.6, delay: 0.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="md:col-span-4 bg-[#11132e] border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px] relative overflow-hidden group shadow-xl"
+              >
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mt-6 mb-4">
+                      Ferias y eventos
+                    </h3>
+                  </div>
+                  <div className="border-t border-white/10 pt-6">
+                    <p className="text-white/70 text-base leading-relaxed">
+                      Diseño y ejecución de estrategias para exposiciones y convenciones.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 3. STANDS Y MOBILIARIO */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -15, 0], x: [-8, 8, -8], scale: [1, 1.015, 1], rotate: [-1.2, 1.2, -1.2] }}
+                transition={{ 
+                  y: { duration: 6.4, delay: 0.6, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  x: { duration: 6, delay: 0.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  scale: { duration: 6.6, delay: 0.7, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  rotate: { duration: 6.2, delay: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="md:col-span-4 bg-[#0a0b1e] border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px] relative overflow-hidden group shadow-xl"
+              >
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mt-6 mb-4">
+                      Stands y mobiliario
+                    </h3>
+                  </div>
+                  <div>
+                    <div className="w-12 h-[2px] bg-[#e73c50] mb-6" />
+                    <p className="text-white/70 text-base leading-relaxed">
+                      Producción y montaje de espacios personalizados.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 4. ANFITRIONAJE */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -18, 0], x: [6, -6, 6], scale: [1, 0.985, 1], rotate: [1.2, -1.2, 1.2] }}
+                transition={{ 
+                  y: { duration: 5.4, delay: 0.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  x: { duration: 5, delay: 0.1, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  scale: { duration: 5.7, delay: 0.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  rotate: { duration: 5.2, delay: 0.15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="md:col-span-4 bg-[#faf8f5] rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px] relative overflow-hidden group shadow-2xl"
+              >
+                <div className="absolute right-6 top-6 w-16 h-16 text-[#06071a]/10 flex items-center justify-center">
+                  <svg className="w-16 h-16 animate-[spin_20s_linear_infinite]" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L58 35 L93 25 L65 50 L93 75 L58 65 L50 100 L42 65 L7 75 L35 50 L7 25 L42 35 Z" />
+                  </svg>
+                </div>
+                <div className="relative z-10 flex flex-col h-full justify-between text-[#06071a]">
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-display font-black uppercase tracking-tight mt-6 mb-4">
+                      Anfitrionaje
+                    </h3>
+                  </div>
+                  <div>
+                    <p className="text-[#06071a]/85 text-base font-medium leading-relaxed">
+                      Personal capacitado para representar tu marca con profesionalismo.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 5. MARKETING INTERACTIVO */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -19, 0], x: [-7, 7, -7], scale: [1, 1.01, 1], rotate: [-1.4, 1.4, -1.4] }}
+                transition={{ 
+                  y: { duration: 6, delay: 0.4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  x: { duration: 5.6, delay: 0.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  scale: { duration: 6.2, delay: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                  rotate: { duration: 5.8, delay: 0.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                }}
+                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                className="md:col-span-4 bg-gradient-to-br from-[#0c0d21] to-[#1b1c3c] border border-white/15 rounded-3xl p-8 md:p-10 flex flex-col justify-between min-h-[380px] relative overflow-hidden group shadow-xl"
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(231,60,80,0.08)_0%,transparent_70%)] pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div className="flex justify-end items-start">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f70] animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mb-4">
+                      Marketing interactivo
+                    </h3>
+                    <p className="text-white/70 text-base leading-relaxed">
+                      Estrategias digitales y tecnológicas para maximizar la interacción con el público.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="py-20 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative mx-auto w-[97%] overflow-hidden rounded-3xl bg-white shadow-[0_8px_48px_rgba(0,0,0,0.09)] px-10 py-12 lg:px-20 lg:py-14 text-center"
+            >
+              <div className="hidden lg:block absolute left-[3.75rem] top-1/2 -translate-y-1/2 w-[50px] h-[116px] overflow-hidden pointer-events-none">
+                <img
+                  src="/icono%20izq.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full object-contain object-left"
+                />
+              </div>
+
+              <div className="hidden lg:block absolute right-[4.5rem] top-1/2 -translate-y-1/2 w-[50px] h-[116px] overflow-hidden pointer-events-none">
+                <img
+                  src="/icono%20der.svg"
+                  alt=""
+                  aria-hidden="true"
+                  className="h-full w-full object-contain object-right"
+                />
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center gap-6 lg:gap-0">
+                <div className="flex justify-center lg:hidden mb-4">
+                  <img
+                    src="/icono%20izq.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className="w-[60px] h-[60px] object-contain"
+                  />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-display font-black text-[#1e1c50] leading-[1.05] mb-0" style={{ fontStretch: 'semi-expanded' }}>
+                  Las buenas marcas
+                </h2>
+                <p className="text-3xl md:text-4xl font-bodoni italic font-normal text-[#1e1c50] leading-[1.1] mb-3">
+                  no aparecen por casualidad.
+                </p>
+                <p className="text-[#888] mb-8 max-w-xl mx-auto text-sm sm:text-base">
+                  Cuéntanos tu idea y veamos hasta donde puede llegar.
+                </p>
+                <Link to="/contact">
+                  <motion.button
+                    whileHover={{ y: -2, boxShadow: '0 14px 36px rgba(231,60,80,0.32)' }}
+                    whileTap={{ scale: 0.97 }}
+                    className="px-10 py-3.5 bg-[#e73c50] text-white font-black rounded-lg text-base shadow-md hover:bg-[#c9303f] transition-colors"
+                  >
+                    Empezar proyecto
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}

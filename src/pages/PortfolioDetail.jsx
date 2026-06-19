@@ -357,116 +357,294 @@ const ReferenceMediaTile = ({ item, onOpen, className = '', width = 620, fit = '
   );
 };
 
-const ReferenceComposition = ({ items, onOpen }) => {
-  const blocks = buildBalancedBlocks(items);
+const ImagePeekCarousel = ({ items, onOpen }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (!items || items.length === 0) return null;
+
+  const N = items.length;
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => prev + 1);
+  };
+
+  useEffect(() => {
+    if (N <= 1) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [N, activeIndex]);
+
+  const slots = [-2, -1, 0, 1, 2];
+
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
+  const activeW = isMobile ? 220 : (isTablet ? 300 : 380);
+  const activeH = isMobile ? 310 : (isTablet ? 420 : 540);
+  const inactiveW = isMobile ? 120 : (isTablet ? 170 : 220);
+  const inactiveH = inactiveW; 
+  const gap = isMobile ? 8 : (isTablet ? 14 : 16); // Reduced separation by 30%
+
+  const offsetLeft1 = -activeW / 2 - gap - inactiveW / 2;
+  const offsetRight1 = activeW / 2 + gap + inactiveW / 2;
+  const offsetLeft2 = offsetLeft1 - gap - inactiveW;
+  const offsetRight2 = offsetRight1 + gap + inactiveW;
 
   return (
-    <div className="w-full max-w-[920px] lg:max-w-[980px] mx-auto flex flex-col gap-4 sm:gap-6">
-      {blocks.map((block, blockIndex) => {
-        if (block.length === 1) {
+    <div className="relative w-full max-w-[1100px] mx-auto py-12 overflow-hidden select-none">
+      {/* Carousel Window */}
+      <div className="relative flex items-center justify-center h-[340px] sm:h-[480px] md:h-[600px] w-full">
+        {slots.map((slot) => {
+          const itemIndex = (activeIndex + slot + N * 1000) % N;
+          const item = items[itemIndex];
+          if (!item) return null;
+
+          const isCenter = slot === 0;
+          const isLeft1 = slot === -1;
+          const isRight1 = slot === 1;
+          const isLeft2 = slot === -2;
+          const isRight2 = slot === 2;
+
+          let x = 0;
+          let width = activeW;
+          let height = activeH;
+          let opacity = 1;
+          let zIndex = 10;
+          let yOffset = 0;
+          let scale = 1;
+
+          const isEven = Math.abs(activeIndex) % 2 === 0;
+          const edgeOffset = (activeH - inactiveH) / 2;
+
+          if (isCenter) {
+            x = 0;
+            yOffset = 0;
+            width = activeW;
+            height = activeH;
+            opacity = 1;
+            zIndex = 30;
+            scale = 1;
+          } else if (isLeft1) {
+            x = offsetLeft1;
+            yOffset = isEven ? edgeOffset : -edgeOffset;
+            width = inactiveW;
+            height = inactiveH;
+            opacity = 0.5;
+            zIndex = 20;
+            scale = 1;
+          } else if (isRight1) {
+            x = offsetRight1;
+            yOffset = isEven ? -edgeOffset : edgeOffset;
+            width = inactiveW;
+            height = inactiveH;
+            opacity = 0.5;
+            zIndex = 20;
+            scale = 1;
+          } else if (isLeft2) {
+            x = offsetLeft2;
+            yOffset = isEven ? -edgeOffset : edgeOffset;
+            width = inactiveW;
+            height = inactiveH;
+            opacity = 0;
+            zIndex = 10;
+            scale = 0;
+          } else if (isRight2) {
+            x = offsetRight2;
+            yOffset = isEven ? edgeOffset : -edgeOffset;
+            width = inactiveW;
+            height = inactiveH;
+            opacity = 0;
+            zIndex = 10;
+            scale = 0;
+          }
+
+          const uniqueKey = N < 5 ? `${item.id}-${slot}` : item.id;
+
           return (
-            <div
-              key={`ref-single-${blockIndex}`}
-              className="max-w-[760px] mx-auto w-full border border-white/10 bg-[#f1efe8] p-2 sm:p-3"
+            <motion.div
+              key={uniqueKey}
+              style={{ zIndex }}
+              animate={{
+                x,
+                y: yOffset,
+                width,
+                height,
+                opacity,
+                scale,
+              }}
+              transition={{ type: 'spring', stiffness: 220, damping: 25 }}
+              onClick={() => {
+                if (isCenter) {
+                  onOpen(item);
+                } else {
+                  setActiveIndex((prev) => prev + slot);
+                }
+              }}
+              className="absolute bg-[#12142b] border border-white/10 rounded-none overflow-hidden group shadow-2xl cursor-pointer"
             >
-              <div className="aspect-[16/9] overflow-hidden bg-[#12142b]">
-                <ReferenceMediaTile item={block[0]} onOpen={onOpen} width={980} fit="cover" className="h-full" />
-              </div>
-            </div>
+              <img
+                src={item.src}
+                alt={item.alt}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.01]"
+              />
+            </motion.div>
           );
-        }
+        })}
+      </div>
 
-        if (block.length === 2) {
-          return (
-            <div
-              key={`ref-double-${blockIndex}`}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 border border-white/10 bg-[#f1efe8] p-2 sm:p-3"
-            >
-              {block.map((item) => (
-                <div key={item.id} className="aspect-[4/3] overflow-hidden bg-[#12142b]">
-                  <ReferenceMediaTile item={item} onOpen={onOpen} width={680} fit="cover" className="h-full" />
-                </div>
-              ))}
-            </div>
-          );
-        }
-
-        if (block.length === 3) {
-          const featured = block[0];
-          const rightTop = block[1];
-          const rightBottom = block[2];
-
-          return (
-            <div
-              key={`ref-triple-${blockIndex}`}
-              className="grid grid-cols-[1.08fr_0.92fr] h-[300px] sm:h-[360px] lg:h-[420px] overflow-hidden border border-white/10 bg-[#0f122d]"
-            >
-              <div className="h-full min-h-0">
-                <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
-              </div>
-
-              <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
-                <div className="grid h-full min-h-0 grid-rows-2 gap-2 sm:gap-2.5">
-                  <ReferenceMediaTile item={rightTop} onOpen={onOpen} width={700} fit="cover" className="row-span-1" />
-                  <ReferenceMediaTile item={rightBottom} onOpen={onOpen} width={700} fit="cover" className="row-span-1" />
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-        if (block.length === 4) {
-          const featured = block[0];
-          const top = block[1];
-          const leftBottom = block[2];
-          const rightBottom = block[3];
-
-          return (
-            <div
-              key={`ref-quad-${blockIndex}`}
-              className="grid grid-cols-[1.05fr_0.95fr] h-[300px] sm:h-[360px] lg:h-[440px] overflow-hidden border border-white/10 bg-[#0f122d]"
-            >
-              <div className="h-full min-h-0">
-                <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
-              </div>
-
-              <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
-                <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[1.15fr_1fr] gap-2 sm:gap-2.5">
-                  <ReferenceMediaTile item={top} onOpen={onOpen} width={700} fit="cover" className="col-span-2 row-span-1" />
-                  <ReferenceMediaTile item={leftBottom} onOpen={onOpen} width={640} fit="cover" className="col-span-1 row-span-1" />
-                  <ReferenceMediaTile item={rightBottom} onOpen={onOpen} width={640} fit="cover" className="col-span-1 row-span-1" />
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-        const featured = block[0];
-        const top = block[1];
-        const center = block[2];
-        const accent = block[3];
-        const bottom = block[4];
-
-        return (
-          <div
-            key={`ref-block-${blockIndex}`}
-            className="grid grid-cols-[1.04fr_0.96fr] h-[320px] sm:h-[380px] lg:h-[460px] overflow-hidden border border-white/10 bg-[#0f122d]"
+      {/* Navigation Arrows */}
+      {items.length > 1 && (
+        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none z-40">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrev();
+            }}
+            className="p-3 bg-black/60 hover:bg-black/85 text-white rounded-full transition-all border border-white/10 pointer-events-auto shadow-lg"
+            aria-label="Anterior"
           >
-            <div className="h-full min-h-0">
-              <ReferenceMediaTile item={featured} onOpen={onOpen} width={980} fit="cover" className="h-full" />
-            </div>
+            <svg className="w-5 h-5 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
+            className="p-3 bg-black/60 hover:bg-black/85 text-white rounded-full transition-all border border-white/10 pointer-events-auto shadow-lg"
+            aria-label="Siguiente"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-            <div className="h-full min-h-0 bg-[#f1efe8] p-2 sm:p-3 lg:p-4">
-              <div className="grid h-full min-h-0 grid-cols-2 grid-rows-[1.2fr_1fr_1fr] gap-2 sm:gap-2.5">
-                <ReferenceMediaTile item={top} onOpen={onOpen} width={620} fit="cover" className="col-span-2 row-span-1" />
-                <ReferenceMediaTile item={center} onOpen={onOpen} width={620} fit="cover" className="col-span-1 row-span-1" />
-                <ReferenceMediaTile item={accent} onOpen={onOpen} width={540} fit="cover" className="col-span-1 row-span-1" />
-                <ReferenceMediaTile item={bottom} onOpen={onOpen} width={620} fit="cover" className="col-span-2 row-span-1" />
-              </div>
-            </div>
-          </div>
-        );
-      })}
+const VideoStackDeck = ({ items, onOpen }) => {
+  const [stack, setStack] = useState(items);
+
+  useEffect(() => {
+    setStack(items);
+  }, [items]);
+
+  if (!items || items.length === 0) return null;
+
+  const handleNext = () => {
+    setStack((prev) => {
+      if (prev.length <= 1) return prev;
+      const [top, ...rest] = prev;
+      return [...rest, top];
+    });
+  };
+
+  useEffect(() => {
+    if (stack.length <= 1) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [stack]);
+
+  return (
+    <div className="relative w-full max-w-[640px] mx-auto py-12 px-4 flex flex-col items-center">
+      <div 
+        className="relative w-full aspect-[16/10] sm:aspect-[16/9]"
+        onClick={() => handleNext()}
+      >
+        <AnimatePresence mode="popLayout">
+          {stack.slice(0, 4).reverse().map((item, index, arr) => {
+            const position = arr.length - 1 - index;
+            const isFront = position === 0;
+            const scale = 1 - position * 0.08;
+            const yOffset = -position * 40;
+            const zIndex = 50 - position;
+
+            return (
+              <motion.div
+                key={item.id}
+                style={{
+                  zIndex,
+                  transformOrigin: 'top center',
+                }}
+                layout
+                initial={isFront ? { opacity: 0, scale: 0.85, y: -40 } : false}
+                animate={{
+                  y: yOffset,
+                  scale,
+                  opacity: 1,
+                }}
+                exit={isFront ? { y: 280, opacity: 0, scale: 0.85, transition: { duration: 0.35 } } : { opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+                drag={isFront && stack.length > 1 ? 'y' : false}
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={0.6}
+                onDragEnd={(e, info) => {
+                  if (info.offset.y > 80 || info.offset.y < -80) {
+                    handleNext();
+                  }
+                }}
+                className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing"
+              >
+                <div className="w-full h-full bg-[#12142b] border border-white/10 rounded-none overflow-hidden group shadow-2xl relative">
+                  
+                  {isFront ? (
+                    <video
+                      src={item.src}
+                      className="w-full h-full object-cover"
+                      controls={false}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img
+                      src={item.previewSrc}
+                      alt={item.alt}
+                      className="w-full h-full object-cover pointer-events-none select-none"
+                    />
+                  )}
+                  
+                  <div 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpen(item);
+                    }}
+                    className="absolute inset-0 bg-transparent hover:bg-black/10 transition-colors flex items-center justify-center cursor-pointer z-20"
+                  >
+                    {isFront && (
+                      <div className="p-4 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
@@ -555,6 +733,19 @@ const PortfolioDetail = () => {
     return project.groups.flatMap((group) => group.items);
   }, [project?.groups]);
 
+  const { videos, images } = useMemo(() => {
+    const v = [];
+    const img = [];
+    for (const item of allItems) {
+      if (item.type === 'video') {
+        v.push(item);
+      } else {
+        img.push(item);
+      }
+    }
+    return { videos: v, images: img };
+  }, [allItems]);
+
   useEffect(() => {
     setActiveMedia(null);
   }, [project?.slug]);
@@ -622,11 +813,33 @@ const PortfolioDetail = () => {
       </section>
 
       <section className="py-10 lg:py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-12">
           {isBranding ? (
             <BrandingComposition items={visibleItems} onOpen={setActiveMedia} />
           ) : (
-            <ReferenceComposition items={visibleItems} onOpen={setActiveMedia} />
+            <>
+              {videos.length > 0 && (
+                <div className="flex flex-col items-center">
+                  {images.length > 0 && (
+                    <h3 className="text-lg font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
+                      Videos del proyecto
+                    </h3>
+                  )}
+                  <VideoStackDeck items={videos} onOpen={setActiveMedia} />
+                </div>
+              )}
+              
+              {images.length > 0 && (
+                <div className="flex flex-col items-center w-full">
+                  {videos.length > 0 && (
+                    <h3 className="text-lg font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
+                      Galería de imágenes
+                    </h3>
+                  )}
+                  <ImagePeekCarousel items={images} onOpen={setActiveMedia} />
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

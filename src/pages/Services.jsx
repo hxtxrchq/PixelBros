@@ -136,6 +136,24 @@ const Services = () => {
 
   const heroTrackItems = useMemo(() => [...heroLoopItems, ...heroLoopItems], [heroLoopItems]);
 
+  const moveCardsPrev = () => {
+    const viewport = cardsViewportRef.current;
+    if (!viewport) return;
+
+    const track = viewport.firstElementChild;
+    const firstCard = track?.querySelector('[data-service-card="true"]');
+    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 270;
+    const trackStyles = track ? window.getComputedStyle(track) : null;
+    const gap = trackStyles ? parseFloat(trackStyles.columnGap || trackStyles.gap || '20') : 20;
+    const step = Math.max(220, Math.floor(cardWidth + gap));
+    const next = viewport.scrollLeft - step;
+
+    viewport.scrollTo({
+      left: next < 0 ? 0 : next,
+      behavior: 'smooth',
+    });
+  };
+
   const moveCardsNext = () => {
     const viewport = cardsViewportRef.current;
     if (!viewport) return;
@@ -150,7 +168,7 @@ const Services = () => {
     const next = viewport.scrollLeft + step;
 
     viewport.scrollTo({
-      left: next >= maxScroll - 4 ? 0 : next,
+      left: next >= maxScroll + 10 ? 0 : next,
       behavior: 'smooth',
     });
   };
@@ -245,9 +263,9 @@ const Services = () => {
           transition={{ duration: 0.68 }}
           className="mb-20"
         >
-          <div className="flex items-center gap-3 md:gap-4">
-            <div ref={cardsViewportRef} className="flex-1 overflow-x-auto overflow-y-hidden no-scrollbar select-none scroll-smooth">
-              <div className="flex gap-4 md:gap-5 w-max pr-2">
+          <div className="relative">
+            <div ref={cardsViewportRef} className="w-full overflow-x-auto overflow-y-hidden no-scrollbar select-none scroll-smooth">
+              <div className="flex gap-4 md:gap-5 w-max pr-16 lg:pr-24 pb-2">
               {SERVICES.map((service, index) => {
                 const cardImageCandidates = buildAssetCandidates(service.cardImage, IMAGE_EXTENSIONS);
                 return (
@@ -293,16 +311,31 @@ const Services = () => {
               {/* Portfolio content intentionally omitted from Services page. */}
               </div>
             </div>
+          </div>
 
+          {/* Navigation Controls centered underneath */}
+          <div className="mt-8 flex justify-center gap-4">
+            <button
+              type="button"
+              onClick={moveCardsPrev}
+              className="h-12 w-12 rounded-full border border-white/22 bg-[#11163d]/90 text-white transition-all duration-300 hover:border-white/50 hover:bg-[#1a2058] hover:shadow-[0_10px_28px_rgba(0,0,0,0.35)] flex items-center justify-center"
+              aria-label="Ver anteriores servicios"
+            >
+              <SvgIcon
+                path="M15 19l-7-7 7-7"
+                className="w-5 h-5"
+                strokeWidth={2.2}
+              />
+            </button>
             <button
               type="button"
               onClick={moveCardsNext}
-              className="h-12 w-12 shrink-0 rounded-full border border-white/22 bg-[#11163d]/90 text-white transition-all duration-300 hover:border-white/50 hover:bg-[#1a2058] hover:shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
+              className="h-12 w-12 rounded-full border border-white/22 bg-[#11163d]/90 text-white transition-all duration-300 hover:border-white/50 hover:bg-[#1a2058] hover:shadow-[0_10px_28px_rgba(0,0,0,0.35)] flex items-center justify-center"
               aria-label="Ver siguientes servicios"
             >
               <SvgIcon
                 path="M9 5l7 7-7 7"
-                className="w-5 h-5 mx-auto"
+                className="w-5 h-5"
                 strokeWidth={2.2}
               />
             </button>
