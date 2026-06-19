@@ -844,44 +844,6 @@ const PortfolioDetail = () => {
         </div>
       </section>
 
-      <section className="py-16 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-8">
-            Otros <span className="text-[#e73c50]">proyectos</span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {portfolioIndex.projects
-              .filter((entry) => entry.slug !== project?.slug)
-              .slice(0, 3)
-              .map((entry) => {
-                const coverSrc = entry.coverType === 'video' ? derivePoster(entry.coverSrc, 700) : optimizeImageSrc(entry.coverSrc, 700);
-                return (
-                  <Link key={entry.slug} to={`/portfolio/${entry.slug}`}>
-                    <article className="border border-white/10 bg-[#0c0e24] hover:border-[#e73c50]/60 transition-colors h-full">
-                      <div className="aspect-[4/3] overflow-hidden bg-[#131632]">
-                        {coverSrc && (
-                          <img
-                            src={coverSrc}
-                            alt={entry.title}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-full w-full object-cover"
-                          />
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <p className="text-[10px] tracking-[0.2em] uppercase text-[#e73c50] mb-2">{entry.categoryName}</p>
-                        <h3 className="text-white text-xl font-display font-bold">{entry.title}</h3>
-                      </div>
-                    </article>
-                  </Link>
-                );
-              })}
-          </div>
-        </div>
-      </section>
-
       </motion.div>
 
       <AnimatePresence>

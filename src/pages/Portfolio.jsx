@@ -92,13 +92,13 @@ const getLogoScaleClass = (brandLabel) => {
   if (name === 'ginecofeme' || name === 'Ginecofeme') return 'scale-[0.9]';
   if (name === 'GMS') return 'scale-[1.58]';
   if (name === 'Elevaria cafe' || name === 'Elevaria') return 'scale-[1.26]';
-  if (name === 'UPN') return 'scale-[1.12]';
+  if (name === 'UPN') return 'scale-[0.95]';
   if (name === 'Arq. Daniel Rodriguez') return 'scale-[1.3]';
-  if (name === 'Pascual Presutti') return 'scale-[0.91]';
+  if (name === 'Pascual Presutti') return 'scale-[0.77]';
   if (name === 'Ellos') return 'scale-[0.82]';
   if (name === 'FOF Trujillo') return 'scale-[1.2]';
-  if (name === 'Dulce Cuidado') return 'scale-[1.54]';
-  if (name === 'Entrepenauta') return 'scale-[0.44]';
+  if (name === 'Dulce Cuidado') return 'scale-[1.77]';
+  if (name === 'Entrepenauta') return 'scale-[0.51]';
   if (name === 'Laboralis') return 'scale-[1.15]';
   return 'scale-[1.8]';
 };
