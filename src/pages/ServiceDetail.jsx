@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
 
+const BTL_LOGOS = [
+  { src: '/services/ActivaciónBTL/Barbarian Bar.png', label: 'Barbarian Bar', scale: 'scale-[1.05]' },
+  { src: '/services/ActivaciónBTL/Design Market.png', label: 'Design Market', scale: 'scale-[1.25]' },
+  { src: '/services/ActivaciónBTL/automotoresinka.png', label: 'Automotores Inka', scale: 'scale-[1.15]' },
+  { src: '/services/ActivaciónBTL/grupo_manucci.png', label: 'Grupo Manucci', scale: 'scale-[0.95]' },
+  { src: '/services/ActivaciónBTL/hoteles_costa_del_sol.png', label: 'Costa del Sol', scale: 'scale-[1.1]' },
+];
+
 const ServiceDetail = () => {
   const { slug } = useParams();
 
@@ -230,23 +238,23 @@ const ServiceDetail = () => {
                   scale: { duration: 5.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
                   rotate: { duration: 5.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
-                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                className="md:col-span-8 bg-[#0f34d1] rounded-3xl p-8 md:p-12 flex flex-col justify-between min-h-[320px] relative overflow-hidden group shadow-2xl"
+                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                className="md:col-span-6 bg-[#0f34d1] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-2xl"
               >
-                <div className="absolute right-0 bottom-0 text-[12rem] font-display font-black text-white/5 leading-none select-none translate-x-10 translate-y-10">
+                <div className="absolute right-0 bottom-0 text-[14rem] font-display font-black text-white/5 leading-none select-none translate-x-14 translate-y-14">
                   BTL
                 </div>
-                <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div className="flex justify-end items-start">
+                <div className="relative z-10 flex flex-col justify-center h-full">
+                  <div className="absolute top-0 right-0">
                     <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white font-bold text-sm">
                       ★
                     </div>
                   </div>
-                  <div className="mt-12">
-                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tighter mb-4 leading-none">
-                      Activaciones de marca
+                  <div className="mt-4">
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black text-white uppercase tracking-tighter leading-[0.95] mb-4">
+                      Activaciones<br />de marca
                     </h3>
-                    <p className="text-lg text-white/90 max-w-xl font-normal leading-relaxed">
+                    <p className="text-sm sm:text-base text-white/95 max-w-xl font-normal leading-relaxed">
                       Generamos experiencias memorables para conectar con tu audiencia.
                     </p>
                   </div>
@@ -266,14 +274,14 @@ const ServiceDetail = () => {
                   rotate: { duration: 5.6, delay: 0.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                className="md:col-span-4 bg-[#11132e] border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col justify-end min-h-[320px] relative overflow-hidden group shadow-xl"
+                className="md:col-span-6 bg-[#e73c50] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-xl"
               >
-                <div className="relative z-10 flex flex-col justify-end">
-                  <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mb-4">
-                    Ferias y eventos
-                  </h3>
-                  <div className="border-t border-white/10 pt-4">
-                    <p className="text-white/70 text-base leading-relaxed">
+                <div className="relative z-10 flex flex-col justify-center h-full text-[#06071a]">
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black uppercase tracking-tighter leading-[0.95] mb-4">
+                      Ferias &<br />Eventos
+                    </h3>
+                    <p className="text-[#06071a]/90 text-sm sm:text-base leading-relaxed font-medium">
                       Diseño y ejecución de estrategias para exposiciones y convenciones.
                     </p>
                   </div>
@@ -293,16 +301,17 @@ const ServiceDetail = () => {
                   rotate: { duration: 6.2, delay: 0.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                className="md:col-span-4 bg-[#0a0b1e] border border-white/10 rounded-3xl p-8 md:p-10 flex flex-col justify-end min-h-[320px] relative overflow-hidden group shadow-xl"
+                className="md:col-span-4 bg-[#faf8f5] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-xl"
               >
-                <div className="relative z-10 flex flex-col justify-end">
-                  <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mb-4">
-                    Stands y mobiliario
-                  </h3>
-                  <div className="w-12 h-[2px] bg-[#e73c50] mb-4" />
-                  <p className="text-white/70 text-base leading-relaxed">
-                    Producción y montaje de espacios personalizados.
-                  </p>
+                <div className="relative z-10 flex flex-col justify-center h-full text-[#06071a]">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl md:text-[1.75rem] font-display font-black uppercase tracking-tight leading-[0.95] mb-4">
+                      Stands &<br />Mobiliario
+                    </h3>
+                    <p className="text-[#06071a]/95 text-xs sm:text-sm leading-relaxed font-medium">
+                      Producción y montaje de espacios personalizados.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
@@ -319,20 +328,17 @@ const ServiceDetail = () => {
                   rotate: { duration: 5.2, delay: 0.15, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                className="md:col-span-4 bg-[#faf8f5] rounded-3xl p-8 md:p-10 flex flex-col justify-end min-h-[320px] relative overflow-hidden group shadow-2xl"
+                className="md:col-span-4 bg-[#f3db5c] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-2xl"
               >
-                <div className="absolute right-6 top-6 w-16 h-16 text-[#06071a]/10 flex items-center justify-center">
-                  <svg className="w-16 h-16 animate-[spin_20s_linear_infinite]" viewBox="0 0 100 100" fill="currentColor">
-                    <path d="M50 0 L58 35 L93 25 L65 50 L93 75 L58 65 L50 100 L42 65 L7 75 L35 50 L7 25 L42 35 Z" />
-                  </svg>
-                </div>
-                <div className="relative z-10 flex flex-col justify-end text-[#06071a]">
-                  <h3 className="text-2xl sm:text-3xl font-display font-black uppercase tracking-tight mb-4">
-                    Anfitrionaje
-                  </h3>
-                  <p className="text-[#06071a]/85 text-base font-medium leading-relaxed">
-                    Personal capacitado para representar tu marca con profesionalismo.
-                  </p>
+                <div className="relative z-10 flex flex-col justify-center h-full text-[#06071a]">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl md:text-[1.75rem] font-display font-black uppercase tracking-tight leading-[0.95] mb-4">
+                      Anfitrionaje
+                    </h3>
+                    <p className="text-[#06071a]/95 text-xs sm:text-sm leading-relaxed font-medium">
+                      Personal capacitado para representar tu marca con profesionalismo.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
@@ -349,23 +355,40 @@ const ServiceDetail = () => {
                   rotate: { duration: 5.8, delay: 0.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
                 whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                className="md:col-span-4 bg-gradient-to-br from-[#0c0d21] to-[#1b1c3c] border border-white/15 rounded-3xl p-8 md:p-10 flex flex-col justify-end min-h-[320px] relative overflow-hidden group shadow-xl"
+                className="md:col-span-4 bg-[#0a0b1e] border border-white/10 rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-xl"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(231,60,80,0.08)_0%,transparent_70%)] pointer-events-none group-hover:scale-110 transition-transform duration-500" />
-                <div className="relative z-10 flex flex-col justify-end h-full">
-                  <div className="absolute right-0 top-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f70] animate-pulse block" />
+                <div className="relative z-10 flex flex-col justify-center h-full text-white">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl md:text-[1.75rem] font-display font-black uppercase tracking-tight leading-[0.95] mb-4 text-white">
+                      Marketing<br />interactivo
+                    </h3>
+                    <p className="text-white/70 text-xs sm:text-sm leading-relaxed font-medium">
+                      Estrategias digitales y tecnológicas para maximizar la interacción con el público.
+                    </p>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight mb-4">
-                    Marketing interactivo
-                  </h3>
-                  <p className="text-white/70 text-base leading-relaxed">
-                    Estrategias digitales y tecnológicas para maximizar la interacción con el público.
-                  </p>
                 </div>
               </motion.div>
 
             </div>
+
+            {/* Marcas/Logos que vivieron la experiencia */}
+            <div className="mt-20 border-t border-white/5 pt-16">
+              <p className="text-center text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/40 mb-10">
+                Marcas <span className="text-[#e73c50]">Aliadas</span>
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-10 md:gap-14 lg:gap-16 max-w-7xl mx-auto px-4">
+                {BTL_LOGOS.map((logo) => (
+                  <div key={logo.label} className="flex items-center justify-center h-36 w-[312px] shrink-0 transition-all duration-300 hover:scale-105">
+                    <img
+                      src={logo.src}
+                      alt={logo.label}
+                      className={`max-h-[108px] w-auto object-contain opacity-100 [filter:brightness(0)_invert(1)] drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] transition-all duration-300 origin-center ${logo.scale}`}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </section>
 
