@@ -217,7 +217,12 @@ const buildPortfolioIndex = (assets) => {
     if (!category.projects.has(slug)) {
       category.projects.set(slug, {
         slug,
-        title: slug === 'fotografia-doctora-yuriko' ? 'Dra. Yuriko Cruz' : projectName,
+        title:
+          slug === 'fotografia-doctora-yuriko'
+            ? 'Dra. Yuriko Cruz'
+            : slug === 'audiovisual-elevaria-servido-con-proposito'
+            ? 'Elevaría Café'
+            : projectName,
         categoryId,
         categoryName,
         media: [],
@@ -333,10 +338,10 @@ const buildPortfolioIndexFromApi = (items) => {
       socialRubro: categoryId === 'social-media' ? getSocialRubro(title) : null,
       brand: item.logoUrl
         ? {
-            src: item.logoUrl,
-            label: item.logoLabel || item.companyName || title,
-            caption: item.logoLabel || null,
-          }
+          src: item.logoUrl,
+          label: item.logoLabel || item.companyName || title,
+          caption: item.logoLabel || null,
+        }
         : getLocalBrand(slug, title),
     });
   }
@@ -426,9 +431,7 @@ const Portfolio = () => {
           <div className="px-2 sm:px-4 lg:px-6 py-8">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#e73c50] font-semibold">Ideas en acción</p>
             <h1 className="mt-2 text-5xl sm:text-6xl font-display font-bold text-white leading-[0.95]">PORTAFOLIO</h1>
-            <p className="mt-5 max-w-2xl text-white/65 text-lg">
-              Exploramos branding, social media, audiovisual y fotografía con un enfoque estratégico y visual de alta calidad.
-            </p>
+
 
             <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">
               {categories.map((category) => (
@@ -439,11 +442,10 @@ const Portfolio = () => {
                       setSelectedCategory(category.id);
                       if (category.id !== 'social-media') setSelectedSocialRubro('all');
                     }}
-                    className={`px-4 py-2.5 rounded-md border text-sm font-semibold transition-colors ${
-                      selectedCategory === category.id
+                    className={`px-4 py-2.5 rounded-md border text-sm font-semibold transition-colors ${selectedCategory === category.id
                         ? 'bg-[#e73c50] border-[#e73c50] text-white'
                         : 'border-white/15 text-white/65 hover:border-white/35 hover:text-white'
-                    }`}
+                      }`}
                   >
                     {category.label}
                   </button>
@@ -455,19 +457,18 @@ const Portfolio = () => {
               <div className="mt-5 rounded-2xl border border-white/10 bg-[#0b1030]/60 p-2.5 sm:p-3">
                 <p className="px-2 pb-2 text-[11px] uppercase tracking-[0.2em] text-white/45">Rubros Social Media</p>
                 <div className="flex flex-wrap gap-2">
-                {SOCIAL_RUBROS.map((rubro) => (
-                  <button
-                    key={rubro.id}
-                    onClick={() => setSelectedSocialRubro(rubro.id)}
-                      className={`px-3.5 py-1.5 rounded-full border text-xs sm:text-sm font-semibold transition-all ${
-                      selectedSocialRubro === rubro.id
-                        ? 'bg-[#e73c50] border-[#e73c50] text-white shadow-[0_8px_22px_rgba(231,60,80,0.28)]'
-                        : 'border-white/15 bg-transparent text-white/70 hover:border-white/35 hover:text-white'
-                    }`}
-                  >
-                    {rubro.label}
-                  </button>
-                ))}
+                  {SOCIAL_RUBROS.map((rubro) => (
+                    <button
+                      key={rubro.id}
+                      onClick={() => setSelectedSocialRubro(rubro.id)}
+                      className={`px-3.5 py-1.5 rounded-full border text-xs sm:text-sm font-semibold transition-all ${selectedSocialRubro === rubro.id
+                          ? 'bg-[#e73c50] border-[#e73c50] text-white shadow-[0_8px_22px_rgba(231,60,80,0.28)]'
+                          : 'border-white/15 bg-transparent text-white/70 hover:border-white/35 hover:text-white'
+                        }`}
+                    >
+                      {rubro.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}
@@ -546,9 +547,9 @@ const Portfolio = () => {
               ))}
             </div>
           </div>
-          </section>
-        </div>
-      </motion.main>
+        </section>
+      </div>
+    </motion.main>
   );
 };
 

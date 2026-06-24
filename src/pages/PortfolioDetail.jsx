@@ -85,7 +85,12 @@ const buildPortfolioIndex = (assets) => {
     if (!category.projects.has(slug)) {
       category.projects.set(slug, {
         slug,
-        title: slug === 'fotografia-doctora-yuriko' ? 'Dra. Yuriko Cruz' : projectName,
+        title:
+          slug === 'fotografia-doctora-yuriko'
+            ? 'Dra. Yuriko Cruz'
+            : slug === 'audiovisual-elevaria-servido-con-proposito'
+            ? 'Elevaría Café'
+            : projectName,
         categoryId: categorySlug,
         categoryName,
         groups: new Map(),
@@ -694,6 +699,14 @@ const PortfolioDetail = () => {
   const [activeMedia, setActiveMedia] = useState(null);
   const [isMediaLoading, setIsMediaLoading] = useState(true);
   const [apiIndex, setApiIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const portfolioAssets = getPortfolioAssets();
 
@@ -756,6 +769,45 @@ const PortfolioDetail = () => {
     }
   }, [activeMedia]);
 
+  const navigationList = useMemo(() => {
+    if (!activeMedia) return [];
+    return activeMedia.type === 'video' ? videos : images;
+  }, [activeMedia, videos, images]);
+
+  const activeIndex = useMemo(() => {
+    if (!activeMedia || !navigationList) return -1;
+    return navigationList.findIndex((item) => item.src === activeMedia.src);
+  }, [activeMedia, navigationList]);
+
+  const handlePrev = (e) => {
+    if (e) e.stopPropagation();
+    if (activeIndex === -1 || navigationList.length <= 1) return;
+    const prevIdx = (activeIndex - 1 + navigationList.length) % navigationList.length;
+    setActiveMedia(navigationList[prevIdx]);
+  };
+
+  const handleNext = (e) => {
+    if (e) e.stopPropagation();
+    if (activeIndex === -1 || navigationList.length <= 1) return;
+    const nextIdx = (activeIndex + 1) % navigationList.length;
+    setActiveMedia(navigationList[nextIdx]);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!activeMedia) return;
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'Escape') {
+        setActiveMedia(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeMedia, activeIndex, allItems]);
+
   const visibleItems = allItems;
   const isBranding = isBrandingCategory(project);
 
@@ -805,9 +857,6 @@ const PortfolioDetail = () => {
             <h1 className="text-4xl md:text-6xl font-display font-bold text-white leading-[0.95]">
               {project?.title}
             </h1>
-            <p className="text-white/65 text-sm uppercase tracking-[0.16em]">
-              {allItems.length} elemento{allItems.length === 1 ? '' : 's'}
-            </p>
           </motion.div>
         </div>
       </section>
@@ -822,7 +871,7 @@ const PortfolioDetail = () => {
                 <div className="flex flex-col items-center">
                   {images.length > 0 && (
                     <h3 className="text-lg font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
-                      Videos del proyecto
+                      Audiovisuales
                     </h3>
                   )}
                   <VideoStackDeck items={videos} onOpen={setActiveMedia} />
@@ -833,7 +882,7 @@ const PortfolioDetail = () => {
                 <div className="flex flex-col items-center w-full">
                   {videos.length > 0 && (
                     <h3 className="text-lg font-bold text-white/40 uppercase tracking-[0.2em] mb-6">
-                      Galería de imágenes
+                      Fotografías
                     </h3>
                   )}
                   <ImagePeekCarousel items={images} onOpen={setActiveMedia} />
@@ -852,47 +901,82 @@ const PortfolioDetail = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 p-4 sm:p-6"
+            className="fixed inset-0 z-50 bg-black/95 md:bg-black/90 md:backdrop-blur-md p-4 sm:p-6"
             onClick={() => setActiveMedia(null)}
           >
-            <div className="h-full w-full flex items-center justify-center">
+            {/* Close Button: simple elegant SVG X with light background for readability on mobile */}
+            <button
+              type="button"
+              onClick={() => setActiveMedia(null)}
+              className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 p-2 bg-black/30 hover:bg-black/60 text-white/70 hover:text-white rounded-full transition-all duration-200 focus:outline-none"
+              aria-label="Cerrar modal"
+            >
+              <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="h-full w-full flex items-center justify-center relative">
+              
+              {/* Navigation Arrows: clearer visibility on hover, optimized for touch/click */}
+              {navigationList.length > 1 && (
+                <>
+                  {/* Left Arrow */}
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="absolute left-0 top-0 bottom-0 z-30 w-1/5 min-w-[56px] flex items-center justify-start pl-2 sm:pl-4 text-white/40 hover:text-white/90 md:text-white/20 md:hover:text-white/80 transition-all duration-300 focus:outline-none group"
+                    aria-label="Anterior"
+                  >
+                    <svg className="w-10 h-10 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.75">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+
+                  {/* Right Arrow */}
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="absolute right-0 top-0 bottom-0 z-30 w-1/5 min-w-[56px] flex items-center justify-end pr-2 sm:pr-4 text-white/40 hover:text-white/90 md:text-white/20 md:hover:text-white/80 transition-all duration-300 focus:outline-none group"
+                    aria-label="Siguiente"
+                  >
+                    <svg className="w-10 h-10 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.75">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </>
+              )}
+
               <motion.div
-                initial={{ scale: 0.96 }}
+                initial={{ scale: 0.97 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.98 }}
                 transition={{ duration: 0.2 }}
-                className="relative w-full max-w-6xl max-h-[92vh] bg-[#0b0d22] border border-white/10"
+                className="relative max-w-5xl max-h-[84vh] w-full flex items-center justify-center px-4"
                 onClick={(event) => event.stopPropagation()}
               >
-                <button
-                  type="button"
-                  onClick={() => setActiveMedia(null)}
-                  className="absolute top-3 right-3 z-10 px-3 py-1 bg-black/60 text-white text-xs uppercase tracking-[0.14em]"
-                >
-                  Cerrar
-                </button>
-
-                 <div className="p-4 sm:p-6 flex items-center justify-center max-h-[92vh] relative min-h-[220px]">
+                 <div className="flex items-center justify-center max-h-[82vh] w-full relative min-h-[200px]">
                    {isMediaLoading && (
-                     <div className="absolute inset-0 flex items-center justify-center bg-[#0b0d22] z-20">
+                     <div className="absolute inset-0 flex items-center justify-center z-20">
                        <div className="w-10 h-10 border-4 border-[#e73c50] border-t-transparent rounded-full animate-spin" />
                      </div>
                    )}
                    {activeMedia.type === 'video' ? (
                      <video
-                       src={optimizeVideoSrc(activeMedia.src, 1280)}
-                       className="max-h-[84vh] max-w-full object-contain"
+                       src={optimizeVideoSrc(activeMedia.src, isMobile ? 640 : 1280)}
+                       className="max-h-[82vh] max-w-full object-contain rounded-lg shadow-2xl"
                        controls
-                       preload="metadata"
+                       autoPlay
+                       preload="auto"
                        playsInline
                        onLoadedData={() => setIsMediaLoading(false)}
                        onError={() => setIsMediaLoading(false)}
                      />
                    ) : (
                      <img
-                       src={optimizeImageSrc(activeMedia.src, 1700)}
+                       src={optimizeImageSrc(activeMedia.src, isMobile ? 800 : 1600)}
                        alt={activeMedia.alt}
-                       className="max-h-[84vh] max-w-full object-contain"
+                       className="max-h-[82vh] max-w-full object-contain rounded-lg shadow-2xl"
                        onLoad={() => setIsMediaLoading(false)}
                        onError={() => setIsMediaLoading(false)}
                      />

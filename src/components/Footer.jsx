@@ -70,7 +70,7 @@ const Footer = () => {
           </SectionZoom>
         )}
 
-        <SectionZoom className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10" delay={0.08}>
+        <SectionZoom className="flex flex-col md:flex-row justify-between md:justify-center items-start gap-10 md:gap-16 lg:gap-24 max-w-5xl mx-auto mb-10" delay={0.08}>
           <div className="flex flex-col gap-5">
             <div>
               <h3 className="max-w-[12ch] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white leading-[0.94] tracking-tight">

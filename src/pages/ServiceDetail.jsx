@@ -200,7 +200,7 @@ const ServiceDetail = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-black leading-[0.9] tracking-tighter text-white uppercase select-none">
+                <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[7rem] font-display font-black leading-[0.9] tracking-tighter text-white uppercase select-none">
                   Activaciones<br />
                   <span className="text-[#e73c50] font-bodoni italic font-normal normal-case">BTL</span>
                 </h1>
@@ -239,7 +239,7 @@ const ServiceDetail = () => {
                   rotate: { duration: 5.3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
                 }}
                 whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                className="md:col-span-6 bg-[#0f34d1] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-2xl"
+                className="md:col-span-6 bg-[#443d81] rounded-xl p-8 sm:p-10 flex flex-col justify-center min-h-[340px] relative overflow-hidden group shadow-2xl"
               >
                 <div className="absolute right-0 bottom-0 text-[14rem] font-display font-black text-white/5 leading-none select-none translate-x-14 translate-y-14">
                   BTL
@@ -393,7 +393,7 @@ const ServiceDetail = () => {
         </section>
 
         {/* CTA */}
-        <section className="py-20 bg-transparent">
+        <section className="pt-20 pb-0 bg-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
