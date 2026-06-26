@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import SEO from '../components/SEO';
 import AnimatedCounter from '../components/AnimatedCounter';
 import LogoPixelBros from '../images/LogoPixelBros.png';
 import { TEAM_PROFILES } from '../config/teamProfiles';
@@ -197,6 +198,11 @@ const About = () => {
       exit={{ opacity: 0, scale: 0.9 }}
       className="min-h-screen bg-transparent"
     >
+      <SEO 
+        title="Quiénes Somos | PixelBros Agencia de Publicidad"
+        description="Conoce la historia de PixelBros, un equipo de profesionales creativos en Lima, Perú, especializados en hacer crecer marcas a través del marketing y la publicidad digital."
+        keywords="equipo pixelbros, quienes somos pixelbros, agencia publicidad lima, creativos de marketing peru"
+      />
       {/* Hero */}
       <section className="pt-28 pb-10 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

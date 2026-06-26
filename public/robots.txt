@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /intranet/
+
+Sitemap: https://pixelbros.pe/sitemap.xml

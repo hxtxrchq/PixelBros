@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 import SvgIcon from '../components/SvgIcon';
 
 const Contact = () => {
@@ -96,6 +97,11 @@ const Contact = () => {
       exit={{ opacity: 0 }}
       className="min-h-screen bg-transparent pt-32 pb-20"
     >
+      <SEO 
+        title="Contacto | Agenda una Asesoría con PixelBros"
+        description="Ponte en contacto con PixelBros. Agenda una asesoría personalizada sobre marketing digital, branding, campañas o producciones audiovisuales en Perú."
+        keywords="contacto pixelbros, agencia marketing lima telefono, agendar asesoria marketing peru, proyectos@pixelbros.pe"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div

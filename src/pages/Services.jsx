@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useMemo, useRef } from 'react';
+import SEO from '../components/SEO';
 import SvgIcon from '../components/SvgIcon';
 
 const IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'avif'];
@@ -180,6 +181,11 @@ const Services = () => {
       exit={{ opacity: 0, scale: 0.97 }}
       className="min-h-screen bg-transparent pt-32 pb-24"
     >
+      <SEO 
+        title="Servicios de Marketing y Producción | PixelBros"
+        description="Explora nuestras soluciones creativas de marketing: redes sociales, producción audiovisual, desarrollo de marca (branding), publicidad y BTL en Perú."
+        keywords="servicios de marketing digital, productora audiovisual peru, activaciones btl lima, branding empresarial"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.section
           initial={{ opacity: 0, y: 22 }}

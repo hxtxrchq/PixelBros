@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { getPortfolioAssets } from '../config/assets.js';
 import { listPublicContent } from '../services/publicContentClient';
 
@@ -426,6 +427,11 @@ const Portfolio = () => {
       transition={{ duration: 0.5 }}
       className="min-h-screen pt-28 pb-20"
     >
+      <SEO 
+        title="Portafolio de Proyectos y Casos de Éxito | PixelBros"
+        description="Explora nuestros trabajos y proyectos destacados de branding, producción audiovisual, fotografía y social media marketing en Perú."
+        keywords="casos de exito marketing, portafolio de branding, proyectos audiovisuales peru, portafolio marketing digital"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section>
           <div className="px-2 sm:px-4 lg:px-6 py-8">
